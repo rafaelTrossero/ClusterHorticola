@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./Template/CHTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="content">
+        <p:dialog id="dPais" 
+                  widgetVar="dlgPais" 
+                  modal="true"
+                  closable="false" resizable="false">
+            <f:facet name="header">
+                <h:outputText value=" Gestión de País" styleClass="subTitulo"/>
+            </f:facet>
+            <p:panel id="pPais" style="float:left;">
+
+                <p:focus context="pPais"/> 
+
+                <h:inputHidden value="#{paisBean.pais.id}"/>
+                <h:inputHidden value="#{paisBean.pais.borrado}"/>
+                <h:inputHidden value="#{listaPaisBean.iActionBtnSelect}"/>
+
+
+
+                <div class="camposTexto">
+                    <h:outputText  value="Todos los campos con * son requeridos."  styleClass="aclaraciones" />
+                </div>
+                <div style="clear: both;"/>
+
+                <div class="camposTexto"> 
+                    <h:outputText value="País*:   "/>
+
+                    <p:inputText value="#{paisBean.pais.descripcion}"
+                                 label="País"
+                                 disabled="#{paisBean.getbCamposEditables()}"
+                                 required="#{paisBean.bCamposRequeridos}"/>
+                </div>
+                <div style="clear: both;"/>
+
+                <div class="camposTexto"> 
+                    <h:outputText value="Nacionalidad*:   "/>
+
+                    <p:inputText value="#{paisBean.pais.nacionalidad}"
+                                 label="Nacionalidad" 
+                                 disabled="#{paisBean.getbCamposEditables()}"
+                                 required="#{paisBean.bCamposRequeridos}"/>
+                </div>
+
+
+            </p:panel>
+
+            <div style="clear: both;"/>
+
+            <div class="camposTexto">
+                <p:messages autoUpdate="true"/>
+            </div>
+
+
+            <div style="clear: both;"/>
+
+            <div  style="float: left; margin: 10px;
+                  width: 100%;
+                  text-align: center;">
+                <p:commandButton id="btnAction"
+                                 value="Guardar " 
+                                 actionListener="#{paisBean.actionBtn}" 
+                                 update=":frmMain:dtPais, :frmMain:pPais, @this"
+                                 binding="#{paisBean.cbAction}"/>
+
+                <p:commandButton id="btnSalir"
+                                 value="Salir" 
+                                 actionListener="#{paisBean.cerrarDialog()}" 
+                                 update=":frmMain:pPais, :frmMain:dtPais"
+                                 process="@this"
+                                 />
+            </div>
+
+        </p:dialog>
+        <div style="float: left;">
+            <h:outputText value=" Paises " 
+                          styleClass="titulo"/>
+        </div>
+
+        <div style="clear: both;"/>
+        <div style="float: left;">
+
+        </div>
+
+        <div style="clear: both;"/>
+
+        <div class="camposTexto">
+
+
+            <h:outputText value="(Ingresar al menos tres letras del Nombre del País y se mostrarán las posibles corespondencias.)"
+                          styleClass="aclaraciones"/><br/>
+            <p:inputText id="itCadenaPais"
+                         value="#{paisBean.cadenaPais}"
+                         size="50"/>
+            <p:commandButton id="cbCadenaPais"
+                             actionListener="#{paisBean.cargarPaisLike()}"
+                             update="dtPais"
+                             icon="ui-icon-search"
+                             process="@this, itCadenaPais"/>
+        </div>
+
+        <div style="clear: both;"/>
+
+
+        <div class="camposTexto">
+            <p:commandButton id="cbCreate"
+                             value="Nuevo País" 
+                             icon="ui-icon-circle-plus" 
+                             oncomplete="PF('dlgPais').show();"
+                             actionListener="#{paisBean.setBtnSelect}"
+                             update=":frmMain:dPais"
+                             process="@this"/><br/><br/>
+        </div>
+
+        <div style="clear: both;"/>
+
+
+        <div class="camposTexto">
+            <p:dataTable id="dtPais"
+                         value="#{listaPaisBean.lstPais}"
+                         paginator="true"
+                         rows="20"
+                         var="pa">      
+                <f:facet name="header">
+                    Cantidad de registros: #{listaPaisBean.lstPais.size()}
+                </f:facet>
+                <p:column>
+                    <p:commandButton id="cbEdit"
+                                     title="Editar"
+                                     icon="ui-icon-pencil" 
+                                     update=":frmMain:dPais"
+                                     oncomplete="PF('dlgPais').show();"
+                                     actionListener="#{paisBean.setBtnSelect}"
+                                     disabled="#{pa.borrado}">
+                        <f:setPropertyActionListener value="#{pa}" target="#{paisBean.pais}"/>  
+                    </p:commandButton>
+
+                    <p:commandButton id="cbDelete"
+                                     title="Eliminar"
+                                     icon="ui-icon-circle-close" 
+                                     update=":frmMain:dPais"
+                                     oncomplete="PF('dlgPais').show();"
+                                     actionListener="#{paisBean.setBtnSelect}"
+                                     disabled="#{pa.borrado}">
+                        <f:setPropertyActionListener value="#{pa}" target="#{paisBean.pais}"/>  
+
+                    </p:commandButton>
+                    <p:commandButton id="cbRecuperarBorrado"
+                                     title="Recuperar Borrado"
+                                     icon="ui-icon-unlocked" 
+                                     update=":frmMain:dPais, @this, :frmMain:dtPais"
+                                     oncomplete="PF('dlgPais').show();"
+                                     actionListener="#{paisBean.setBtnSelect}"
+                                     disabled="#{not pa.borrado}">
+                        <f:setPropertyActionListener value="#{pa}" target="#{paisBean.pais}"/>  
+
+                    </p:commandButton>
+                </p:column>
+                <p:column filterBy="#{pa.descripcion}" sortBy="#{pa.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="País"/>
+                    </f:facet>               
+                    <h:outputText value="#{pa.descripcion}"/>
+
+                </p:column>
+                <p:column filterBy="#{pa.nacionalidad}" sortBy="#{pa.nacionalidad}">
+                    <f:facet name="header">
+                        <h:outputText value="Nacionalidad"/>
+                    </f:facet>               
+                    <h:outputText value="#{pa.nacionalidad}"/>
+
+                </p:column>
+                <f:facet name="footer">
+                    Cantidad de registros: #{listaPaisBean.lstPais.size()}
+                </f:facet>
+            </p:dataTable>
+        </div>
+    </ui:define>
+
+    <ui:define name="bottom">
+        bottom
+    </ui:define>
+
+</ui:composition>
+

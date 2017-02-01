@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./Template/CHTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="content">
+        <p:dialog id="dProvincia"
+                  widgetVar="dlgProvincia" 
+                  modal="true" 
+                  closable="false" resizable="false">
+            <f:facet name="header">
+                <h:outputText value=" Gestión de Provincia" styleClass="subTitulo"/>
+            </f:facet>
+            <p:panel id="pProvincia" style="float:left;">
+
+                <p:focus context="pProvincia"/> 
+
+                <h:inputHidden value="#{provinciaBean.provincia.id}"/>
+                <h:inputHidden value="#{provinciaBean.provincia.borrado}"/>
+                <h:inputHidden value="#{listaProvinciaBean.iActionBtnSelect}"/>
+
+
+                <div class="camposTexto">
+                    <h:outputText  value="Todos los campos con * son requeridos."  styleClass="aclaraciones" />
+                </div>
+                <div style="clear: both;"/>
+                <div class="camposTexto">
+                    <h:outputText value="Provincia*:    "/>
+
+                    <p:inputText value="#{provinciaBean.provincia.descripcion}"
+                                 label="provincia"
+                                 disabled="#{provinciaBean.getbCamposEditables()}"
+                                 required="#{provinciaBean.bCamposRequeridos}"/>                           
+                </div>
+
+                <div style="clear: both;"/>
+
+                <div class="camposTexto">
+                    <h:outputText  value="País*:   " />
+
+                    <p:selectOneMenu id="somPais"
+                                     value="#{provinciaBean.provincia.pais}"  
+                                     converter="ConversorGenerico"
+                                     disabled="#{provinciaBean.getbCamposEditables()}">
+                        <f:selectItems value="#{listaPaisBean.lstSIPais}"/>
+                    </p:selectOneMenu>
+                </div>     
+
+            </p:panel>
+
+
+
+            <div class="camposTexto">
+                <p:messages autoUpdate="true"/>
+            </div>
+
+
+
+            <div  style="float: left; margin: 10px;
+                  width: 100%;
+                  text-align: center;">
+
+
+
+                <p:commandButton id="btnAction"
+                                 value="Guardar" 
+                                 actionListener="#{provinciaBean.actionBtn}" 
+                                 binding="#{provinciaBean.cbAction}"
+                                 update=":frmMain:dtProvincia, :frmMain:pProvincia, @this"
+                                 />
+                <p:commandButton id="btnSalir"
+                                 value="Salir" 
+                                 actionListener="#{provinciaBean.cerrarDialog()}"    
+                                 update=":frmMain:pProvincia, :frmMain:dtProvincia"
+                                 process="@this"/>
+
+            </div>
+        </p:dialog>
+
+        <div style="float: left;">
+            <h:outputText value=" Provincias " 
+                          styleClass="titulo"/>
+        </div>
+        <div style="clear: both;"/>
+
+        <div class="camposTexto">
+            <h:outputText value="(Ingresar al menos tres letras del Nombre de la Provincia y se mostrarán las posibles corespondencias.)"
+                          styleClass="aclaraciones"/><br/>
+            <p:inputText id="itCadenaProvincia"
+                         value="#{provinciaBean.cadenaProvincia}"
+                         size="50"/>
+            <p:commandButton id="cbCadenaProvincia"
+                             actionListener="#{provinciaBean.cargarProvinciaLike()}"
+                             update="dtProvincia"
+                             icon="ui-icon-search"
+                             process="@this, itCadenaProvincia"/>
+        </div>
+
+        <div style="clear: both;"/>
+
+
+        <p:commandButton id="cbCreate"
+                         value="Nueva Provincia" 
+                         icon="ui-icon-circle-plus" 
+                         oncomplete="PF('dlgProvincia').show();"
+                         actionListener="#{provinciaBean.setBtnSelect}"
+                         update=":frmMain:dProvincia"
+                         process="@this"/><br/><br/>
+
+
+        <p:dataTable id="dtProvincia"
+                     value="#{listaProvinciaBean.lstProvincia}"
+                     paginator="true"
+                     rows="20"
+                     var="prov">  
+            <f:facet name="header">
+                Cantidad de registros: #{listaProvinciaBean.lstProvincia.size()}
+            </f:facet>
+            <p:column>
+                <p:commandButton id="cbEdit"
+                                 title="Editar"
+                                 icon="ui-icon-pencil" 
+                                 update=":frmMain:dProvincia"
+                                 oncomplete="PF('dlgProvincia').show();"
+                                 actionListener="#{provinciaBean.setBtnSelect}"
+                                 disabled="#{prov.borrado}">
+                    <f:setPropertyActionListener value="#{prov}" target="#{provinciaBean.provincia}"/>  
+                </p:commandButton>
+
+                <p:commandButton id="cbDelete"
+                                 title="Eliminar"
+                                 icon="ui-icon-circle-close" 
+                                 update=":frmMain:dProvincia"
+                                 oncomplete="PF('dlgProvincia').show();"
+                                 actionListener="#{provinciaBean.setBtnSelect}"
+                                 disabled="#{prov.borrado}">
+                    <f:setPropertyActionListener value="#{prov}" target="#{provinciaBean.provincia}"/>  
+
+                </p:commandButton>
+                <p:commandButton id="cbRecuperarBorrado"
+                                 title="Recuperar Borrado"
+                                 icon="ui-icon-unlocked" 
+                                 update=":frmMain:dProvincia, @this"
+                                 oncomplete="PF('dlgProvincia').show();"
+                                 actionListener="#{provinciaBean.setBtnSelect}"
+                                 disabled="#{not prov.borrado}">
+                    <f:setPropertyActionListener value="#{prov}" target="#{provinciaBean.provincia}"/>  
+
+                </p:commandButton>
+            </p:column>
+            <p:column filterBy="#{prov.descripcion}" sortBy="#{prov.descripcion}">
+                <f:facet name="header">
+                    <h:outputText value="Provincia"/>
+                </f:facet>
+                #{prov.descripcion}
+            </p:column>
+            <p:column filterBy="#{prov.pais.descripcion}" sortBy="#{prov.pais.descripcion}">
+                <f:facet name="header">
+                    <h:outputText value="País"/>
+                </f:facet>
+                #{prov.pais.descripcion}
+            </p:column>
+            <f:facet name="footer">
+                Cantidad de registros: #{listaProvinciaBean.lstProvincia.size()}
+            </f:facet>
+        </p:dataTable>
+
+    </ui:define>
+
+    <ui:define name="bottom">
+        bottom
+    </ui:define>
+
+</ui:composition>
