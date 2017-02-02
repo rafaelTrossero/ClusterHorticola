@@ -1,0 +1,334 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./Template/CHTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+  <ui:define name="content">
+
+    <p:dialog id="dBarrioBuscar" 
+              widgetVar="dlgBarrioBuscar"
+              modal="true">
+      <td> 
+        <div>
+          <tr> 
+            <td> 
+              <div>
+                <h:outputText value="País"/>
+              </div>
+              <div>
+
+                <p:selectOneMenu id="somPais"
+                                 converter="ConversorGenerico"        
+                                 valueChangeListener="#{listaProvinciaBean.recuperarProvincias}"                               height="100"
+                                 disabled="#{provinciaBean.getbCamposEditables()}">
+                  <f:selectItem itemLabel="Seleccione un País..." itemValue="0"/>
+                  <f:selectItems value="#{listaPaisBean.lstSIPais}"/>
+                  <p:ajax        update="somProvincia"
+                                 event="change" 
+
+                                 />
+                </p:selectOneMenu>
+              </div>
+            </td>
+
+            <td>
+              <div>
+                <h:outputText value="Provincia"/>
+              </div>
+              <div>
+                <p:selectOneMenu id="somProvincia"
+                                 converter="ConversorGenerico"
+                                 valueChangeListener="#{listaDepartamentoBean.recuperarDepartamentos}"
+                                 disabled="#{departamentoBean.getbProvincia()}"
+                                 >
+                  <f:selectItem itemLabel="Seleccione una Provincia..." itemValue="0"/>
+                  <f:selectItems value="#{listaProvinciaBean.lstSIProvincia}"/>
+                  <p:ajax      update="somDepartamento"
+                               event="change"/>
+                </p:selectOneMenu>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div>
+                <h:outputText value="Departamento"/>
+              </div>
+              <div>
+                <p:selectOneMenu id="somDepartamento"
+                                 converter="ConversorGenerico"
+                                 valueChangeListener="#{listaLocalidadBean.recuperarLocalidades}"
+                                 disabled="#{localidadBean.getbDepartamento()}"
+                                 >
+                  <f:selectItem itemLabel="Seleccione un Departamento..." itemValue="0"/>
+                  <f:selectItems value="#{listaDepartamentoBean.lstSIDepartamento}"/>
+
+                  <p:ajax         update="dtLocalidad"
+                                  event="change"/>
+
+                </p:selectOneMenu>
+
+              </div>
+            </td>
+
+            <td>
+              <div>
+                <h:outputText value="Localidad:"/>
+              </div>
+              <div>
+                <p:dataTable id="dtLocalidad"
+                             value="#{listaLocalidadBean.lstLocalidadBorrado}" 
+                             var="loc"
+                             rowKey="#{loc.id}"
+                             selectionMode="single"
+                             paginator="true"
+                             rows="10">
+                  <p:ajax event="rowSelect" listener="#{barrioBean.cargarLocalidadesSelect}"   
+                          update=":frmMain:otDomicilio, :frmMain:ihDomicilio, :frmMain:pgLugares"
+                          oncomplete="PF('dlgBarrioBuscar').hide()" />
+                  
+
+                  <p:column>
+                    <f:facet name="header">
+                      <h:outputText value="Código"/>
+                    </f:facet>
+                    <h:outputText value="#{loc.codigo}"/>
+                  </p:column>
+
+                  <p:column filterBy="#{loc.descripcion}">
+                    <f:facet name="header">
+                      <h:outputText value="Localidad"/>
+                    </f:facet>
+                    <h:outputText value="#{loc.descripcion}"/>
+                  </p:column>
+
+                </p:dataTable>
+
+              </div>
+            </td> 
+          </tr>
+        </div> 
+      </td>
+    </p:dialog>
+
+    <p:dialog id="dBarrio"
+              widgetVar="dlgBarrio"
+              modal="true">
+
+      <f:facet name="header">
+        <h:outputText value=" Gestión de Barrio" styleClass="subTitulo"/>
+      </f:facet>
+      <p:panel id="pBar" style="float:left;">
+
+        <p:focus context="pBar"/> 
+       
+              <h:inputHidden value="#{barrioBean.barrio.id}"/>
+              <h:inputHidden value="#{barrioBean.barrio.borrado}"/>
+              <h:inputHidden value="#{listaBarrioBean.iActionBtnSelect}"/>
+           
+                            
+      <div class="camposTexto">
+                <h:outputText  value="Todos los campos con * son requeridos."  styleClass="aclaraciones" />
+       </div>
+          <div style="clear: both;"/>
+        
+          <div class="camposTexto">
+              <h:outputText value="Nombre de Barrio*: "/>
+           
+              <p:inputText label="descripcion"
+                           value="#{barrioBean.barrio.descripcion}"
+                           disabled="#{barrioBean.getbCamposEditables()}"
+                           required="#{barrioBean.bCamposRequeridos}"/>
+          </div>
+         <div style="clear: both;"/>
+        
+          <div class="camposTexto">
+              <h:outputText value="Localidad*:  "/>
+              <p:commandButton id="cbBuscarLoc" 
+                               title="Buscar"
+                               icon="ui-icon-search"
+                               oncomplete="PF('dlgBarrioBuscar').show()"
+                               
+                               action="#{listaLocalidadBean.cargarSILocalidades()}"
+                               process="@this"
+                               immediate="true"
+                               update="dtLocalidad"
+                               disabled="#{barrioBean.getbCamposEditables()}"
+                               />
+
+
+
+            
+              <h:panelGroup id="pgLugares">
+                <h:inputHidden id="ihLocalidadId" value="#{barrioBean.barrio.localidad.id}"/>
+                <h:inputHidden id="ihLocalidadDesc" value="#{barrioBean.barrio.localidad.descripcion}"/>
+                <h:inputHidden id="ihDepartamentoId" value="#{barrioBean.barrio.localidad.departamento.id}"/>
+                <h:inputHidden id="ihDepartamentoDesc" value="#{barrioBean.barrio.localidad.departamento.descripcion}"/>
+                <h:inputHidden id="ihProvinciaId" value="#{barrioBean.barrio.localidad.departamento.provincia.id}"/>
+                <h:inputHidden id="ihProvinciaDesc" value="#{barrioBean.barrio.localidad.departamento.provincia.descripcion}"/>
+                <h:inputHidden id="ihPaisId" value="#{barrioBean.barrio.localidad.departamento.provincia.pais.id}"/>
+                <h:inputHidden id="ihPaisDesc" value="#{barrioBean.barrio.localidad.departamento.provincia.pais.descripcion}"/>
+                <h:inputHidden id="ihDomicilio" value="#{barrioBean.barrio.localidad.id}"/>
+                <p:inputText id ="otDomicilio" 
+                           value="#{barrioBean.barrio.localidad.descripcion}" 
+                           readonly="true" 
+                           disabled="#{barrioBean.getbCamposEditables()}"/>
+              </h:panelGroup>
+          </div>
+
+      
+      </p:panel>
+
+      <div style="clear: both;"/>
+
+      <div class="camposTexto">
+        <p:messages autoUpdate="true"/>
+      </div>
+
+
+      <div style="clear: both;"/>
+
+      <div  style="float: left; margin: 10px;
+            width: 100%;
+            text-align: center;">
+        <p:commandButton id="btnAction"
+                         value="Guardar" 
+                         actionListener="#{barrioBean.actionBtn}" 
+                         update=":frmMain:dtBarrio, :frmMain:pBar, @this"
+                         binding="#{barrioBean.cbAction}"/>
+
+
+
+        <p:commandButton  id="btnSalir"
+                          value="Salir" 
+                          actionListener="#{barrioBean.cerrarDialog()}"                                          
+                          update=":frmMain:pBar, :frmMain:dtBarrio"
+                          process="@this"
+                          >
+        </p:commandButton>
+      </div>
+
+    </p:dialog>
+    <div style="float: left;">
+      <h:outputText value=" Barrios " 
+                    styleClass="titulo"/>
+    </div>
+
+    <div style="clear: both;"/>
+    
+    <div class="camposTexto">
+        <h:outputText value="(Ingresar al menos tres letras del Nombre del Barrio y se mostrarán las posibles corespondencias.)"
+                      styleClass="aclaraciones"/><br/>
+        <p:inputText id="itCadenaBarrio"
+                     value="#{barrioBean.cadenaBarrio}"
+                     size="50"/>
+        <p:commandButton id="cbCadenaBarrio"
+                         actionListener="#{barrioBean.cargarBarrioLike()}"
+                         update="dtBarrio"
+                         icon="ui-icon-search"
+                         process="@this, itCadenaBarrio"/>
+    </div>
+
+    <div style="clear: both;"/>
+
+    <div class="camposTexto">
+      <p:commandButton id="cbCreate"
+                       value="Nuevo Barrio" 
+                       icon="ui-icon-circle-plus" 
+                       oncomplete="PF('dlgBarrio').show();"
+                       actionListener="#{barrioBean.setBtnSelect}"
+                       update=":frmMain:dBarrio"
+                       process="@this"/><br/><br/>
+    </div>
+    <div style="clear: both;"/>
+
+
+    <div class="camposTexto">
+      <p:dataTable id="dtBarrio"
+                   value="#{listaBarrioBean.lstBarrio}"
+                   paginator="true"
+                   rows="20"
+                   var="bar"
+                   >      
+        <f:facet name="header">
+            Cantidad de registros: #{listaBarrioBean.lstBarrio.size()}
+        </f:facet>
+        <p:column>
+          <p:commandButton id="cbEdit"
+                           title="Editar"
+                           icon="ui-icon-pencil" 
+                           update=":frmMain:dBarrio "
+                           oncomplete="PF('dlgBarrio').show();"
+                           actionListener="#{barrioBean.setBtnSelect}"
+                           disabled="#{bar.borrado}"
+                           process="@form">
+            <f:setPropertyActionListener value="#{bar}" target="#{barrioBean.barrio}"/>                   
+          </p:commandButton>
+
+          <p:commandButton id="cbDelete"
+                           title="Eliminar"
+                           icon="ui-icon-circle-close" 
+                           update=":frmMain:dBarrio"
+                           oncomplete="PF('dlgBarrio').show();"
+                           actionListener="#{barrioBean.setBtnSelect}"
+                           disabled="#{bar.borrado}">
+            <f:setPropertyActionListener value="#{bar}" target="#{barrioBean.barrio}"/>  
+          </p:commandButton> 
+          <p:commandButton id="cbRecuperarBorrado"
+                           title="Recuperar Borrado"
+                           icon="ui-icon-unlocked" 
+                           update=":frmMain:dBarrio, @this"
+                           oncomplete="PF('dlgBarrio').show();"
+                           actionListener="#{barrioBean.setBtnSelect}"
+                           disabled="#{not bar.borrado}">
+            <f:setPropertyActionListener value="#{bar}" target="#{barrioBean.barrio}"/>  
+
+          </p:commandButton>
+
+
+        </p:column>  
+
+        <p:column filterBy="#{bar.descripcion}" sortBy="#{bar.descripcion}">
+          <f:facet name="header">
+            <h:outputText value="Barrio"/>
+          </f:facet>               
+          <h:outputText value="#{bar.descripcion}"/>                   
+        </p:column>
+
+        <p:column  filterBy="#{bar.localidad.descripcion}" sortBy="#{bar.localidad.descripcion}">
+          <f:facet name="header">
+            <h:outputText value="Localidad"/>
+          </f:facet>
+          #{bar.localidad.descripcion}             
+
+        </p:column>
+        <p:column  filterBy="#{bar.localidad.departamento.descripcion}" sortBy="#{bar.localidad.departamento.descripcion}">
+          <f:facet name="header">
+            <h:outputText value="Departamento"/>
+          </f:facet>
+          #{bar.localidad.departamento.descripcion}             
+
+        </p:column>
+        <p:column  filterBy="#{bar.localidad.departamento.provincia.descripcion}" sortBy="#{bar.localidad.departamento.provincia.descripcion}">
+          <f:facet name="header">
+            <h:outputText value="Provincia"/>
+          </f:facet>
+          #{bar.localidad.departamento.provincia.descripcion}             
+
+        </p:column>
+        <f:facet name="footer">
+            Cantidad de registros: #{listaBarrioBean.lstBarrio.size()}
+        </f:facet>
+      </p:dataTable>
+    </div>
+  </ui:define>
+
+  <ui:define name="bottom">
+    bottom
+  </ui:define>
+
+</ui:composition>

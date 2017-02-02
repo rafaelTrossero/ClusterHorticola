@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="./Template/CHTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="content">
+
+        <p:dialog id="dPaisProvDep"
+                  modal="true"
+                  widgetVar="dlgPaisProvDep">
+            <td> 
+                <div>
+                    <td> 
+                        <div>
+                            <h:outputText value="Pais:"/>
+                        </div>
+                        <div>
+                            <p:selectOneMenu id="somPais"
+
+                                             converter="ConversorGenerico"        
+                                             valueChangeListener="#{listaProvinciaBean.recuperarProvincias}"
+                                             disabled="#{provinciaBean.getbCamposEditables()}">
+                                <f:selectItem itemLabel="Seleccione un País..." itemValue="0"/>
+                                <f:selectItems value="#{listaPaisBean.lstSIPais}"/>
+                                <p:ajax         update="somProvincia, dtDepartamento" 
+                                                event="change" 
+                                                />
+                            </p:selectOneMenu>
+
+
+                        </div>
+                    </td>
+                    <td> 
+                        <div>
+                            <h:outputText value="Provincia:"/>
+                        </div>
+                        <div>
+                            <p:selectOneMenu id="somProvincia"
+
+                                             converter="ConversorGenerico"        
+                                             valueChangeListener="#{listaDepartamentoBean.recuperarDepartamentos}"
+                                             disabled="#{departamentoBean.getbCamposEditables()}">
+                                <f:selectItem itemLabel="Seleccione una Provincia..." itemValue="0"/>
+                                <f:selectItems value="#{listaProvinciaBean.lstSIProvincia}"/>
+                                <p:ajax         update="dtDepartamento"
+                                                event="change" 
+                                                />
+                            </p:selectOneMenu>
+
+
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <h:outputText value="Departamento:"/>
+                        </div>
+                        <div>
+                            <p:dataTable id="dtDepartamento"
+                                         value="#{listaDepartamentoBean.lstDepartamentoBorrado}" 
+                                         var="dpto"
+                                         rowKey="#{dpto.id}"
+                                         selectionMode="single"
+                                         paginator="true"
+                                         rows="10">
+                                <p:ajax  event="rowSelect" listener="#{localidadBean.cargarDepartamentoSelect}"   
+                                        update=":frmMain:otDomicilio, :frmMain:pgLugares"
+                                        oncomplete="PF('dlgPaisProvDep').hide()" />
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Código"/>
+                                    </f:facet>
+                                    <h:outputText value="#{dpto.codigo}"/>
+                                </p:column>
+
+                                <p:column filterBy="#{dpto.descripcion}">
+                                    <f:facet name="header">
+                                        <h:outputText value="Departamento"/>
+                                    </f:facet>
+                                    <h:outputText value="#{dpto.descripcion}"/>
+                                </p:column>
+
+                            </p:dataTable>
+
+                        </div>
+
+                    </td>
+
+                </div> 
+            </td>
+        </p:dialog>
+        <p:dialog id="dLocalidad" 
+                  widgetVar="dlgLocalidad" 
+                  modal="true">
+            <f:facet name="header">
+                <h:outputText value=" Gestión de Localidad" styleClass="subTitulo"/>
+            </f:facet>
+            <p:panel id="pLoc" style="float:left;">
+
+                <p:focus context="pLoc"/> 
+
+                <h:inputHidden value="#{localidadBean.localidad.id}"/>
+                <h:inputHidden value="#{localidadBean.localidad.borrado}"/>
+                <h:inputHidden value="#{listaLocalidadBean.iActionBtnSelect}"/>
+
+
+                <div class="camposTexto">
+                    <h:outputText  value="Todos los campos con * son requeridos."  styleClass="aclaraciones" />
+                </div>
+                <div style="clear: both;"/>
+
+                <div class="camposTexto">
+                    <h:outputText value="Código*:   "/>
+
+                    <p:inputText label="codigo"
+                                 value="#{localidadBean.localidad.codigo}"
+                                 disabled="#{localidadBean.getbCamposEditables()}"
+                                 required="#{localidadBean.bCamposRequeridos}"/>
+                </div>
+                <div style="clear: both;"/>
+
+               
+
+                <div class="camposTexto">
+                    <h:outputText value="Código Postal*:    "/>
+
+                    <p:inputText label="codigo_postal"
+                                 value="#{localidadBean.localidad.codigoPostal}"
+                                 disabled="#{localidadBean.getbCamposEditables()}"
+                                 required="#{localidadBean.bCamposRequeridos}"/>
+                </div> 
+                <div style="clear: both;"/>
+
+                <div class="camposTexto">
+                    <h:outputText value="Localidad*:   "/>
+
+                    <p:inputText label="descripcion"
+                                 value="#{localidadBean.localidad.descripcion}"
+                                 disabled="#{localidadBean.getbCamposEditables()}"
+                                 required="#{localidadBean.bCamposRequeridos}"/>
+                </div>
+
+                <div style="clear: both;"/>
+
+                <div class="camposTexto">
+                    <h:outputText value="Departamento*:   "/>
+                    <p:commandButton id="cbBuscarDep" 
+                                     title="Buscar"
+                                     icon="ui-icon-search"
+                                     oncomplete="PF('dlgPaisProvDep').show()"
+                                     
+                                     action="#{listaDepartamentoBean.cargarSIDepartamentos()}"
+                                     process="@this"
+                                     immediate="true"
+                                     update="dtDepartamento"
+                                     disabled="#{localidadBean.getbCamposEditables()}"
+                                     />
+
+
+
+
+                    <h:panelGroup id="pgLugares">
+                        <h:inputHidden id="ihDepartamentoId" value="#{localidadBean.localidad.departamento.id}"/>
+                        <h:inputHidden id="ihDepartamentoDesc" value="#{localidadBean.localidad.departamento.descripcion}"/>
+                        <h:inputHidden id="ihProvinciaId" value="#{localidadBean.localidad.departamento.provincia.id}"/>
+                        <h:inputHidden id="ihProvinciaDesc" value="#{localidadBean.localidad.departamento.provincia.descripcion}"/>
+                        <h:inputHidden id="ihPaisId" value="#{localidadBean.localidad.departamento.provincia.pais.id}"/>
+                        <h:inputHidden id="ihPaisDesc" value="#{localidadBean.localidad.departamento.provincia.pais.descripcion}"/>
+                        <p:inputText id ="otDomicilio" 
+                                     value="#{localidadBean.localidad.departamento.descripcion}" 
+                                     readonly="true"
+                                     disabled="#{localidadBean.getbCamposEditables()}"/>
+                    </h:panelGroup>
+                </div>   
+
+
+            </p:panel>
+
+            <div style="clear: both;"/>
+
+            <div class="camposTexto">
+                <p:messages autoUpdate="true"/>
+            </div>
+
+
+            <div style="clear: both;"/>
+
+            <div  style="float: left; margin: 10px;
+                  width: 100%;
+                  text-align: center;">
+                <p:commandButton id="btnAction"
+                                 value="Aceptar" 
+                                 actionListener="#{localidadBean.actionBtn}" 
+                                 update=":frmMain:dtLocalidad, :frmMain:pLoc, @this"
+                                 binding="#{localidadBean.cbAction}"/>
+
+                <p:commandButton id="btnSalir"
+                                 value="Salir" 
+                                 actionListener="#{localidadBean.cerrarDialog}" 
+                                 update=":frmMain:pLoc, :frmMain:dtLocalidad"
+                                 process="@this"/>
+            </div>
+        </p:dialog>
+        <div style="float: left;">
+            <h:outputText value=" Localidades " 
+                          styleClass="titulo"/>
+        </div>
+
+        <div style="clear: both;"/>
+
+        <div class="camposTexto">
+            <h:outputText value="(Ingresar al menos tres letras del Nombre de la Localidad y se mostrarán las posibles corespondencias.)"
+                          styleClass="aclaraciones"/><br/>
+            <p:inputText id="itCadenaLocalidad"
+                         value="#{localidadBean.cadenaLocalidad}"
+                         size="50"/>
+            <p:commandButton id="cbCadenaLocalidad"
+                             actionListener="#{localidadBean.cargarLocalidadLike()}"
+                             update="dtLocalidad"
+                             icon="ui-icon-search"
+                             process="@this, itCadenaLocalidad"/>
+        </div>
+
+        <div style="clear: both;"/>
+
+        <div class="camposTexto">
+            <p:commandButton id="cbCreate"
+                             value="Nueva Localidad" 
+                             icon="ui-icon-circle-plus" 
+                             oncomplete="PF('dlgLocalidad').show();"
+                             actionListener="#{localidadBean.setBtnSelect}"
+                             update=":frmMain:dLocalidad"
+                             process="@this"/><br/><br/>
+        </div>
+
+        <div style="clear: both;"/>
+
+
+        <div class="camposTexto">
+            <p:dataTable id="dtLocalidad"
+                         value="#{listaLocalidadBean.lstLocalidad}"
+                         paginator="true"
+                         rows="20"
+                         var="loc">      
+                <f:facet name="header">
+                    Cantidad de registros: #{listaLocalidadBean.lstLocalidad.size()}
+                </f:facet>
+                <p:column>
+                    <p:commandButton id="cbEdit"
+                                     title="Editar"
+                                     icon="ui-icon-pencil" 
+                                     update=":frmMain:dLocalidad"
+                                     oncomplete="PF('dlgLocalidad').show();"
+                                     actionListener="#{localidadBean.setBtnSelect}"
+                                     disabled="#{loc.borrado}">
+                        <f:setPropertyActionListener value="#{loc}" target="#{localidadBean.localidad}"/>  
+                    </p:commandButton>
+
+
+                    <p:commandButton id="cbDelete"
+                                     title="Eliminar"
+                                     icon="ui-icon-circle-close" 
+                                     update=":frmMain:dLocalidad"
+                                     oncomplete="PF('dlgLocalidad').show();"
+                                     actionListener="#{localidadBean.setBtnSelect}"
+                                     disabled="#{loc.borrado}">
+                        <f:setPropertyActionListener value="#{loc}" target="#{localidadBean.localidad}"/>  
+
+                    </p:commandButton>
+                    <p:commandButton id="cbRecuperarBorrado"
+                                     title="Recuperar Borrado"
+                                     icon="ui-icon-unlocked" 
+                                     update=":frmMain:dLocalidad, @this"
+                                     oncomplete="PF('dlgLocalidad').show();"
+                                     actionListener="#{localidadBean.setBtnSelect}"
+                                     disabled="#{not loc.borrado}">
+                        <f:setPropertyActionListener value="#{loc}" target="#{localidadBean.localidad}"/>  
+
+                    </p:commandButton>
+                </p:column>
+
+                <p:column filterBy="#{loc.codigo}" sortBy="#{loc.codigo}">
+                    <f:facet name="header">
+                        <h:outputText value="Código"/>
+                    </f:facet>               
+                    <h:outputText value="#{loc.codigo}"/>
+
+                </p:column>
+
+                <p:column filterBy="#{loc.indec}" sortBy="#{loc.indec}">
+                    <f:facet name="header">
+                        <h:outputText value="Código INDEC"/>
+                    </f:facet>               
+                    <h:outputText value="#{loc.indec}"/>
+
+                </p:column>
+
+                <p:column filterBy="#{loc.descripcion}" sortBy="#{loc.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="Localidad"/>
+                    </f:facet>               
+                    <h:outputText value="#{loc.descripcion}"/>
+
+                </p:column>
+
+                <p:column filterBy="#{loc.codigoPostal}" sortBy="#{loc.codigoPostal}">
+                    <f:facet name="header">
+                        <h:outputText value="Código Postal"/>
+                    </f:facet>
+                    <h:outputText value="#{loc.codigoPostal}"/>    
+                </p:column>
+
+                <p:column filterBy="#{loc.departamento.descripcion}" sortBy="#{loc.departamento.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="Departamento"/>
+                    </f:facet>
+                    <h:outputText value="#{loc.departamento.descripcion}"/>
+                </p:column>
+                <p:column filterBy="#{loc.departamento.provincia.descripcion}" sortBy="#{loc.departamento.provincia.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="Provincia"/>
+                    </f:facet>
+                    <h:outputText value="#{loc.departamento.provincia.descripcion}"/>
+                </p:column>
+                <p:column filterBy="#{loc.departamento.provincia.pais.descripcion}" sortBy="#{loc.departamento.provincia.pais.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="País"/>
+                    </f:facet>
+                    <h:outputText value="#{loc.departamento.provincia.pais.descripcion}"/>
+                </p:column>
+                <f:facet name="footer">
+                    Cantidad de registros: #{listaLocalidadBean.lstLocalidad.size()}
+                </f:facet>
+            </p:dataTable>
+        </div>
+    </ui:define>
+
+    <ui:define name="bottom">
+        bottom
+    </ui:define>
+
+</ui:composition>
