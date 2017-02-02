@@ -4,7 +4,9 @@
  */
 package bean;
 
+import entidad.Barrio;
 import entidad.Departamento;
+import entidad.Localidad;
 import entidad.Pais;
 import entidad.Provincia;
 import java.util.ArrayList;
@@ -26,6 +28,10 @@ public class navegarBean {
     private ListaProvinciaBean listaProvinciaBean;
     @ManagedProperty("#{listaDepartamentoBean}")
     private ListaDepartamentoBean listaDepartamentoBean;
+    @ManagedProperty("#{listaLocalidadBean}")
+    private ListaLocalidadBean listaLocalidadBean;
+       @ManagedProperty("#{listaBarrioBean}")
+    private ListaBarrioBean listaBarrioBean;
 
     /**
      * Creates a new instance of navegarBean
@@ -55,6 +61,22 @@ public class navegarBean {
 
     public void setListaDepartamentoBean(ListaDepartamentoBean listaDepartamentoBean) {
         this.listaDepartamentoBean = listaDepartamentoBean;
+    }
+    
+    public ListaLocalidadBean getListaLocalidadBean() {
+        return listaLocalidadBean;
+    }
+
+    public void setListaLocalidadBean(ListaLocalidadBean listaLocalidadBean) {
+        this.listaLocalidadBean = listaLocalidadBean;
+    }
+    
+     public ListaBarrioBean getListaBarrioBean() {
+        return listaBarrioBean;
+    }
+
+    public void setListaBarrioBean(ListaBarrioBean listaBarrioBean) {
+        this.listaBarrioBean = listaBarrioBean;
     }
 
     public String entrarFormPais() {
@@ -88,6 +110,47 @@ public class navegarBean {
         this.getListaDepartamentoBean().setLstSIDepartamento(null);
 
         return "departamento.xhtml?faces-redirect=true";
+    }
+public String entrarFormLocalidad() {
+        this.getListaPaisBean().setLstPais(new ArrayList<Pais>());
+        this.getListaPaisBean().setLstSIPais(null);
+        this.getListaPaisBean().cargarPais();
+        this.getListaPaisBean().cargarSIPais();
+        this.getListaProvinciaBean().setLstProvincia(new ArrayList<Provincia>());
+        this.getListaProvinciaBean().setLstSIProvincia(null);
+        this.getListaProvinciaBean().cargarProvincias();
+        this.getListaProvinciaBean().cargarSIProvincias();
+        this.getListaDepartamentoBean().setLstDepartamento(new ArrayList<Departamento>());
+        this.getListaDepartamentoBean().setLstSIDepartamento(null);
+        this.getListaDepartamentoBean().cargarDepartamentos();
+        this.getListaDepartamentoBean().cargarSIDepartamentos();
+        this.getListaLocalidadBean().setLstLocalidad(new ArrayList<Localidad>());
+        this.getListaLocalidadBean().setLstSILocalidad(null);
+
+        return "localidad.xhtml?faces-redirect=true";
+    }
+
+ public String entrarFormBarrio() {
+        this.getListaPaisBean().setLstPais(new ArrayList<Pais>());
+        this.getListaPaisBean().setLstSIPais(null);
+        this.getListaPaisBean().cargarPais();
+        this.getListaPaisBean().cargarSIPais();
+        this.getListaProvinciaBean().setLstProvincia(new ArrayList<Provincia>());
+        this.getListaProvinciaBean().setLstSIProvincia(null);
+        this.getListaProvinciaBean().cargarProvincias();
+        this.getListaProvinciaBean().cargarSIProvincias();
+        this.getListaDepartamentoBean().setLstDepartamento(new ArrayList<Departamento>());
+        this.getListaDepartamentoBean().setLstSIDepartamento(null);
+        this.getListaDepartamentoBean().cargarDepartamentos();
+        this.getListaDepartamentoBean().cargarSIDepartamentos();
+        this.getListaLocalidadBean().setLstLocalidad(new ArrayList<Localidad>());
+        this.getListaLocalidadBean().setLstSILocalidad(null);
+        this.getListaLocalidadBean().cargarLocalidades();
+        this.getListaLocalidadBean().cargarSILocalidades();
+        this.getListaBarrioBean().setLstBarrio(new ArrayList<Barrio>());
+        this.getListaBarrioBean().setLstSIBarrio(null);
+
+        return "barrio.xhtml?faces-redirect=true";
     }
 
 }
