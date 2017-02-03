@@ -7,6 +7,7 @@ package bean;
 
 
 import entidad.Productor;
+import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -27,6 +28,7 @@ public class ListaProductorBean {
 
     
     public ListaProductorBean() {
+         lstProductor = new ArrayList<>();
     }
 
     public List<Productor> getLstProductor() {

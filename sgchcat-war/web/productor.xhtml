@@ -44,17 +44,18 @@
                         <h:panelGrid columns="2" cellpadding="3" >
 
 
-                            <h:outputText value="Nombre: "/>
+                            <h:outputText value="Nombre / Razon Social: "/>
                             <p:inputText value="#{productorBean.productor.nombre}"
                                          label="Nombre"
                                          disabled="#{productorBean.getbCamposEditables()}"/>
 
-                            <h:outputText value="Apellido: "/>
-                            <p:inputText value="#{productorBean.productor.apellido}"
-                                         label="Apellido"
+                            
+                            <p:outputLabel for="dni" value="DNI:" />
+                            <p:inputMask id="dni" value="#{productorBean.productor.dni}" mask="99999999"
                                          disabled="#{productorBean.getbCamposEditables()}"/>
 
-                            <p:outputLabel for="cuil" value="Cuil:" />
+
+                            <p:outputLabel for="cuil" value="CUIL/CUIT:" />
                             <p:inputMask id="cuil" value="#{productorBean.productor.cuil}" mask="99-99999999-9"
                                          disabled="#{productorBean.getbCamposEditables()}"/>
 
@@ -103,7 +104,7 @@
                             <h:outputText value="Localidad: "/>
                             <p:selectOneMenu id="somLocalidad"
                                              converter="ConversorGenerico"
-                                             value="#{productorBean.productor.domicilio.localidad}"
+                                             value="#{productorBean.domicilio.localidad}"
                                              disabled="#{productorBean.getbCamposEditables()}">
                                 <f:selectItem itemLabel="Seleccionar.." itemValue=""/>
                                 <f:selectItems 
@@ -112,15 +113,15 @@
                             </p:selectOneMenu>
                             
                               <h:outputText value="Calle: "/>
-                              <p:inputText value="#{productorBean.productor.domicilio.calle}"
+                              <p:inputText value="#{productorBean.domicilio.calle}"
                                          label="Calle"
                                          disabled="#{profesionalBean.getbCamposEditables()}"/>
                                <h:outputText value="Numero: "/>
-                               <p:inputText value="#{productorBean.productor.domicilio.numero}"
+                               <p:inputText value="#{productorBean.domicilio.numero}"
                                          label="Numero"
                                          disabled="#{profesionalBean.getbCamposEditables()}"/>
                                 <h:outputText value="Georeferenciación "/>
-                                <p:inputText value="#{productorBean.productor.domicilio.referencia}"
+                                <p:inputText value="#{productorBean.domicilio.referencia}"
                                          label="Georeferenciacion"
                                          disabled="#{profesionalBean.getbCamposEditables()}"/>
                             
@@ -222,7 +223,7 @@
                                  actionListener="#{productorBean.setBtnSelect}">
                                  <!--disabledSelection="#1{not prod.active }"> -->
 
-                                 >
+                                 
                                  <f:setPropertyActionListener value="#{prod}" target="#{productorBean.productor}"/>
 
 
@@ -258,9 +259,9 @@
 
             <p:column filterBy="#{prod.nombre}" sortBy="#{prod.nombre}"  >
                 <f:facet name="header" >
-                    <h:outputText value="Apellido y Nombre"/>
+                    <h:outputText value="Nombre / Razón Social"/>
                 </f:facet>               
-                <h:outputText value="#{prod.apellido},#{prod.nombre}" />
+                <h:outputText value="#{prod.nombre}" />
 
             </p:column>
 

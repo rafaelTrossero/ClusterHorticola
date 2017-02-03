@@ -5,7 +5,9 @@
  */
 package bean;
 
+import RN.DomicilioRNLocal;
 import RN.ProductorRNLocal;
+import entidad.Domicilio;
 import entidad.Productor;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -25,15 +27,19 @@ import org.primefaces.component.commandbutton.CommandButton;
 public class productorBean {
 
     private Productor productor;
+    private Domicilio domicilio;
     private Boolean bCamposEditables;
     private CommandButton cbAction;
     @ManagedProperty("#{listaProductorBean}")
     private ListaProductorBean listaProductorBean;
     @EJB
     private ProductorRNLocal productorRNLocal;
+     @EJB
+    private DomicilioRNLocal domicilioRNLocal;
 
     public productorBean() {
         this.productor = new Productor();
+        this.domicilio = new Domicilio();
     }
 
     public Productor getProductor() {
@@ -78,6 +84,14 @@ public class productorBean {
 
     public void setCbAction(CommandButton cbAction) {
         this.cbAction = cbAction;
+    }
+
+    public Domicilio getDomicilio() {
+        return domicilio;
+    }
+
+    public void setDomicilio(Domicilio domicilio) {
+        this.domicilio = domicilio;
     }
 
     public void actionBtn() {
@@ -150,9 +164,13 @@ public class productorBean {
         FacesMessage.Severity severity = null;
         try {
 
-            System.out.println("Productor: " + productor);
-
+             domicilioRNLocal.create(domicilio);
+             System.out.println("Domicilio: " + domicilio);
+             productor.setDomicilio(domicilio);
             productorRNLocal.create(productor);
+            System.out.println("Productor: " + productor);
+            
+           
 
             sMensaje = "El dato fue guardado";
             severity = FacesMessage.SEVERITY_INFO;
