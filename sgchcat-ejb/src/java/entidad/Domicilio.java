@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -33,8 +32,10 @@ public class Domicilio implements Serializable {
     @ManyToOne
     @JoinColumn(name = "localidad_id", referencedColumnName = "id")
     private Localidad localidad;
-    @OneToOne(mappedBy = "domicilio")
+    @OneToMany(mappedBy = "domicilio")
     private List<Productor> lstProductor;
+    @OneToMany(mappedBy = "domicilio")
+    private List<ProductorDomicilio> lstProductorDomicilio;
     @Column(name = "calle")
     private String calle;
     @Column(name = "numero")
@@ -92,6 +93,14 @@ public class Domicilio implements Serializable {
 
     public void setLstProductor(List<Productor> lstProductor) {
         this.lstProductor = lstProductor;
+    }
+
+    public List<ProductorDomicilio> getLstProductorDomicilio() {
+        return lstProductorDomicilio;
+    }
+
+    public void setLstProductorDomicilio(List<ProductorDomicilio> lstProductorDomicilio) {
+        this.lstProductorDomicilio = lstProductorDomicilio;
     }
 
    

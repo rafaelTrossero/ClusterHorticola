@@ -6,6 +6,7 @@
 package entidad;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -32,12 +34,14 @@ public class Productor implements Serializable {
     private Integer dni;
     @Column(nullable = false)
     private String cuil;
-    @Column(nullable = false)
-    private String apellido;
+   
     @Column(nullable = false)
     private String nombre;
-    @OneToOne(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST,CascadeType.REMOVE},optional=false)
+    @ManyToOne
+    @JoinColumn(name = "domicilio_id", referencedColumnName = "id")
     private Domicilio domicilio;
+    @OneToMany(mappedBy = "productor")
+    private List<ProductorDomicilio> lstProductorDomicilio;
     @Column(nullable = false)
     private String telefono;
     @Column(nullable = false)
@@ -67,13 +71,7 @@ public class Productor implements Serializable {
         this.cuil = cuil;
     }
 
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
+    
 
     public String getNombre() {
         return nombre;
@@ -105,6 +103,14 @@ public class Productor implements Serializable {
 
     public void setCelular(String celular) {
         this.celular = celular;
+    }
+
+    public List<ProductorDomicilio> getLstProductorDomicilio() {
+        return lstProductorDomicilio;
+    }
+
+    public void setLstProductorDomicilio(List<ProductorDomicilio> lstProductorDomicilio) {
+        this.lstProductorDomicilio = lstProductorDomicilio;
     }
 
     @Override
