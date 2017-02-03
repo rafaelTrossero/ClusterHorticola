@@ -153,4 +153,15 @@ public String entrarFormLocalidad() {
         return "barrio.xhtml?faces-redirect=true";
     }
 
+  public String entrarFormProductor() {
+
+        this.getListaPaisBean().cargarPais();
+        this.getListaPaisBean().cargarSIPais();
+        this.getListaProvinciaBean().cargarProvincias();
+        this.getListaProvinciaBean().cargarSIProvincias();
+        this.getListaLocalidadBean().cargarLocalidades();
+        this.getListaLocalidadBean().cargarSILocalidades();
+
+        return "productor.xhtml?faces-redirect=true";
+    }
 }

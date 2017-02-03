@@ -8,7 +8,7 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        
+
         <link href="./../resources/css/style.css" rel="stylesheet" type="text/css" />
 
 
@@ -30,46 +30,52 @@
                 </div>
             </div>-->
             <div style="height: 600px; width: 100%;"> 
-            <div style="float: left; width: 100%">
-                <!--<div id="content" style="position: relative; margin-left: 150px; height: 100%">!-->
-                <p:menubar style="font-size: 14px; width: 99.4%; height: 7% "   >
-                    
+                <div style="float: left; width: 100%">
+                    <!--<div id="content" style="position: relative; margin-left: 150px; height: 100%">!-->
+                    <p:menubar style="font-size: 14px; width: 99.4%; height: 7% "   >
+
                         <p:submenu label="Administración" >
-                        <p:submenu label="Lugares" >
-                            <p:menuitem value="Paises" action="#{navegarBean.entrarFormPais()}"
-                                    immediate="true" icon="fa fa-arrow-circle-o-right"/>
-                            <p:menuitem value="Provincias" action="#{navegarBean.entrarFormProvincia()}"
-                                    immediate="true" icon="fa fa-arrow-circle-o-right"/>
-                            <p:menuitem value="Departamentos" action="#{navegarBean.entrarFormDepartamento()}"
-                                    immediate="true" icon="fa fa-arrow-circle-o-right"/>
-                            
+                            <p:submenu label="Lugares" >
+                                <p:menuitem value="Paises" action="#{navegarBean.entrarFormPais()}"
+                                            immediate="true" icon="fa fa-arrow-circle-o-right"/>
+                                <p:menuitem value="Provincias" action="#{navegarBean.entrarFormProvincia()}"
+                                            immediate="true" icon="fa fa-arrow-circle-o-right"/>
+                                <p:menuitem value="Departamentos" action="#{navegarBean.entrarFormDepartamento()}"
+                                            immediate="true" icon="fa fa-arrow-circle-o-right"/>
+                                <p:menuitem value="Localidad" action="#{navegarBean.entrarFormLocalidad()}"
+                                            immediate="true" icon="fa fa-arrow-circle-o-right"/>
+                                <p:menuitem value="Barrio" action="#{navegarBean.entrarFormBarrio()}"
+                                            immediate="true" icon="fa fa-arrow-circle-o-right"/>
+
+                            </p:submenu>
+                            <p:menuitem value="Productores" action="#{navegarBean.entrarFormProductor()}"
+                                        immediate="true" icon="fa fa-arrow-circle-o-right"/>
+
+
                         </p:submenu>
 
-                        
-                    </p:submenu>
 
-                    
 
-                </p:menubar>
+                    </p:menubar>
 
-               
-               
-                
+
+
+
                     <ui:insert name="content">Content</ui:insert>
-                <!--</div>!-->
-            
+                    <!--</div>!-->
+
+                </div>
             </div>
-            </div>
-            
-         
-           
-          
-      
-           
+
+
+
+
+
+
             <div id="bottom" style="float: bottom; border-top: 1px solid #000;">
                 <h:outputText value="Sistema de Gestion - Cluster Horticola Catamarca"/>
-                
-                
+
+
             </div>
         </h:form>
 
