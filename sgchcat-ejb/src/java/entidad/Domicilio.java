@@ -5,6 +5,7 @@
 package entidad;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -26,17 +29,16 @@ public class Domicilio implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+   
     @ManyToOne
-    @JoinColumn(name = "barrio_id", referencedColumnName = "id")
-    private Barrio barrio;
+    @JoinColumn(name = "localidad_id", referencedColumnName = "id")
+    private Localidad localidad;
+    @OneToOne(mappedBy = "domicilio")
+    private List<Productor> lstProductor;
     @Column(name = "calle")
     private String calle;
     @Column(name = "numero")
     private String numero;
-    @Column(name = "piso")
-    private String piso;
-    @Column(name = "dpto")
-    private String dpto;
     @Column(name = "referencia")
     private String referencia;
 
@@ -56,13 +58,7 @@ public class Domicilio implements Serializable {
         this.calle = calle;
     }
 
-    public String getDpto() {
-        return dpto;
-    }
-
-    public void setDpto(String dpto) {
-        this.dpto = dpto;
-    }
+   
 
     public String getNumero() {
         return numero;
@@ -72,13 +68,15 @@ public class Domicilio implements Serializable {
         this.numero = numero;
     }
 
-    public String getPiso() {
-        return piso;
+    public Localidad getLocalidad() {
+        return localidad;
     }
 
-    public void setPiso(String piso) {
-        this.piso = piso;
+    public void setLocalidad(Localidad localidad) {
+        this.localidad = localidad;
     }
+
+  
 
     public String getReferencia() {
         return referencia;
@@ -88,13 +86,15 @@ public class Domicilio implements Serializable {
         this.referencia = referencia;
     }
 
-    public Barrio getBarrio() {
-        return barrio;
+    public List<Productor> getLstProductor() {
+        return lstProductor;
     }
 
-    public void setBarrio(Barrio barrio) {
-        this.barrio = barrio;
+    public void setLstProductor(List<Productor> lstProductor) {
+        this.lstProductor = lstProductor;
     }
+
+   
 
     @Override
     public int hashCode() {

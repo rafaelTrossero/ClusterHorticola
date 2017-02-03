@@ -47,6 +47,8 @@ public class Localidad implements Serializable {
     private Departamento departamento;
     @OneToMany(mappedBy = "localidad")
     private List<Barrio> barrio;
+    @OneToMany(mappedBy = "localidad")
+    private List<Domicilio> domicilio;
     @Column(name = "descripcion", nullable = false)
     private String descripcion;
     @Column(name = "codigo", nullable = false)
@@ -121,6 +123,15 @@ public class Localidad implements Serializable {
     public void setBorrado(Boolean borrado) {
         this.borrado = borrado;
     }
+
+    public List<Domicilio> getDomicilio() {
+        return domicilio;
+    }
+
+    public void setDomicilio(List<Domicilio> domicilio) {
+        this.domicilio = domicilio;
+    }
+    
 
     @Override
     public int hashCode() {
