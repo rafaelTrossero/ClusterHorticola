@@ -164,4 +164,11 @@ public String entrarFormLocalidad() {
 
         return "productor.xhtml?faces-redirect=true";
     }
+  
+   public String entrarFormEspecie() {
+
+        
+
+        return "especie.xhtml?faces-redirect=true";
+    }
 }

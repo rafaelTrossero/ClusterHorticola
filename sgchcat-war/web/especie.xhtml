@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./Template/CHTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="content">
+        <p:dialog id="dEspecie" 
+                  widgetVar="dlgEspecie" 
+                  modal="true"
+                  closable="false" resizable="false">
+            <f:facet name="header">
+                <h:outputText value=" Gestión de Especies" styleClass="subTitulo"/>
+            </f:facet>
+            <p:panel id="pEspecie" style="float:left;">
+
+                <p:focus context="pEspecie"/> 
+
+                <h:inputHidden value="#{especieBean.especie.id}"/>
+             
+              
+
+
+                <div class="camposTexto">
+                    <h:outputText  value="Todos los campos con * son requeridos."  styleClass="aclaraciones" />
+                </div>
+                <div style="clear: both;"/>
+
+                <div class="camposTexto"> 
+                    <h:outputText value="Especie*:   "/>
+
+                    <p:inputText value="#{especieBean.especie.especie}"
+                                 label="Especie"
+                                 disabled="#{especieBean.getbCamposEditables()}"
+                                 required="#{especieBean.bCamposRequeridos}"/>
+                </div>
+                <div style="clear: both;"/>
+
+              
+
+            </p:panel>
+
+            <div style="clear: both;"/>
+
+            <div class="camposTexto">
+                <p:messages autoUpdate="true"/>
+            </div>
+
+
+            <div style="clear: both;"/>
+
+            <div  style="float: left; margin: 10px;
+                  width: 100%;
+                  text-align: center;">
+                <p:commandButton id="btnAction"
+                                 value="Guardar " 
+                                 actionListener="#{especieBean.actionBtn}" 
+                                 update=":frmMain:dtEspecie, :frmMain:pEspecie, @this"
+                                 binding="#{especieBean.cbAction}"/>
+
+                <p:commandButton id="btnSalir"
+                                 value="Salir" 
+                                 actionListener="#{especieBean.cerrarDialog()}" 
+                                 update=":frmMain:pEspecie, :frmMain:dtEspecie"
+                                 process="@this"
+                                 />
+            </div>
+
+        </p:dialog>
+        <div style="float: left;">
+            <h:outputText value=" Especies " 
+                          styleClass="titulo"/>
+        </div>
+
+        <div style="clear: both;"/>
+        <div style="float: left;">
+
+        </div>
+
+        <div style="clear: both;"/>
+
+        <div class="camposTexto">
+
+
+            <h:outputText value="(Ingresar al menos tres letras del Nombre de la Especie y se mostrarán las posibles corespondencias.)"
+                          styleClass="aclaraciones"/><br/>
+            <p:inputText id="itCadenaEspecie"
+                         value="#{especieBean.cadenaEspecie}"
+                         size="50"/>
+            <p:commandButton id="cbCadenaEspecie"
+                             actionListener="#{especieBean.cargarPaisLike()}"
+                             update="dtEspecie"
+                             icon="ui-icon-search"
+                             process="@this, itCadenaEspecie"/>
+        </div>
+
+        <div style="clear: both;"/>
+
+
+        <div class="camposTexto">
+            <p:commandButton id="cbCreate"
+                             value="Nueva Especie" 
+                             icon="ui-icon-circle-plus" 
+                             oncomplete="PF('dlgEspecie').show();"
+                             actionListener="#{especieBean.setBtnSelect}"
+                             update=":frmMain:dEspecie"
+                             process="@this"/><br/><br/>
+        </div>
+
+        <div style="clear: both;"/>
+
+
+        <div class="camposTexto">
+            <p:dataTable id="dtEspecie"
+                         value="#{listaEspecieBean.lstEspecie}"
+                         paginator="true"
+                         rows="20"
+                         var="pa">      
+                <f:facet name="header">
+                    Cantidad de registros: #{listaEspecieBean.lstEspecie.size()}
+                </f:facet>
+                <p:column>
+                    <p:commandButton id="cbEdit"
+                                     title="Editar"
+                                     icon="ui-icon-pencil" 
+                                     update=":frmMain:dEspecie"
+                                     oncomplete="PF('dlgEspecie').show();"
+                                     actionListener="#{especieBean.setBtnSelect}"
+                                    >
+                        <f:setPropertyActionListener value="#{pa}" target="#{especieBean.especie}"/>  
+                    </p:commandButton>
+
+                    <p:commandButton id="cbDelete"
+                                     title="Eliminar"
+                                     icon="ui-icon-circle-close" 
+                                     update=":frmMain:dEspecie"
+                                     oncomplete="PF('dlgEspecie').show();"
+                                     actionListener="#{especieBean.setBtnSelect}"
+                                     >
+                        <f:setPropertyActionListener value="#{pa}" target="#{especieBean.especie}"/>  
+
+                    </p:commandButton>
+                    <p:commandButton id="cbRecuperarBorrado"
+                                     title="Recuperar Borrado"
+                                     icon="ui-icon-unlocked" 
+                                     update=":frmMain:dEspecie, @this, :frmMain:dtEspecie"
+                                     oncomplete="PF('dlgEspecie').show();"
+                                     actionListener="#{especieBean.setBtnSelect}"
+                                     >
+                        <f:setPropertyActionListener value="#{pa}" target="#{especieBean.especie}"/>  
+
+                    </p:commandButton>
+                </p:column>
+                <p:column filterBy="#{pa.especie}" sortBy="#{pa.especie}">
+                    <f:facet name="header">
+                        <h:outputText value="Especie"/>
+                    </f:facet>               
+                    <h:outputText value="#{pa.especie}"/>
+
+                </p:column>
+                
+                <f:facet name="footer">
+                    Cantidad de registros: #{listaEspecieBean.lstEspecie.size()}
+                </f:facet>
+            </p:dataTable>
+        </div>
+    </ui:define>
+
+    <ui:define name="bottom">
+        bottom
+    </ui:define>
+
+</ui:composition>
+
