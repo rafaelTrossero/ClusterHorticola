@@ -48,6 +48,7 @@ public class Barrio implements Serializable {
 
     public Long getId() {
         return id;
+       
     }
 
     public void setId(Long id) {
@@ -90,6 +91,7 @@ public class Barrio implements Serializable {
         // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Barrio)) {
             return false;
+            
         }
         Barrio other = (Barrio) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
