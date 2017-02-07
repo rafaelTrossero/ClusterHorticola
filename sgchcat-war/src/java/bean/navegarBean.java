@@ -6,9 +6,11 @@ package bean;
 
 import entidad.Barrio;
 import entidad.Departamento;
+import entidad.Especie;
 import entidad.Localidad;
 import entidad.Pais;
 import entidad.Provincia;
+import entidad.Variedad;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -30,14 +32,18 @@ public class navegarBean {
     private ListaDepartamentoBean listaDepartamentoBean;
     @ManagedProperty("#{listaLocalidadBean}")
     private ListaLocalidadBean listaLocalidadBean;
-       @ManagedProperty("#{listaBarrioBean}")
+    @ManagedProperty("#{listaBarrioBean}")
     private ListaBarrioBean listaBarrioBean;
-       @ManagedProperty("#{listaTenenciaBean}")
+    @ManagedProperty("#{listaTenenciaBean}")
     private ListaTenenciaBean listaTenenciaBean;
-       @ManagedProperty("#{listaProductorBean}")
+    @ManagedProperty("#{listaProductorBean}")
     private ListaProductorBean listaProductorBean;
-     @ManagedProperty("#{listaCampoBean}")
+    @ManagedProperty("#{listaCampoBean}")
     private ListaCampoBean listaCampoBean;
+    @ManagedProperty("#{listaEspecieBean}")
+    private ListaEspecieBean listaEspecieBean;
+    @ManagedProperty("#{listaVariedadBean}")
+    private ListaVariedadBean listaVariedadBean;
 
     /**
      * Creates a new instance of navegarBean
@@ -92,7 +98,7 @@ public class navegarBean {
     public void setListaDepartamentoBean(ListaDepartamentoBean listaDepartamentoBean) {
         this.listaDepartamentoBean = listaDepartamentoBean;
     }
-    
+
     public ListaLocalidadBean getListaLocalidadBean() {
         return listaLocalidadBean;
     }
@@ -100,13 +106,29 @@ public class navegarBean {
     public void setListaLocalidadBean(ListaLocalidadBean listaLocalidadBean) {
         this.listaLocalidadBean = listaLocalidadBean;
     }
-    
-     public ListaBarrioBean getListaBarrioBean() {
+
+    public ListaBarrioBean getListaBarrioBean() {
         return listaBarrioBean;
     }
 
     public void setListaBarrioBean(ListaBarrioBean listaBarrioBean) {
         this.listaBarrioBean = listaBarrioBean;
+    }
+
+    public ListaEspecieBean getListaEspecieBean() {
+        return listaEspecieBean;
+    }
+
+    public void setListaEspecieBean(ListaEspecieBean listaEspecieBean) {
+        this.listaEspecieBean = listaEspecieBean;
+    }
+
+    public ListaVariedadBean getListaVariedadBean() {
+        return listaVariedadBean;
+    }
+
+    public void setListaVariedadBean(ListaVariedadBean listaVariedadBean) {
+        this.listaVariedadBean = listaVariedadBean;
     }
 
     public String entrarFormPais() {
@@ -126,8 +148,8 @@ public class navegarBean {
 
         return "provincia.xhtml?faces-redirect=true";
     }
-    
-     public String entrarFormDepartamento() {
+
+    public String entrarFormDepartamento() {
         this.getListaPaisBean().setLstPais(new ArrayList<Pais>());
         this.getListaPaisBean().setLstSIPais(null);
         this.getListaPaisBean().cargarPais();
@@ -141,7 +163,8 @@ public class navegarBean {
 
         return "departamento.xhtml?faces-redirect=true";
     }
-public String entrarFormLocalidad() {
+
+    public String entrarFormLocalidad() {
         this.getListaPaisBean().setLstPais(new ArrayList<Pais>());
         this.getListaPaisBean().setLstSIPais(null);
         this.getListaPaisBean().cargarPais();
@@ -160,7 +183,7 @@ public String entrarFormLocalidad() {
         return "localidad.xhtml?faces-redirect=true";
     }
 
- public String entrarFormBarrio() {
+    public String entrarFormBarrio() {
         this.getListaPaisBean().setLstPais(new ArrayList<Pais>());
         this.getListaPaisBean().setLstSIPais(null);
         this.getListaPaisBean().cargarPais();
@@ -183,7 +206,7 @@ public String entrarFormLocalidad() {
         return "barrio.xhtml?faces-redirect=true";
     }
 
-  public String entrarFormProductor() {
+    public String entrarFormProductor() {
 
         this.getListaPaisBean().cargarPais();
         this.getListaPaisBean().cargarSIPais();
@@ -194,13 +217,40 @@ public String entrarFormLocalidad() {
 
         return "productor.xhtml?faces-redirect=true";
     }
-  
-   public String entrarFormEspecie() {
 
-        
+    public String entrarFormEspecie() {
+
+        this.getListaEspecieBean().setLstEspecie(new ArrayList<Especie>());
+        this.getListaEspecieBean().setLstSIEspecie(null);
+        this.getListaEspecieBean().cargarEspecie();
+        this.getListaEspecieBean().cargarSIEspecie();
 
         return "especie.xhtml?faces-redirect=true";
     }
+
+    public String entrarFormVariedad() {
+
+        this.getListaVariedadBean().setLstVariedad(new ArrayList<Variedad>());
+        this.getListaVariedadBean().setLstSIVariedad(null);
+        this.getListaVariedadBean().cargarVariedad();
+        this.getListaVariedadBean().cargarSIVariedad();
+
+        return "variedad.xhtml?faces-redirect=true";
+    }
+
+    public String entrarFormPrecios() {
+        this.getListaEspecieBean().setLstEspecie(new ArrayList<Especie>());
+        this.getListaEspecieBean().setLstSIEspecie(null);
+        this.getListaEspecieBean().cargarEspecie();
+        this.getListaEspecieBean().cargarSIEspecie();
+        this.getListaVariedadBean().setLstVariedad(new ArrayList<Variedad>());
+        this.getListaVariedadBean().setLstSIVariedad(null);
+        this.getListaVariedadBean().cargarVariedad();
+        this.getListaVariedadBean().cargarSIVariedad();
+
+        return "preciosHortaliza.xhtml?faces-redirect=true";
+    }
+
     public String entrarFormCampo() {
 
         this.getListaPaisBean().cargarPais();
@@ -210,7 +260,7 @@ public String entrarFormLocalidad() {
         this.getListaTenenciaBean().cargar_tenencia();
         this.getListaTenenciaBean().cargar_SI_tenencia();
         this.getListaProductorBean().cargar_productor();
-         this.getListaProductorBean().cargar_SI_productor();
+        this.getListaProductorBean().cargar_SI_productor();
         this.getListaTenenciaBean().cargar_SI_tenencia();
         this.getListaProvinciaBean().cargarProvincias();
         this.getListaProvinciaBean().cargarSIProvincias();
