@@ -77,6 +77,7 @@ public class Localidad implements Serializable {
     }
 
     public Long getCodigo() {
+         System.out.println("");
         return codigo;
     }
 
