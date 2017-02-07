@@ -33,6 +33,7 @@ public class CampoProductor implements Serializable {
 
     public Long getId() {
         return id;
+        System.out.println("");
     }
 
     public void setId(Long id) {
