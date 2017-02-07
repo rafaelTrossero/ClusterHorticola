@@ -1,0 +1,293 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./Template/CHTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" />
+        <link href="./../resources/css/style.css" rel="stylesheet" type="text/css" />
+
+
+
+
+    </h:head>
+
+    <ui:define name="content">
+
+
+        <!-- DIALOGO PRODUCTOR !-->
+        <p:dialog id="dCampo" 
+                  widgetVar="dlgCampo" 
+                  modal="true"
+                  position="top"
+                  closable="false" resizable="false">
+            <f:facet name="header">
+                <h:outputText value="Gestión de Campo"/>
+            </f:facet>
+
+            <p:panel id="pCampo" style="float:left;" >
+                <p:focus context="pCampo"/> 
+
+                <h:inputHidden value="#{campoBean.campo.id}"/>
+                <h:inputHidden value="#{campoBean.campodomicilio.id}"/>
+                <h:inputHidden value="#{campoBean.domicilio.id}"/>
+ 
+                <div style="clear: both;"/>
+
+
+                <p:accordionPanel id ="apProd" style="width: 600px;">
+                    <p:tab title="Identificacion">
+                        <h:panelGrid columns="2" cellpadding="3" >
+
+
+                            <h:outputText value="Nombre: "/>
+                            <p:inputText value="#{campoBean.campo.nombre}"
+                                         label="Nombre"
+                                         disabled="#{campoBean.getbCamposEditables()}"/>
+
+                            <h:outputText value="País: "/>
+                            <p:selectOneMenu    id="somPais"  
+                                                converter="ConversorGenerico"
+                                                valueChangeListener="#{listaProvinciaBean.recuperarProvincias}"                                                
+                                                disabled="#{campoBean.getbCamposEditables()}">
+                                <f:selectItem itemLabel="Seleccionar.." itemValue=""/>
+                                <f:selectItems  
+                                    value="#{listaPaisBean.lstSIPais}"/>
+                                <p:ajax         update="somProvincia" 
+                                                event="change" 
+                                                />
+                            </p:selectOneMenu>
+
+                            <h:outputText value="Provincia: "/>
+                            <p:selectOneMenu id="somProvincia"
+                                             converter="ConversorGenerico"
+                                             valueChangeListener="#{listaDepartamentoBean.recuperarDepartamentos}"
+                                             disabled="#{campoBean.getbCamposEditables()}">
+                                <f:selectItem itemLabel="Seleccionar..." itemValue=""/>
+                                <f:selectItems 
+                                    value="#{listaProvinciaBean.lstSIProvincia}"/>
+                                <p:ajax         update="somDepartamento"
+                                                event="change" 
+                                                />
+                            </p:selectOneMenu>
+
+                            <h:outputText value="Departamento: "/>
+
+                            <p:selectOneMenu id="somDepartamento"
+                                             converter="ConversorGenerico"
+                                             valueChangeListener="#{listaLocalidadBean.recuperarLocalidades}"
+                                             disabled="#{campoBean.getbCamposEditables()}"
+                                             >
+                                <f:selectItem itemLabel="Seleccione un Departamento..." itemValue="0"/>
+                                <f:selectItems value="#{listaDepartamentoBean.lstSIDepartamento}"/>
+
+                                <p:ajax         update="somLocalidad"
+                                                event="change"/>
+
+                            </p:selectOneMenu>
+
+
+                            <h:outputText value="Localidad: "/>
+                            <p:selectOneMenu id="somLocalidad"
+                                             converter="ConversorGenerico"
+                                             value="#{campoBean.domicilio.localidad}"
+                                             disabled="#{campoBean.getbCamposEditables()}">
+                                <f:selectItem itemLabel="Seleccionar.." itemValue=""/>
+                                <f:selectItems 
+                                    value="#{listaLocalidadBean.lstSILocalidad}"/>
+
+                            </p:selectOneMenu>
+
+                            <h:outputText value="Calle: "/>
+                            <p:inputText value="#{campoBean.domicilio.calle}"
+                                         label="Calle"
+                                         disabled="#{campoBean.getbCamposEditables()}"/>
+                            <h:outputText value="Numero: "/>
+                            <p:inputText value="#{campoBean.domicilio.numero}"
+                                         label="Numero"
+                                         disabled="#{campoBean.getbCamposEditables()}"/>
+                            <h:outputText value="Georeferenciación "/>
+                            <p:inputText value="#{campoBean.domicilio.referencia}"
+                                         label="Georeferenciacion"
+                                         disabled="#{campoBean.getbCamposEditables()}"/>
+                              <h:outputText value="Superficie(HA): "/>
+                              <p:inputText value="#{campoBean.campo.superficie_total}"
+                                         label="Superficie"
+                                         disabled="#{campoBean.getbCamposEditables()}"/>
+                              
+                              <h:outputText value="Tenencia:"/>
+                            <p:selectOneMenu id="somTenencia"
+                                             converter="ConversorGenerico"
+                                             value="#{campoBean.campo.tenencia}"
+                                             disabled="#{campoBean.getbCamposEditables()}">
+
+                                <f:selectItems 
+                                    value="#{listaTenenciaBean.lstSITenencia}"/>
+
+                            </p:selectOneMenu>
+                              
+                              <h:outputText value="Productor:"/>
+                            <p:selectOneMenu id="somProductor"
+                                             converter="ConversorGenerico"
+                                             value="#{campoBean.campoProductor.productor}"
+                                             disabled="#{campoBean.getbCamposEditables()}">
+
+                                <f:selectItems 
+                                    value="#{listaProductorBean.lstSIProductor}"/>
+
+                            </p:selectOneMenu>
+
+                        </h:panelGrid>    
+                    </p:tab>
+
+                    <div style="clear: both;"/>
+
+                </p:accordionPanel>
+            </p:panel>
+
+            <div style="clear: both;"/>
+
+            <div>
+                <p:messages autoUpdate="true"/>
+            </div>
+
+
+            <div style="clear: both;"/>
+
+            <div  style="float: left; margin: 10px;
+                  width: 100%;
+                  text-align: center;">
+
+                <p:growl id="message" showDetail="true"  />
+                <div style="clear: both;"/>
+                <p:commandButton id="btnAction"
+                                 value="" 
+                                 icon="ui-icon-disk"
+                                 actionListener="#{campoBean.actionBtn}" 
+                                 update=":frmMain:dtCampo, 
+                                 :frmMain:pCampo, message, @this"
+                                 binding="#{campoBean.cbAction}"
+                                 >
+                    <p:confirm header="Confirmación" message="¿Seguro?" icon="ui-icon-alert" />
+                </p:commandButton>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
+                                     ajax="false"  />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+
+                <p:commandButton id="btnSalir"
+                                 value="Salir" 
+                                 icon="ui-icon-close"
+                                 oncomplete="PF('dlgCampo').hide()"
+                                 update=":frmMain:pCampo, 
+                                 :frmMain:dtCampo"
+                                 process="@this"/>
+            </div>
+
+        </p:dialog>
+
+
+        <!-- PANTALLA PRINCIPAL !-->
+
+        <div class="camposTexto"
+             style="float: left; margin: 10px;
+             width: 100%;
+             text-align: center;">
+
+            <p:commandButton id="cbNuevo"
+                             value="Nuevo Campo" 
+                             icon="ui-icon-circle-plus" 
+                             oncomplete="PF('dlgCampo').show();"
+                             actionListener="#{campoBean.setBtnSelect}"
+                             update=":frmMain:dCampo"
+                             process="@this"/><br/><br/>
+
+        </div>
+
+        <p:dataTable id="dtCampo"
+                     paginator="true"
+                     rows="50"
+                     scrollable="true"
+                     value="#{listaCampoBean.lstCampo}"
+                     var="cam"
+                     >
+            <!--disabledSelection="#1{not prod.active }" -->
+
+
+
+
+            <p:column width="152"  headerText="Operaciones"  >
+
+                <p:commandButton id="cbEditar"
+                                 title="Editar"
+                                 icon="ui-icon-pencil" 
+                                 update=":frmMain:dCampo"
+                                 oncomplete="PF('dlgCampo').show();"
+                                 actionListener="#{campoBean.setBtnSelect}">
+                    <!--disabledSelection="#1{not prod.active }"> -->
+
+
+                    <f:setPropertyActionListener value="#{cam}" target="#{campoBean.campo}"/>
+                    <f:setPropertyActionListener value="#{cam.domicilio.localidad}" target="#{campoBean.campo}"/>
+
+                </p:commandButton>
+
+                <p:commandButton id="cbHabilitado"
+                                 title="Activar"
+                                 icon="ui-icon-unlocked" 
+                                 update=":frmMain:dCampo, @this"
+                                 oncomplete="PF('dlgCampo').show();"
+                                 actionListener="#{productorBean.setBtnSelect}"
+                                 disabled="#/{prod.active }"
+                                 >
+                    <f:setPropertyActionListener value="#{prod}" target="#{productorBean.productor}"/>
+
+
+                </p:commandButton>
+
+
+                <p:commandButton id="cbDeshabilitado"
+                                 title="Desactivar"
+                                 icon="ui-icon-circle-close"
+                                 update=":frmMain:dCampo, @this"
+                                 oncomplete="PF('dlgCampo').show();"
+                                 actionListener="#{campoBean.setBtnSelect}"
+                                 disabled="#/{not prof.active }"
+                                 >
+
+                    <f:setPropertyActionListener value="#{cam}" target="#{campoBean.campo}"/>
+                </p:commandButton>
+            </p:column>
+
+
+            <p:column filterBy="#{cam.nombre}" sortBy="#{cam.nombre}"  >
+                <f:facet name="header" >
+                    <h:outputText value="Nombre"/>
+                </f:facet>               
+                <h:outputText value="#{cam.nombre}" />
+
+            </p:column>
+
+          
+
+            <p:column filterBy="#{cam.domicilio.localidad}" sortBy="#{cam.domicilio.localidad}">
+                <f:facet name="header">
+                    <h:outputText value="Localidad"/>
+                </f:facet>               
+                <h:outputText value="#{cam.domicilio.localidad}"/>
+
+            </p:column>
+        </p:dataTable>
+
+
+
+
+    </ui:define>
+
+</ui:composition>
