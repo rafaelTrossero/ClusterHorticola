@@ -6,9 +6,11 @@
 package bean;
 
 
+import RN.ProductorRNLocal;
 import entidad.Productor;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
@@ -25,7 +27,8 @@ public class ListaProductorBean {
     
     private List<SelectItem> lstSIProductor;
      private int iActionBtnSelect;
-
+@EJB
+    private ProductorRNLocal productorRNLocal;
     
     public ListaProductorBean() {
          lstProductor = new ArrayList<>();
@@ -34,6 +37,15 @@ public class ListaProductorBean {
     public List<Productor> getLstProductor() {
         return lstProductor;
     }
+
+    public ProductorRNLocal getProductorRNLocal() {
+        return productorRNLocal;
+    }
+
+    public void setProductorRNLocal(ProductorRNLocal productorRNLocal) {
+        this.productorRNLocal = productorRNLocal;
+    }
+    
 
     public void setLstProductor(List<Productor> lstProductor) {
         this.lstProductor = lstProductor;
@@ -53,4 +65,22 @@ public class ListaProductorBean {
     public void setiActionBtnSelect(int iActionBtnSelect) {
         this.iActionBtnSelect = iActionBtnSelect;
     }
+    
+    public void cargar_productor() {
+        try {
+            this.setLstProductor(this.productorRNLocal.findAll());
+        } catch (Exception ex) {
+            System.out.println("Error al cargar alumnos " + ex.toString());
+        }
+    }
+
+    public void cargar_SI_productor() {
+        this.setLstSIProductor(new ArrayList<SelectItem>());
+
+        for (Productor a : this.getLstProductor()) {
+            SelectItem si = new SelectItem(a, a.getNombre());
+            this.getLstSIProductor().add(si);
+        }
+    }
+        
 }

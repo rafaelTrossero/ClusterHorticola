@@ -32,6 +32,12 @@ public class navegarBean {
     private ListaLocalidadBean listaLocalidadBean;
        @ManagedProperty("#{listaBarrioBean}")
     private ListaBarrioBean listaBarrioBean;
+       @ManagedProperty("#{listaTenenciaBean}")
+    private ListaTenenciaBean listaTenenciaBean;
+       @ManagedProperty("#{listaProductorBean}")
+    private ListaProductorBean listaProductorBean;
+     @ManagedProperty("#{listaCampoBean}")
+    private ListaCampoBean listaCampoBean;
 
     /**
      * Creates a new instance of navegarBean
@@ -57,6 +63,30 @@ public class navegarBean {
 
     public ListaDepartamentoBean getListaDepartamentoBean() {
         return listaDepartamentoBean;
+    }
+
+    public ListaTenenciaBean getListaTenenciaBean() {
+        return listaTenenciaBean;
+    }
+
+    public void setListaTenenciaBean(ListaTenenciaBean listaTenenciaBean) {
+        this.listaTenenciaBean = listaTenenciaBean;
+    }
+
+    public ListaProductorBean getListaProductorBean() {
+        return listaProductorBean;
+    }
+
+    public void setListaProductorBean(ListaProductorBean listaProductorBean) {
+        this.listaProductorBean = listaProductorBean;
+    }
+
+    public ListaCampoBean getListaCampoBean() {
+        return listaCampoBean;
+    }
+
+    public void setListaCampoBean(ListaCampoBean listaCampoBean) {
+        this.listaCampoBean = listaCampoBean;
     }
 
     public void setListaDepartamentoBean(ListaDepartamentoBean listaDepartamentoBean) {
@@ -170,5 +200,23 @@ public String entrarFormLocalidad() {
         
 
         return "especie.xhtml?faces-redirect=true";
+    }
+    public String entrarFormCampo() {
+
+        this.getListaPaisBean().cargarPais();
+        this.getListaPaisBean().cargarSIPais();
+        this.getListaCampoBean().cargar_campo();
+        this.getListaPaisBean().cargarSIPais();
+        this.getListaTenenciaBean().cargar_tenencia();
+        this.getListaTenenciaBean().cargar_SI_tenencia();
+        this.getListaProductorBean().cargar_productor();
+         this.getListaProductorBean().cargar_SI_productor();
+        this.getListaTenenciaBean().cargar_SI_tenencia();
+        this.getListaProvinciaBean().cargarProvincias();
+        this.getListaProvinciaBean().cargarSIProvincias();
+        this.getListaLocalidadBean().cargarLocalidades();
+        this.getListaLocalidadBean().cargarSILocalidades();
+
+        return "campo.xhtml?faces-redirect=true";
     }
 }
