@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./Template/CHTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="content">
+        <p:dialog id="dVariedad" 
+                  widgetVar="dlgVariedad" 
+                  modal="true" responsive="true"
+                  closable="false" resizable="false">
+            <f:facet name="header">
+                <h:outputText value=" Gestión de Variedades de Especies" styleClass="subTitulo"/>
+            </f:facet>
+            <p:panel id="pVariedad" style="float:left;">
+
+                <p:focus context="pVariedad"/> 
+
+                <h:inputHidden value="#{variedadBean.variedad.id}"/>
+
+
+
+
+                <div class="camposTexto">
+                    <h:outputText  value="Todos los campos con * son requeridos."  styleClass="aclaraciones" />
+                </div>
+                <div style="clear: both;"/>
+                 <div class="camposTexto">
+                    <h:outputText  value="Especie*:   " />
+
+                    <p:selectOneMenu id="somEspecie"
+                                     value="#{variedadBean.variedad.especie}"  
+                                     converter="ConversorGenerico"
+                                     disabled="#{variedadBean.getbCamposEditables()}">
+                        <f:selectItems value="#{listaEspecieBean.lstSIEspecie}"/>
+                    </p:selectOneMenu>
+                </div>     
+                <div class="camposTexto"> 
+                    <h:outputText value="Variedad*:   "/>
+
+                    <p:inputText value="#{variedadBean.variedad.descripcion}"
+                                 label="Especie"
+                                 disabled="#{variedadBean.getbCamposEditables()}"
+                                 required="#{variedadBean.bCamposRequeridos}"/>
+                </div>
+                <div style="clear: both;"/>
+               
+
+
+
+            </p:panel>
+
+            <div style="clear: both;"/>
+
+            <div class="camposTexto">
+                <p:messages autoUpdate="true"/>
+            </div>
+
+
+            <div style="clear: both;"/>
+
+            <div  style="float: left; margin: 10px;
+                  width: 100%;
+                  text-align: center;">
+                <p:commandButton id="btnAction"
+                                 value="Guardar " 
+                                 actionListener="#{variedadBean.actionBtn}" 
+                                 update=":frmMain:dtVariedad, :frmMain:pVariedad, @this"
+                                 binding="#{variedadBean.cbAction}"/>
+
+                <p:commandButton id="btnSalir"
+                                 value="Salir" 
+                                 actionListener="#{variedadBean.cerrarDialog()}" 
+                                 update=":frmMain:pVariedad, :frmMain:dtVariedad"
+                                 process="@this"
+                                 />
+            </div>
+
+        </p:dialog>
+        <div style="float: left;">
+            <h:outputText value=" Variedad " 
+                          styleClass="titulo"/>
+        </div>
+
+        <div style="clear: both;"/>
+        <div style="float: left;">
+
+        </div>
+
+        <div style="clear: both;"/>
+
+
+        <div style="clear: both;"/>
+
+
+        <div class="camposTexto">
+            <p:commandButton id="cbCreate"
+                             value="Nueva Variedad" 
+                             icon="ui-icon-circle-plus" 
+                             oncomplete="PF('dlgVariedad').show();"
+                             actionListener="#{variedadBean.setBtnSelect}"
+                             update=":frmMain:dVariedad"
+                             process="@this"/><br/><br/>
+        </div>
+
+        <div style="clear: both;"/>
+
+
+        <div class="camposTexto">
+            <p:dataTable id="dtVariedad"
+                         value="#{listaVariedadBean.lstVariedad}"
+                         paginator="true"
+                         rows="20"
+                         var="pa">      
+                <f:facet name="header">
+                    Cantidad de registros: #{listaVariedadBean.lstVariedad.size()}
+                </f:facet>
+                <p:column>
+                    <p:commandButton id="cbEdit"
+                                     title="Editar"
+                                     icon="ui-icon-pencil" 
+                                     update=":frmMain:dVariedad"
+                                     oncomplete="PF('dlgVariedad').show();"
+                                     actionListener="#{variedadBean.setBtnSelect}"
+                                     >
+                        <f:setPropertyActionListener value="#{pa}" target="#{variedadBean.variedad}"/>  
+                    </p:commandButton>
+
+                    <p:commandButton id="cbDelete"
+                                     title="Eliminar"
+                                     icon="ui-icon-circle-close" 
+                                     update=":frmMain:dVariedad"
+                                     oncomplete="PF('dlgVariedad').show();"
+                                     actionListener="#{variedadBean.setBtnSelect}"
+                                     >
+                        <f:setPropertyActionListener value="#{pa}" target="#{variedadBean.variedad}"/>   
+
+                    </p:commandButton>
+                    <p:commandButton id="cbRecuperarBorrado"
+                                     title="Recuperar Borrado"
+                                     icon="ui-icon-unlocked" 
+                                     update=":frmMain:dVariedad, @this, :frmMain:dtVariedad"
+                                     oncomplete="PF('dlgVariedad').show();"
+                                     actionListener="#{variedadBean.setBtnSelect}"
+                                     >
+                        <f:setPropertyActionListener value="#{pa}" target="#{variedadBean.variedad}"/>  
+
+                    </p:commandButton>
+                </p:column>
+                <p:column filterBy="#{pa.descripcion}" sortBy="#{pa.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="Variedad"/>
+                    </f:facet>               
+                    <h:outputText value="#{pa.descripcion}"/>
+
+                </p:column>
+                
+                <p:column filterBy="#{pa.especie.descripcion}" sortBy="#{pa.especie.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="Especie"/>
+                    </f:facet>               
+                    <h:outputText value="#{pa.especie.descripcion}"/>
+
+                </p:column>
+
+                <f:facet name="footer">
+                    Cantidad de registros: #{listaVariedadBean.lstVariedad.size()}
+                </f:facet>
+            </p:dataTable>
+        </div>
+    </ui:define>
+
+    <ui:define name="bottom">
+        bottom
+    </ui:define>
+
+</ui:composition>
+
