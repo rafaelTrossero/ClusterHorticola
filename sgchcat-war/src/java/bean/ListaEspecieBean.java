@@ -78,7 +78,7 @@ public class ListaEspecieBean {
         this.especieRNLocal = especieRNLocal;
     }
     
-     public void cargarPais() {
+     public void cargarEspecie() {
         try {
             this.setLstEspecie(especieRNLocal.findAll());
         } catch (Exception ex) {
@@ -88,18 +88,19 @@ public class ListaEspecieBean {
             FacesContext fc = FacesContext.getCurrentInstance();
             fc.addMessage(null, fm);
         }
+         System.out.println("Termino cargar Especie: " + this.getLstEspecie());
     }//fin 
     
-     public void cargarSIPais() {
+     public void cargarSIEspecie() {
 
         this.setLstSIEspecie(new ArrayList<SelectItem>());
 
         for (Especie p : this.getLstEspecie()) {
             
-                SelectItem si = new SelectItem(p, p.getEspecie());
+                SelectItem si = new SelectItem(p, p.getDescripcion());
                 this.getLstSIEspecie().add(si);
            
         }//fin for
-        System.out.println("Termino cargar Pais: " + this.getLstSIEspecie());
+        System.out.println("Termino cargar Especie: " + this.getLstSIEspecie());
     }//fin 
 }

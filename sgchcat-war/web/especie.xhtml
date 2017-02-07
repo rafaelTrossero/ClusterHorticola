@@ -10,7 +10,7 @@
     <ui:define name="content">
         <p:dialog id="dEspecie" 
                   widgetVar="dlgEspecie" 
-                  modal="true"
+                  modal="true" responsive="true"
                   closable="false" resizable="false">
             <f:facet name="header">
                 <h:outputText value=" Gestión de Especies" styleClass="subTitulo"/>
@@ -32,7 +32,7 @@
                 <div class="camposTexto"> 
                     <h:outputText value="Especie*:   "/>
 
-                    <p:inputText value="#{especieBean.especie.especie}"
+                    <p:inputText value="#{especieBean.especie.descripcion}"
                                  label="Especie"
                                  disabled="#{especieBean.getbCamposEditables()}"
                                  required="#{especieBean.bCamposRequeridos}"/>
@@ -82,20 +82,7 @@
 
         <div style="clear: both;"/>
 
-        <div class="camposTexto">
-
-
-            <h:outputText value="(Ingresar al menos tres letras del Nombre de la Especie y se mostrarán las posibles corespondencias.)"
-                          styleClass="aclaraciones"/><br/>
-            <p:inputText id="itCadenaEspecie"
-                         value="#{especieBean.cadenaEspecie}"
-                         size="50"/>
-            <p:commandButton id="cbCadenaEspecie"
-                             actionListener="#{especieBean.cargarPaisLike()}"
-                             update="dtEspecie"
-                             icon="ui-icon-search"
-                             process="@this, itCadenaEspecie"/>
-        </div>
+        
 
         <div style="clear: both;"/>
 
@@ -154,11 +141,11 @@
 
                     </p:commandButton>
                 </p:column>
-                <p:column filterBy="#{pa.especie}" sortBy="#{pa.especie}">
+                <p:column filterBy="#{pa.descripcion}" sortBy="#{pa.descripcion}">
                     <f:facet name="header">
                         <h:outputText value="Especie"/>
                     </f:facet>               
-                    <h:outputText value="#{pa.especie}"/>
+                    <h:outputText value="#{pa.descripcion}"/>
 
                 </p:column>
                 
