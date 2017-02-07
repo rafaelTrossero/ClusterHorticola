@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -19,18 +21,22 @@ import javax.persistence.OneToMany;
  * @author RafaTrossero
  */
 @Entity
-public class Especie implements Serializable {
+public class Variedad implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name="descripcion")
     private String descripcion;
-    @OneToMany(mappedBy = "especie")
-    private List<Variedad> lstVariedad;
-     @OneToMany(mappedBy = "especie")
+    
+    @ManyToOne
+    @JoinColumn(name = "especie_id", referencedColumnName = "id")
+    private Especie especie;
+    
+    @OneToMany(mappedBy = "variedad")
     private List<PreciosHortaliza> lstPreciosHortaliza;
-
+    
     public Long getId() {
         return id;
     }
@@ -38,7 +44,6 @@ public class Especie implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
 
     public String getDescripcion() {
         return descripcion;
@@ -48,12 +53,12 @@ public class Especie implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public List<Variedad> getLstVariedad() {
-        return lstVariedad;
+    public Especie getEspecie() {
+        return especie;
     }
 
-    public void setLstVariedad(List<Variedad> lstVariedad) {
-        this.lstVariedad = lstVariedad;
+    public void setEspecie(Especie especie) {
+        this.especie = especie;
     }
 
     public List<PreciosHortaliza> getLstPreciosHortaliza() {
@@ -64,7 +69,7 @@ public class Especie implements Serializable {
         this.lstPreciosHortaliza = lstPreciosHortaliza;
     }
 
- 
+
 
     
     @Override
@@ -77,10 +82,10 @@ public class Especie implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Especie)) {
+        if (!(object instanceof Variedad)) {
             return false;
         }
-        Especie other = (Especie) object;
+        Variedad other = (Variedad) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -89,7 +94,7 @@ public class Especie implements Serializable {
 
     @Override
     public String toString() {
-        return "entidad.Especie[ id=" + id + " ]";
+        return "entidad.Variedad[ id=" + id + " ]";
     }
     
 }
