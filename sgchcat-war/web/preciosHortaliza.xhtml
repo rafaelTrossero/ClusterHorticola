@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./Template/CHTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="content">
+        <p:dialog id="dPreciosHortaliza" 
+                  widgetVar="dlgPreciosHortaliza" 
+                  modal="true" responsive="true"
+                  closable="false" resizable="false">
+            <f:facet name="header">
+                <h:outputText value=" Gestión de Precios de Hortalizas" styleClass="subTitulo"/>
+            </f:facet>
+            <p:panel id="pPreciosHortaliza" style="float:left;">
+
+                <p:focus context="pPreciosHortaliza"/> 
+
+              
+                <div class="camposTexto">
+                    <h:outputText  value="Todos los campos con * son requeridos."  styleClass="aclaraciones" />
+                </div>
+                <div style="clear: both;"/>
+                 <div class="camposTexto">
+                    <h:outputText  value="Especie*:   " />
+
+                    <p:selectOneMenu id="somEspecie"
+                                     value="#{preciosHortalizaBean.preciosHortaliza.especie}"  
+                                     converter="ConversorGenerico"
+                                     disabled="#{preciosHortalizaBean.getbCamposEditables()}">
+                        <f:selectItems value="#{listaEspecieBean.lstSIEspecie}"/>
+                    </p:selectOneMenu>
+                </div>     
+                  <div class="camposTexto">
+                    <h:outputText  value="Variedad*:   " />
+
+                    <p:selectOneMenu id="somVariedad"
+                                     value="#{preciosHortalizaBean.preciosHortaliza.variedad}"  
+                                     converter="ConversorGenerico"
+                                     disabled="#{preciosHortalizaBean.getbCamposEditables()}">
+                        <f:selectItems value="#{listaVariedadBean.lstSIVariedad}"/>
+                    </p:selectOneMenu>
+                </div>     
+                <div class="camposTexto"> 
+                    <h:outputText value="Precio Mínimo*:   "/>
+
+                    <p:inputText value="#{preciosHortalizaBean.preciosHortaliza.precioMin}"
+                                 label="PrecioMin"
+                                 disabled="#{preciosHortalizaBean.getbCamposEditables()}"
+                                 required="#{preciosHortalizaBean.bCamposRequeridos}"/>
+                </div>
+                 <div class="camposTexto"> 
+                    <h:outputText value="Precio Máximo*:   "/>
+
+                    <p:inputText value="#{preciosHortalizaBean.preciosHortaliza.precioMax}"
+                                 label="PrecioMax"
+                                 disabled="#{preciosHortalizaBean.getbCamposEditables()}"
+                                 required="#{preciosHortalizaBean.bCamposRequeridos}"/>
+                </div>
+                 <div class="camposTexto"> 
+                    <h:outputText value="Fecha*:   "/>
+
+                    <p:calendar value="#{preciosHortalizaBean.preciosHortaliza.fecha}"
+                                 label="fecha"
+                                 disabled="#{preciosHortalizaBean.getbCamposEditables()}"
+                                 required="#{preciosHortalizaBean.bCamposRequeridos}"/>
+                </div>
+                <div style="clear: both;"/>
+               
+
+
+
+            </p:panel>
+
+            <div style="clear: both;"/>
+
+            <div class="camposTexto">
+                <p:messages autoUpdate="true"/>
+            </div>
+
+
+            <div style="clear: both;"/>
+
+            <div  style="float: left; margin: 10px;
+                  width: 100%;
+                  text-align: center;">
+                <p:commandButton id="btnAction"
+                                 value="Guardar " 
+                                 actionListener="#{preciosHortalizaBean.actionBtn}" 
+                                 update=":frmMain:dtPreciosHortaliza, :frmMain:pPreciosHortaliza, @this"
+                                 binding="#{preciosHortalizaBean.cbAction}"/>
+
+                <p:commandButton id="btnSalir"
+                                 value="Salir" 
+                                 actionListener="#{preciosHortalizaBean.cerrarDialog()}" 
+                                 update=":frmMain:pPreciosHortaliza, :frmMain:dtPreciosHortaliza"
+                                 process="@this"
+                                 />
+            </div>
+
+        </p:dialog>
+       
+        <div style="clear: both;"/>
+        
+        <div class="camposTexto" style="float: left; margin: 10px;
+                 width: 100%;
+                 text-align: center;">
+            <p:commandButton id="cbCreate"
+                             value="Nuevos Precios" 
+                             icon="ui-icon-circle-plus" 
+                             oncomplete="PF('dlgPreciosHortaliza').show();"
+                             actionListener="#{preciosHortalizaBean.setBtnSelect}"
+                             update=":frmMain:dPreciosHortaliza"
+                             process="@this"/><br/><br/>
+        </div>
+
+        <div style="clear: both;"/>
+
+
+        <div class="camposTexto">
+            <p:dataTable id="dtPreciosHortaliza"
+                         value="#{listaPreciosHortalizaBean.lstPreciosHortaliza}"
+                         paginator="true"
+                         rows="20"
+                         var="pa">      
+                <f:facet name="header">
+                    Cantidad de registros: #{listaPreciosHortalizaBean.lstPreciosHortaliza.size()}
+                </f:facet>
+                <p:column>
+                    <p:commandButton id="cbEdit"
+                                     title="Editar"
+                                     icon="ui-icon-pencil" 
+                                     update=":frmMain:dPreciosHortaliza"
+                                     oncomplete="PF('dlgPreciosHortaliza').show();"
+                                     actionListener="#{preciosHortalizaBean.setBtnSelect}"
+                                     >
+                        <f:setPropertyActionListener value="#{pa}" target="#{preciosHortalizaBean.preciosHortaliza}"/>  
+                    </p:commandButton>
+
+                    <p:commandButton id="cbDelete"
+                                     title="Eliminar"
+                                     icon="ui-icon-circle-close" 
+                                     update=":frmMain:dPreciosHortaliza"
+                                     oncomplete="PF('dlgPreciosHortaliza').show();"
+                                     actionListener="#{preciosHortalizaBean.setBtnSelect}"
+                                     >
+                        <f:setPropertyActionListener value="#{pa}" target="#{preciosHortalizaBean.preciosHortaliza}"/>   
+
+                    </p:commandButton>
+                    <p:commandButton id="cbRecuperarBorrado"
+                                     title="Recuperar Borrado"
+                                     icon="ui-icon-unlocked" 
+                                     update=":frmMain:dPreciosHortaliza, @this, :frmMain:dtPreciosHortaliza"
+                                     oncomplete="PF('dlgPreciosHortaliza').show();"
+                                     actionListener="#{preciosHortalizaBean.setBtnSelect}"
+                                     >
+                        <f:setPropertyActionListener value="#{pa}" target="#{preciosHortalizaBean.preciosHortaliza}"/>  
+
+                    </p:commandButton>
+                </p:column>
+                <p:column filterBy="#{pa.especie.descripcion}" sortBy="#{pa.especie.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="Especie"/>
+                    </f:facet>               
+                    <h:outputText value="#{pa.especie.descripcion}"/>
+
+                </p:column>
+                
+                <p:column filterBy="#{pa.variedad.descripcion}" sortBy="#{pa.variedad.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="Variedad"/>
+                    </f:facet>               
+                    <h:outputText value="#{pa.variedad.descripcion}"/>
+
+                </p:column>
+                
+                <p:column filterBy="#{pa.precioMin}" sortBy="#{pa.precioMin}">
+                    <f:facet name="header">
+                        <h:outputText value="Precio Mínimo"/>
+                    </f:facet>               
+                    <h:outputText value="#{pa.precioMin}"/>
+
+                </p:column>
+                
+                  <p:column filterBy="#{pa.precioMax}" sortBy="#{pa.precioMax}">
+                    <f:facet name="header">
+                        <h:outputText value="Precio Máximo"/>
+                    </f:facet>               
+                    <h:outputText value="#{pa.precioMax}"/>
+
+                </p:column>
+
+                <f:facet name="footer">
+                    Cantidad de registros: #{listaPreciosHortalizaBean.lstPreciosHortaliza.size()}
+                </f:facet>
+            </p:dataTable>
+        </div>
+    </ui:define>
+
+    <ui:define name="bottom">
+        bottom
+    </ui:define>
+
+</ui:composition>
+
