@@ -30,4 +30,6 @@ public interface VariedadFacadeLocal {
 
     int count();
     
+     public List <Variedad> findByEspecie (Long idEspecie) throws Exception;
+    
 }

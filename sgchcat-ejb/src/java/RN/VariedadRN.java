@@ -46,5 +46,10 @@ public class VariedadRN implements VariedadRNLocal {
     return(this.variedadFacadeLocal.findAll()); 
     }
 
+    @Override
+    public List<Variedad> findByEspecie(Long idEspecie) throws Exception {
+    return (this.variedadFacadeLocal.findByEspecie(idEspecie));
+    }
+
     
 }

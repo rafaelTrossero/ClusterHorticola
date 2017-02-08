@@ -5,6 +5,7 @@
  */
 package RN;
 
+import entidad.Especie;
 import entidad.Variedad;
 import java.util.List;
 import javax.ejb.Local;
@@ -26,6 +27,9 @@ public interface VariedadRNLocal {
     public void habilitar(Variedad v) throws Exception;
 
     public List<Variedad> findAll() throws Exception;
+    
+    public List <Variedad> findByEspecie (Long idEspecie) throws Exception;
+    
 
     
 }

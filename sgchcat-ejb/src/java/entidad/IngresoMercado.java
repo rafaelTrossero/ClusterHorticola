@@ -6,59 +6,51 @@
 package entidad;
 
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.Column;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author RafaTrossero
  */
 @Entity
-@NamedQueries({
-    @NamedQuery(name = "Variedad.findByEspecie", query = "SELECT p FROM Variedad p WHERE p.especie.id =:idEspecie ORDER BY p.descripcion")
-   })
-public class Variedad implements Serializable {
+public class IngresoMercado implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name="descripcion")
-    private String descripcion;
     
-    @ManyToOne
+   @ManyToOne
     @JoinColumn(name = "especie_id", referencedColumnName = "id")
     private Especie especie;
+   @ManyToOne
+    @JoinColumn(name = "variedad_id", referencedColumnName = "id")
+    private Variedad variedad;
+   
+   @ManyToOne
+    @JoinColumn(name = "productor_id", referencedColumnName = "id")
+   private Productor productor;
+   
+   @Temporal(javax.persistence.TemporalType.DATE)
+    private Date fecha;
+   
+    private Float kgLocal;
+    private Float kgNoLocal;
     
-    @OneToMany(mappedBy = "variedad")
-    private List<PreciosHortaliza> lstPreciosHortaliza;
-    
-    @OneToMany(mappedBy = "variedad")
-    private List<IngresoMercado> lstIngresoMercado;
-    
+         
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
     }
 
     public Especie getEspecie() {
@@ -69,25 +61,47 @@ public class Variedad implements Serializable {
         this.especie = especie;
     }
 
-    public List<PreciosHortaliza> getLstPreciosHortaliza() {
-        return lstPreciosHortaliza;
+    public Variedad getVariedad() {
+        return variedad;
     }
 
-    public void setLstPreciosHortaliza(List<PreciosHortaliza> lstPreciosHortaliza) {
-        this.lstPreciosHortaliza = lstPreciosHortaliza;
+    public void setVariedad(Variedad variedad) {
+        this.variedad = variedad;
     }
 
-    public List<IngresoMercado> getLstIngresoMercado() {
-        return lstIngresoMercado;
+    public Productor getProductor() {
+        return productor;
     }
 
-    public void setLstIngresoMercado(List<IngresoMercado> lstIngresoMercado) {
-        this.lstIngresoMercado = lstIngresoMercado;
+    public void setProductor(Productor productor) {
+        this.productor = productor;
     }
 
+    public Float getKgLocal() {
+        return kgLocal;
+    }
 
+    public void setKgLocal(Float kgLocal) {
+        this.kgLocal = kgLocal;
+    }
 
+    public Float getKgNoLocal() {
+        return kgNoLocal;
+    }
+
+    public void setKgNoLocal(Float kgNoLocal) {
+        this.kgNoLocal = kgNoLocal;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
     
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -98,10 +112,10 @@ public class Variedad implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Variedad)) {
+        if (!(object instanceof IngresoMercado)) {
             return false;
         }
-        Variedad other = (Variedad) object;
+        IngresoMercado other = (IngresoMercado) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -110,7 +124,7 @@ public class Variedad implements Serializable {
 
     @Override
     public String toString() {
-        return "entidad.Variedad[ id=" + id + " ]";
+        return "entidad.IngresoMercado[ id=" + id + " ]";
     }
     
 }

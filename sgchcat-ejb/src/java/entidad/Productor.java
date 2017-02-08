@@ -42,6 +42,8 @@ public class Productor implements Serializable {
     private Domicilio domicilio;
     @OneToMany(mappedBy = "productor")
     private List<ProductorDomicilio> lstProductorDomicilio;
+    @OneToMany(mappedBy = "productor")
+    private List<IngresoMercado> lstIngresoMercado;
     @Column(nullable = false)
     private String telefono;
     @Column(nullable = false)
@@ -111,6 +113,14 @@ public class Productor implements Serializable {
 
     public void setLstProductorDomicilio(List<ProductorDomicilio> lstProductorDomicilio) {
         this.lstProductorDomicilio = lstProductorDomicilio;
+    }
+
+    public List<IngresoMercado> getLstIngresoMercado() {
+        return lstIngresoMercado;
+    }
+
+    public void setLstIngresoMercado(List<IngresoMercado> lstIngresoMercado) {
+        this.lstIngresoMercado = lstIngresoMercado;
     }
 
     @Override

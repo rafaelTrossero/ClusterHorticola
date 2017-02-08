@@ -5,19 +5,17 @@
  */
 package DAO;
 
-import entidad.Variedad;
-import java.util.List;
+import entidad.IngresoMercado;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 /**
  *
  * @author RafaTrossero
  */
 @Stateless
-public class VariedadFacade extends AbstractFacade<Variedad> implements VariedadFacadeLocal {
+public class IngresoMercadoFacade extends AbstractFacade<IngresoMercado> implements IngresoMercadoFacadeLocal {
     @PersistenceContext(unitName = "ClusterHortDB-ejbPU")
     private EntityManager em;
 
@@ -26,15 +24,8 @@ public class VariedadFacade extends AbstractFacade<Variedad> implements Variedad
         return em;
     }
 
-    public VariedadFacade() {
-        super(Variedad.class);
-    }
-
-    @Override
-    public List<Variedad> findByEspecie(Long idEspecie) throws Exception {
-     Query q = em.createNamedQuery("Variedad.findByEspecie");
-        q.setParameter("idEspecie", idEspecie);
-        return q.getResultList();
+    public IngresoMercadoFacade() {
+        super(IngresoMercado.class);
     }
     
 }

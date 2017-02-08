@@ -30,6 +30,8 @@ public class Especie implements Serializable {
     private List<Variedad> lstVariedad;
      @OneToMany(mappedBy = "especie")
     private List<PreciosHortaliza> lstPreciosHortaliza;
+     @OneToMany(mappedBy = "especie")
+    private List<IngresoMercado> lstIngresoMercado;
 
     public Long getId() {
         return id;
@@ -62,6 +64,14 @@ public class Especie implements Serializable {
 
     public void setLstPreciosHortaliza(List<PreciosHortaliza> lstPreciosHortaliza) {
         this.lstPreciosHortaliza = lstPreciosHortaliza;
+    }
+
+    public List<IngresoMercado> getLstIngresoMercado() {
+        return lstIngresoMercado;
+    }
+
+    public void setLstIngresoMercado(List<IngresoMercado> lstIngresoMercado) {
+        this.lstIngresoMercado = lstIngresoMercado;
     }
 
  
