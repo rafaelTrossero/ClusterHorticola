@@ -5,9 +5,8 @@
  */
 package bean;
 
-import RN.VariedadRNLocal;
-import entidad.Especie;
-
+import RN.IngresoMercadoRNLocal;
+import entidad.IngresoMercado;
 import entidad.Variedad;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -16,7 +15,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.faces.event.ValueChangeEvent;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.context.RequestContext;
 
@@ -26,39 +24,37 @@ import org.primefaces.context.RequestContext;
  */
 @ManagedBean
 @RequestScoped
-public class VariedadBean {
+public class IngresoMercadoBean {
 
-    private Variedad variedad;
-    @ManagedProperty("#{listaVariedadBean}")
-    private ListaVariedadBean listaVariedadBean;
+     private IngresoMercado ingresoMercado;
+    @ManagedProperty("#{listaIngresoMercadoBean}")
+    private ListaIngresoMercadoBean listaIngresoMercadoBean;
     @ManagedProperty("#{usuarioLogerBean}")
     private UsuarioLogerBean usuarioLogerBean;
     @EJB
-    private VariedadRNLocal VariedadRNLocal;
+    private IngresoMercadoRNLocal ingresoMercadoRNLocal;
     private CommandButton cbAction;
     
     private Boolean bCamposRequeridos;
     private Boolean bCamposEditables;
     private String cadenaVariedad;
-    
-    public VariedadBean() {
-        this.variedad = new Variedad();
+    public IngresoMercadoBean() {
     }
 
-    public Variedad getVariedad() {
-        return variedad;
+    public IngresoMercado getIngresoMercado() {
+        return ingresoMercado;
     }
 
-    public void setVariedad(Variedad variedad) {
-        this.variedad = variedad;
+    public void setIngresoMercado(IngresoMercado ingresoMercado) {
+        this.ingresoMercado = ingresoMercado;
     }
 
-    public ListaVariedadBean getListaVariedadBean() {
-        return listaVariedadBean;
+    public ListaIngresoMercadoBean getListaIngresoMercadoBean() {
+        return listaIngresoMercadoBean;
     }
 
-    public void setListaVariedadBean(ListaVariedadBean listaVariedadBean) {
-        this.listaVariedadBean = listaVariedadBean;
+    public void setListaIngresoMercadoBean(ListaIngresoMercadoBean listaIngresoMercadoBean) {
+        this.listaIngresoMercadoBean = listaIngresoMercadoBean;
     }
 
     public UsuarioLogerBean getUsuarioLogerBean() {
@@ -69,12 +65,12 @@ public class VariedadBean {
         this.usuarioLogerBean = usuarioLogerBean;
     }
 
-    public VariedadRNLocal getVariedadRNLocal() {
-        return VariedadRNLocal;
+    public IngresoMercadoRNLocal getIngresoMercadoRNLocal() {
+        return ingresoMercadoRNLocal;
     }
 
-    public void setVariedadRNLocal(VariedadRNLocal VariedadRNLocal) {
-        this.VariedadRNLocal = VariedadRNLocal;
+    public void setIngresoMercadoRNLocal(IngresoMercadoRNLocal ingresoMercadoRNLocal) {
+        this.ingresoMercadoRNLocal = ingresoMercadoRNLocal;
     }
 
     public CommandButton getCbAction() {
@@ -109,9 +105,9 @@ public class VariedadBean {
         this.cadenaVariedad = cadenaVariedad;
     }
     
-     public void actionBtn() {
+    public void actionBtn() {
 
-        switch (this.getListaVariedadBean().getiActionBtnSelect()) {
+        switch (this.getListaIngresoMercadoBean().getiActionBtnSelect()) {
             case 0:
                 create();
                 //limíar campos
@@ -149,34 +145,34 @@ public class VariedadBean {
         //activo el boton
         this.getCbAction().setDisabled(false);
 
-        if (btnSelect.getId().equals("cbCreate") || btnSelect.getId().equals("cbNuevoVariedad")) {
-            this.getListaVariedadBean().setiActionBtnSelect(0);
+        if (btnSelect.getId().equals("cbCreate") || btnSelect.getId().equals("cbNuevoIngresoMercado")) {
+            this.getListaIngresoMercadoBean().setiActionBtnSelect(0);
             this.getCbAction().setValue("Guardar");
             //campos requeridos
             this.setbCamposRequeridos(true);
 
         } else if (btnSelect.getId().equals("cbDelete")) {
-            this.getListaVariedadBean().setiActionBtnSelect(2);
+            this.getListaIngresoMercadoBean().setiActionBtnSelect(2);
             this.getCbAction().setValue("Eliminar");
             this.setbCamposEditables(true);
 
         } else if (btnSelect.getId().equals("cbEdit")) {
-            this.getListaVariedadBean().setiActionBtnSelect(1);
+            this.getListaIngresoMercadoBean().setiActionBtnSelect(1);
             this.getCbAction().setValue("Modificar");
             //campos requeridos
             this.setbCamposRequeridos(true);
         } else if (btnSelect.getId().equals("cbRecuperarBorrado")) {
-            this.getListaVariedadBean().setiActionBtnSelect(3);
+            this.getListaIngresoMercadoBean().setiActionBtnSelect(3);
             this.setbCamposEditables(true);
             this.getCbAction().setValue("Recuperar");
 
         } else if (btnSelect.getId().equals("cbDeshabilitado")) {
-            this.getListaVariedadBean().setiActionBtnSelect(4);
+            this.getListaIngresoMercadoBean().setiActionBtnSelect(4);
             this.setbCamposEditables(true);
             this.getCbAction().setValue("Deshabilitar");
 
         } else if (btnSelect.getId().equals("cbHabilitado")) {
-            this.getListaVariedadBean().setiActionBtnSelect(5);
+            this.getListaIngresoMercadoBean().setiActionBtnSelect(5);
             this.setbCamposEditables(true);
             this.getCbAction().setValue("Habilitar");
         }
@@ -191,12 +187,12 @@ public class VariedadBean {
         try {
             //this.getEspecie().setBorrado(false);
 
-            VariedadRNLocal.create(variedad);
+            ingresoMercadoRNLocal.create(ingresoMercado);
             sMensaje = "El dato fue guardado";
             severity = FacesMessage.SEVERITY_INFO;
 
             //agregar a la lista
-            this.getListaVariedadBean().getLstVariedad().add(variedad);
+            this.getListaIngresoMercadoBean().getLstIngresoMercado().add(ingresoMercado);
 
             //limpiar campos
           this.limpiar();
@@ -219,12 +215,11 @@ public class VariedadBean {
         //cerrar el dialog
         RequestContext context = RequestContext.getCurrentInstance();
         // context.update("pDialog");
-        context.execute("PF('dlgVariedad').hide()");  
+        context.execute("PF('dlgIngresoMercado').hide()");  
     }//fin cerrarDialog
 
     public void limpiar() {
-        this.setVariedad(new Variedad());
+        this.setIngresoMercado(new IngresoMercado());
     }//fin limpiar
     
-     
 }

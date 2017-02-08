@@ -9,6 +9,7 @@ import entidad.Departamento;
 import entidad.Especie;
 import entidad.Localidad;
 import entidad.Pais;
+import entidad.Productor;
 import entidad.Provincia;
 import entidad.Variedad;
 import java.util.ArrayList;
@@ -249,6 +250,21 @@ public class navegarBean {
         this.getListaVariedadBean().cargarSIVariedad();
 
         return "preciosHortaliza.xhtml?faces-redirect=true";
+    }
+    
+      public String entrarFormIngresoMercado() {
+        this.getListaEspecieBean().setLstEspecie(new ArrayList<Especie>());
+        this.getListaEspecieBean().setLstSIEspecie(null);
+        this.getListaEspecieBean().cargarEspecie();
+        this.getListaEspecieBean().cargarSIEspecie();
+        this.getListaProductorBean().setLstProductor(new ArrayList<Productor>());
+        this.getListaProductorBean().setLstSIProductor(null);
+        
+         this.getListaProductorBean().cargar_productor();
+        this.getListaProductorBean().cargar_SI_productor();
+    
+
+        return "ingresoMercado.xhtml?faces-redirect=true";
     }
 
     public String entrarFormCampo() {

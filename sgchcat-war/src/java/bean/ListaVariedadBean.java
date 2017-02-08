@@ -6,6 +6,7 @@
 package bean;
 
 import RN.VariedadRNLocal;
+import entidad.Especie;
 import entidad.Variedad;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 
 /**
@@ -28,11 +30,12 @@ public class ListaVariedadBean {
     @ManagedProperty(value = "#{usuarioLogerBean}")
     private UsuarioLogerBean usuarioLogerBean;
     private List<Variedad> lstVariedad;
-    
+
     private List<SelectItem> lstSIVariedad;
     private int iActionBtnSelect;
     @EJB
     private VariedadRNLocal variedadRNLocal;
+
     public ListaVariedadBean() {
         lstVariedad = new ArrayList<>();
     }
@@ -77,10 +80,7 @@ public class ListaVariedadBean {
         this.variedadRNLocal = variedadRNLocal;
     }
 
-   
-    
-    
-     public void cargarVariedad() {
+    public void cargarVariedad() {
         try {
             this.setLstVariedad(variedadRNLocal.findAll());
         } catch (Exception ex) {
@@ -91,17 +91,51 @@ public class ListaVariedadBean {
             fc.addMessage(null, fm);
         }
     }//fin 
-    
-     public void cargarSIVariedad() {
+
+    public void cargarSIVariedad() {
 
         this.setLstSIVariedad(new ArrayList<SelectItem>());
 
         for (Variedad p : this.getLstVariedad()) {
-            
-                SelectItem si = new SelectItem(p, p.getDescripcion());
-                this.getLstSIVariedad().add(si);
-           
+
+            SelectItem si = new SelectItem(p, p.getDescripcion());
+            this.getLstSIVariedad().add(si);
+
         }//fin for
         System.out.println("Termino cargar Variedad: " + this.getLstSIVariedad());
     }//fin 
+
+    public void recuperarVariedad(ValueChangeEvent event) {
+
+        try {
+ 
+            if (event.getNewValue() != null) {
+                if (!"0".equals(event.getNewValue().toString())) {
+                    Especie especie = (Especie) event.getNewValue();
+
+                    System.out.println("especie; " + especie);
+                    this.setLstVariedad(this.variedadRNLocal.findByEspecie(especie.getId()));
+                    System.out.println("entroooooooooooooooooooooooooooooooooooo lst variedad tieneOO . " +lstVariedad);
+                    //this.setLstProvinciaBorrado(this.provinciaRNLocal.findByPaisBorrado(pais.getId(), Boolean.FALSE));
+                   this.cargarSIVariedad();
+                   
+                } else {
+                    this.setLstVariedad(new ArrayList<Variedad>());
+                    this.setLstSIVariedad(new ArrayList<SelectItem>());
+                    
+                   
+                }
+
+            }//fin if
+        } catch (Exception ex) {
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error al cargar las variedades: " + ex,
+                    null);
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage(null, fm);
+        }
+
+        //this.cargarProvincias();
+    }//fin recuperarProvincias
+
 }
