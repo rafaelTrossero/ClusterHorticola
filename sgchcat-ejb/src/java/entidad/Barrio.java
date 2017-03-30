@@ -45,7 +45,7 @@ public class Barrio implements Serializable {
     @ManyToOne
     @JoinColumn(name = "localidad_id", referencedColumnName = "id", nullable = false)
     private Localidad localidad;
-
+//prueba pull
     public Long getId() {
         return id;
        
