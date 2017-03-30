@@ -7,6 +7,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core">
 
+
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" />
@@ -34,9 +35,11 @@
                 <p:focus context="pCampo"/> 
 
                 <h:inputHidden value="#{campoBean.campo.id}"/>
-                <h:inputHidden value="#{campoBean.campodomicilio.id}"/>
-                <h:inputHidden value="#{campoBean.domicilio.id}"/>
- 
+                <h:inputHidden value="#{campoBean.campoProductor.id}"/>
+                <h:inputHidden value="#{campoBean.camprod.id}"/>
+                <h:inputHidden value="#{listaCampoBean.iActionBtnSelect}"/>
+                <h:inputHidden value="#{listaCampoProductorBean.iActionBtnSelect}"/>
+
                 <div style="clear: both;"/>
 
 
@@ -115,28 +118,28 @@
                             <p:inputText value="#{campoBean.domicilio.referencia}"
                                          label="Georeferenciacion"
                                          disabled="#{campoBean.getbCamposEditables()}"/>
-                              <h:outputText value="Superficie(HA): "/>
-                              <p:inputText value="#{campoBean.campo.superficie_total}"
+                            <h:outputText value="Superficie(HA): "/>
+                            <p:inputText value="#{campoBean.campo.superficie_total}"
                                          label="Superficie"
                                          disabled="#{campoBean.getbCamposEditables()}"/>
-                              
-                              <h:outputText value="Tenencia:"/>
+
+                            <h:outputText value="Tenencia:"/>
                             <p:selectOneMenu id="somTenencia"
                                              converter="ConversorGenerico"
                                              value="#{campoBean.campo.tenencia}"
                                              disabled="#{campoBean.getbCamposEditables()}">
-
+                                <f:selectItem itemLabel="Seleccione un Tenencia..." itemValue="0"/>
                                 <f:selectItems 
                                     value="#{listaTenenciaBean.lstSITenencia}"/>
 
                             </p:selectOneMenu>
-                              
-                              <h:outputText value="Productor:"/>
+
+                            <h:outputText value="Productor:"/>
                             <p:selectOneMenu id="somProductor"
                                              converter="ConversorGenerico"
-                                             value="#{campoBean.campoProductor.productor}"
+                                             value="#{campoBean.campo.productor}"
                                              disabled="#{campoBean.getbCamposEditables()}">
-
+                                <f:selectItem itemLabel="Seleccione un Productor..." itemValue="0"/>
                                 <f:selectItems 
                                     value="#{listaProductorBean.lstSIProductor}"/>
 
@@ -209,6 +212,7 @@
                              process="@this"/><br/><br/>
 
         </div>
+       
 
         <p:dataTable id="dtCampo"
                      paginator="true"
@@ -227,15 +231,20 @@
                 <p:commandButton id="cbEditar"
                                  title="Editar"
                                  icon="ui-icon-pencil" 
-                                 update=":frmMain:dCampo"
+                                 update=":frmMain:dCampo,  @this"
                                  oncomplete="PF('dlgCampo').show();"
-                                 actionListener="#{campoBean.setBtnSelect}">
+                                 actionListener="#{campoBean.setBtnSelect}"
+                                 disabled="#{not cam.active }"
+                                 process="@this"
+                                 >
                     <!--disabledSelection="#1{not prod.active }"> -->
 
 
                     <f:setPropertyActionListener value="#{cam}" target="#{campoBean.campo}"/>
-                    <f:setPropertyActionListener value="#{cam.domicilio.localidad}" target="#{campoBean.campo}"/>
-
+                    <f:setPropertyActionListener value="#{cam.domicilio}" target="#{campoBean.domicilio}"/>
+                    <f:setPropertyActionListener value="#{cam.lstCampoProductor}" target="#{listaCampoProductoAuxrBean.lstcampoProductor}"/>
+                    <f:setPropertyActionListener value="#{cam.lstCampoProductor}" target="#{listaCampoProductorBean.lstCampoProductor}"/>
+                    <f:actionListener binding="#{campoBean.buscar(campoBean.campo)}"/>
                 </p:commandButton>
 
                 <p:commandButton id="cbHabilitado"
@@ -243,10 +252,15 @@
                                  icon="ui-icon-unlocked" 
                                  update=":frmMain:dCampo, @this"
                                  oncomplete="PF('dlgCampo').show();"
-                                 actionListener="#{productorBean.setBtnSelect}"
-                                 disabled="#/{prod.active }"
+                                 actionListener="#{campoBean.setBtnSelect}"
+                                 disabled="#{cam.active }"
+                                 process="@this"
                                  >
-                    <f:setPropertyActionListener value="#{prod}" target="#{productorBean.productor}"/>
+                    <f:setPropertyActionListener value="#{cam}" target="#{campoBean.campo}"/>
+                    <f:setPropertyActionListener value="#{cam.domicilio}" target="#{campoBean.domicilio}"/>
+                    <f:setPropertyActionListener value="#{cam.lstCampoProductor}" target="#{listaCampoProductoAuxrBean.lstcampoProductor}"/>
+                    <f:setPropertyActionListener value="#{cam.lstCampoProductor}" target="#{listaCampoProductorBean.lstCampoProductor}"/>
+                    <f:actionListener binding="#{campoBean.buscar(campoBean.campo)}"/>
 
 
                 </p:commandButton>
@@ -258,11 +272,15 @@
                                  update=":frmMain:dCampo, @this"
                                  oncomplete="PF('dlgCampo').show();"
                                  actionListener="#{campoBean.setBtnSelect}"
-                                 disabled="#/{not prof.active }"
+                                 disabled="#{not cam.active }"
+                                 process="@this"
                                  >
 
                     <f:setPropertyActionListener value="#{cam}" target="#{campoBean.campo}"/>
-                </p:commandButton>
+                    <f:setPropertyActionListener value="#{cam.domicilio}" target="#{campoBean.domicilio}"/>
+                    <f:setPropertyActionListener value="#{cam.lstCampoProductor}" target="#{listaCampoProductoAuxrBean.lstcampoProductor}"/>
+                    <f:setPropertyActionListener value="#{cam.lstCampoProductor}" target="#{listaCampoProductorBean.lstCampoProductor}"/>
+                    <f:actionListener binding="#{campoBean.buscar(campoBean.campo)}"/>                </p:commandButton>
             </p:column>
 
 
@@ -274,7 +292,7 @@
 
             </p:column>
 
-          
+
 
             <p:column filterBy="#{cam.domicilio.localidad}" sortBy="#{cam.domicilio.localidad}">
                 <f:facet name="header">
@@ -284,7 +302,7 @@
 
             </p:column>
         </p:dataTable>
-
+        
 
 
 

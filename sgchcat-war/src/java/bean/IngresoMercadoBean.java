@@ -39,6 +39,7 @@ public class IngresoMercadoBean {
     private Boolean bCamposEditables;
     private String cadenaVariedad;
     public IngresoMercadoBean() {
+        this.ingresoMercado = new IngresoMercado();
     }
 
     public IngresoMercado getIngresoMercado() {
@@ -186,7 +187,47 @@ public class IngresoMercadoBean {
         FacesMessage.Severity severity = null;
         try {
             //this.getEspecie().setBorrado(false);
-
+            String mes="";
+            System.out.println("el mes es" + ingresoMercado.getFecha().getMonth());
+            /*if(ingresoMercado.getFecha().getMonth() == 0){
+             mes ="ENERO";
+            }
+            if(ingresoMercado.getFecha().getMonth() == 1){
+             mes ="FEBRERO";
+            }
+            if(ingresoMercado.getFecha().getMonth() == 2){
+             mes ="MARZO";
+            }
+            if(ingresoMercado.getFecha().getMonth() == 3){
+             mes ="ABRIL";
+            }
+            if(ingresoMercado.getFecha().getMonth() == 4){
+             mes ="MAYO";
+            }
+            if(ingresoMercado.getFecha().getMonth() == 5){
+             mes ="JUNIO";
+            }
+            if(ingresoMercado.getFecha().getMonth() == 6){
+             mes ="JULIO";
+            }
+            if(ingresoMercado.getFecha().getMonth() == 7){
+             mes ="AGOSTO";
+            }
+            if(ingresoMercado.getFecha().getMonth() == 8){
+             mes ="SEPTIEMBRE";
+            }
+            if(ingresoMercado.getFecha().getMonth() == 9){
+             mes ="OCTUBRE";
+            }
+            if(ingresoMercado.getFecha().getMonth() == 10){
+             mes ="NOVIEMBRE";
+            }
+            if(ingresoMercado.getFecha().getMonth() == 11){
+             mes ="DICIEMBRE";
+            }
+            ingresoMercado.setMes(mes);
+            System.out.println("el mes es" + mes);
+           */
             ingresoMercadoRNLocal.create(ingresoMercado);
             sMensaje = "El dato fue guardado";
             severity = FacesMessage.SEVERITY_INFO;

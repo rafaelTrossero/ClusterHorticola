@@ -1,0 +1,301 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./Template/CHTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="content">
+        <p:dialog id="dEmpaque" 
+                  widgetVar="dlgEmpaque" 
+                  modal="true"
+                  closable="false" resizable="false">
+            <f:facet name="header">
+                <h:outputText value=" Gestión de Ingreso de Hortalizas al Empaque" styleClass="subTitulo"/>
+            </f:facet>
+            <p:panel id="pEmpaque" style="float:left;">
+
+                <p:focus context="pEmpaque"/> 
+
+
+                <div class="camposTexto">
+                    <h:outputText  value="Todos los campos con * son requeridos."  styleClass="aclaraciones" />
+                </div>
+                <div style="clear: both;"/>
+
+
+
+                <p:accordionPanel id ="apEmpaque" style="width: 600px;">
+                    <p:tab title="Información Personal">
+                        <h:panelGrid columns="2" cellpadding="2" >
+                            <h:outputText  value="Productor*:   " />
+
+                            <p:selectOneMenu id="somProductor"
+                                             value="#{empaqueBean.empaque.productor}"  
+                                             converter="ConversorGenerico"
+                                             disabled="#{empaqueBean.getbCamposEditables()}">
+                                <f:selectItem itemLabel="Seleccione una Productor..." itemValue="0"/>
+                                <f:selectItems value="#{listaProductorBean.lstSIProductor}"/>
+                            </p:selectOneMenu>
+
+                            <h:outputText value="RENSPA Nº*        "/>
+
+                            <p:inputText value="#{empaqueBean.empaque.renspaN}"
+                                         label="RENSPA Nº"
+                                         disabled="#{empaqueBean.getbCamposEditables()}"
+                                         required="#7{empaqueBean.bCamposRequeridos}"/>
+
+                            <h:outputText value="Asociacion*        "/>
+
+                            <p:inputText value="#{empaqueBean.empaque.asociacion}"
+                                         label="Asociacion"
+                                         disabled="#{empaqueBean.getbCamposEditables()}"
+                                         required="#7{empaqueBean.bCamposRequeridos}"/>
+
+
+                            <h:outputText  value="Especie / Producto*:   " />
+
+
+                            <p:selectOneMenu id="somEspecie"
+                                             value="#{empaqueBean.empaque.especie}"
+                                             valueChangeListener="#{listaVariedadBean.recuperarVariedad}"
+                                             converter="ConversorGenerico"
+                                             disabled="#{empaqueBean.getbCamposEditables()}">
+                                <f:selectItem itemLabel="Seleccione una Especie..." itemValue="0"/>
+                                <f:selectItems value="#{listaEspecieBean.lstSIEspecie}"/>
+                                <p:ajax update="somVariedad"
+                                        event="change"  />
+                            </p:selectOneMenu>
+
+
+                            <h:outputText  value="Variedad*:   " />
+
+                            <p:selectOneMenu id="somVariedad"
+
+                                             value="#{empaqueBean.empaque.variedad}"  
+                                             converter="ConversorGenerico"
+                                             disabled="#{empaqueBean.getbCamposEditables()}">
+                                <f:selectItem itemLabel="Seleccione una Variedad..." itemValue="0"/>
+                                <f:selectItems value="#{listaVariedadBean.lstSIVariedad}"/>
+
+
+                            </p:selectOneMenu>
+                            
+                            <h:outputText value="Cantidad*        "/>
+
+                            <p:inputText value="#{empaqueBean.empaque.cantidad}"
+                                         label="Cantidad"
+                                         disabled="#{empaqueBean.getbCamposEditables()}"
+                                         required="#7{empaqueBean.bCamposRequeridos}"/>
+
+                            <h:outputText value="Total Kg*        "/>
+
+                            <p:inputText value="#{empaqueBean.empaque.total_kilos}"
+                                         label="Cantidad de Kilos"
+                                         disabled="#{empaqueBean.getbCamposEditables()}"
+                                         required="#7{empaqueBean.bCamposRequeridos}"/>
+
+                            <h:outputText  value="Unidad*:   " />
+
+                            <p:selectOneMenu id="somIngreso"
+
+                                             value="#{empaqueBean.empaque.unidad}"  
+                                             converter="ConversorGenerico"
+                                             disabled="#{empaqueBean.getbCamposEditables()}">
+                                <f:selectItem itemLabel="Seleccione tipo de Ingreso..." itemValue="0"/>
+                                <f:selectItem itemLabel="KG" itemValue="KG"/>
+                                <f:selectItem itemLabel="CAJON" itemValue="CAJON"/>
+                                <f:selectItem itemLabel="BOLSA" itemValue="BOLSA"/>
+                                <f:selectItem itemLabel="TONELADA" itemValue="TONELADA"/>
+
+
+                            </p:selectOneMenu>
+
+                            <h:outputText value="Fecha*:   "/>
+
+                            <p:calendar value="#{empaqueBean.empaque.fecha}"
+                                        label="fecha de ingreso"
+                                        disabled="#{empaqueBean.getbCamposEditables()}"
+                                        required="#7{empaqueBean.bCamposRequeridos}"/>
+
+                        </h:panelGrid>    
+                    </p:tab>
+
+                    <div style="clear: both;"/>
+
+                </p:accordionPanel>
+
+
+
+            </p:panel>
+
+            <div style="clear: both;"/>
+
+            <div class="camposTexto">
+                <p:messages autoUpdate="true"/>
+            </div>
+
+
+            <div style="clear: both;"/>
+
+            <div  style="float: left; margin: 10px;
+                  width: 100%;
+                  text-align: center;">
+                <p:commandButton id="btnAction"
+                                 value="Guardar " 
+                                 actionListener="#{empaqueBean.actionBtn}" 
+                                 update=":frmMain:dtEmpaque, :frmMain:pEmpaque, @this"
+                                 binding="#{empaqueBean.cbAction}"/>
+
+                <p:commandButton id="btnSalir"
+                                 value="Salir" 
+                                 actionListener="#{empaqueBean.cerrarDialog()}" 
+                                 update=":frmMain:pEmpaque, :frmMain:dtEmpaque"
+                                 process="@this"
+                                 />
+            </div>
+
+        </p:dialog>
+
+        <div style="clear: both;"/>
+
+        <div class="camposTexto" style="float: left; margin: 10px;
+             width: 100%;
+             text-align: center;">
+            <p:commandButton id="cbCreate"
+                             value="Nuevo Ingreso" 
+                             icon="ui-icon-circle-plus" 
+                             oncomplete="PF('dlgEmpaque').show();"
+                             actionListener="#{empaqueBean.setBtnSelect}"
+                             update=":frmMain:dEmpaque"
+                             process="@this"/><br/><br/>
+        </div>
+
+        <div style="clear: both;"/>
+
+
+        <div class="camposTexto">
+            <p:dataTable id="dtEmpaque"
+                         value="#{listaEmpaqueBean.lstEmpaque}"
+                         paginator="true"
+                         rows="20"
+                         var="ingreso">      
+                <f:facet name="header">
+                    Cantidad de registros: #{listaEmpaqueBean.lstEmpaque.size()}
+                </f:facet>
+                <p:column>
+                    <p:commandButton id="cbEdit"
+                                     title="Editar"
+                                     icon="ui-icon-pencil" 
+                                     update=":frmMain:dEmpaque"
+                                     oncomplete="PF('dlgEmpaque').show();"
+                                     actionListener="#{empaqueBean.setBtnSelect}"
+                                     >
+                        <f:setPropertyActionListener value="#{ingreso}" target="#{empaqueBean.empaque}"/>  
+                    </p:commandButton>
+
+                    <p:commandButton id="cbDelete"
+                                     title="Eliminar"
+                                     icon="ui-icon-circle-close" 
+                                     update=":frmMain:dEmpaque"
+                                     oncomplete="PF('dlgEmpaque').show();"
+                                     actionListener="#{empaqueBean.setBtnSelect}"
+                                     >
+                        <f:setPropertyActionListener value="#{ingreso}" target="#{empaqueBean.empaque}"/>     
+
+                    </p:commandButton>
+                    <p:commandButton id="cbRecuperarBorrado"
+                                     title="Recuperar Borrado"
+                                     icon="ui-icon-unlocked" 
+                                     update=":frmMain:dEmpaque, @this, :frmMain:dtEmpaque"
+                                     oncomplete="PF('dlgEmpaque').show();"
+                                     actionListener="#{empaqueBean.setBtnSelect}"
+                                     >
+                        <f:setPropertyActionListener value="#{ingreso}" target="#{empaqueBean.empaque}"/>  
+
+                    </p:commandButton>
+                </p:column>
+                <p:column filterBy="#{ingreso.productor.nombre}" sortBy="#{ingreso.productor.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="Productor"/>
+                    </f:facet>               
+                    <h:outputText value="#{ingreso.productor.nombre}"/>
+
+                </p:column>
+                <p:column filterBy="#{ingreso.renspaN}" sortBy="#{ingreso.renspaN}">
+                    <f:facet name="header">
+                        <h:outputText value="RENSPA Nº"/>
+                    </f:facet>               
+                    <h:outputText value="#{ingreso.renspaN}"/>
+
+                </p:column>
+                
+                <p:column filterBy="#{ingreso.asociacion}" sortBy="#{ingreso.asociacion}">
+                    <f:facet name="header">
+                        <h:outputText value="Asociacion"/>
+                    </f:facet>               
+                    <h:outputText value="#{ingreso.asociacion}"/>
+
+                </p:column>
+                <p:column filterBy="#{ingreso.fecha}" sortBy="#{ingreso.fecha}">
+                    <f:facet name="header">
+                        <h:outputText value="Fecha de Ingreso"/>
+                    </f:facet>               
+                    <h:outputText value="#{ingreso.fecha}"/>
+
+                </p:column>
+                
+                
+                <p:column filterBy="#{ingreso.especie.descripcion}" sortBy="#{ingreso.especie.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="Especie"/>
+                    </f:facet>               
+                    <h:outputText value="#{ingreso.especie.descripcion}"/>
+
+                </p:column>
+
+                <p:column filterBy="#{ingreso.variedad.descripcion}" sortBy="#{ingreso.variedad.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="Variedad"/>
+                    </f:facet>               
+                    <h:outputText value="#{ingreso.variedad.descripcion}"/>
+
+                </p:column>
+                <p:column filterBy="#{ingreso.cantidad}" sortBy="#{ingreso.cantidad}">
+                    <f:facet name="header">
+                        <h:outputText value="Cantidad"/>
+                    </f:facet>               
+                    <h:outputText value="#{ingreso.cantidad}"/>
+                </p:column>
+                <p:column filterBy="#{ingreso.unidad}" sortBy="#{ingreso.unidad}">
+                    <f:facet name="header">
+                        <h:outputText value="Unidad"/>
+                    </f:facet>               
+                    <h:outputText value="#{ingreso.unidad}"/>
+
+                </p:column>
+
+                <p:column filterBy="#{ingreso.total_kilos}" sortBy="#{ingreso.total_kilos}">
+                    <f:facet name="header">
+                        <h:outputText value="Total (Kg)"/>
+                    </f:facet>               
+                    <h:outputText value="#{ingreso.total_kilos}"/>
+
+                </p:column>
+                
+
+                <f:facet name="footer">
+                    Cantidad de registros: #{listaEmpaqueBean.lstEmpaque.size()}
+                </f:facet>
+            </p:dataTable>
+        </div>
+    </ui:define>
+
+    <ui:define name="bottom">
+        bottom
+    </ui:define>
+
+</ui:composition>
+

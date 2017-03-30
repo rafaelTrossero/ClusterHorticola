@@ -25,11 +25,7 @@ public class UsuarioLogerBean implements Serializable {
      private String username;
     private String contrasenia;
   private Boolean administracion;
-  private Boolean trabajosFinales;
-  private Boolean seguimientoTrabFinales;
-  private Boolean operacionesProyecto;
-  private Boolean misProyectos;
-  private Boolean miProyecto;
+  private Boolean empaque;
   private Boolean cambiarClave;
   
     @EJB
@@ -44,27 +40,6 @@ public class UsuarioLogerBean implements Serializable {
 
     private Boolean bAuditoria;
 
-    public Boolean isOperacionesProyecto() {
-        return operacionesProyecto;
-    }
-
-    public void setOperacionesProyecto(Boolean operacionesProyecto) {
-        this.operacionesProyecto = operacionesProyecto;
-    }
-
-    public Boolean isMisProyectos() {
-        return misProyectos;
-    }
-
-    public Boolean isMiProyecto() {
-        return miProyecto;
-    }
-
-    public void setMiProyecto(Boolean miProyecto) {
-        this.miProyecto = miProyecto;
-   
-    }
-
    
      public Boolean isCambiarClave() {
         return cambiarClave;
@@ -72,6 +47,22 @@ public class UsuarioLogerBean implements Serializable {
 
     public void setCambiarClave(Boolean cambiarClave) {
         this.cambiarClave = cambiarClave;
+    }
+
+    public Boolean isEmpaque() {
+        return empaque;
+    }
+
+    public void setEmpaque(Boolean empaque) {
+        this.empaque = empaque;
+    }
+
+    public UsuarioRNLocal getUsuarioRNLocal() {
+        return usuarioRNLocal;
+    }
+
+    public void setUsuarioRNLocal(UsuarioRNLocal usuarioRNLocal) {
+        this.usuarioRNLocal = usuarioRNLocal;
     }
     
     
@@ -86,28 +77,13 @@ public class UsuarioLogerBean implements Serializable {
        // httpServletRequest=(HttpServletRequest)faceContext.getExternalContext().getRequest();
     }
 
-    public Boolean isSeguimientoTrabFinales() {
-        return seguimientoTrabFinales;
-    }
-
-    public void setSeguimientoTrabFinales(Boolean seguimientoTrabFinales) {
-        this.seguimientoTrabFinales = seguimientoTrabFinales;
-    }
-
+  
     public Boolean isAdministracion() {
         return administracion;
     }
 
     public void setAdministracion(Boolean administracion) {
         this.administracion = administracion;
-    }
-
-    public Boolean isTrabajosFinales() {
-        return trabajosFinales;
-    }
-
-    public void setTrabajosFinales(Boolean trabajosFinales) {
-        this.trabajosFinales = trabajosFinales;
     }
 
 

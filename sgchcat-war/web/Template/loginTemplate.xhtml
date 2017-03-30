@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
+        <link href="./resources/css/tableLayout.css" rel="stylesheet" type="text/css" />
+        
+        <title>::TFS:: </title>
+    </h:head>
+    
+     <script type="text/javascript">
+        var startFrom = #{controlSesionBean.getiTimeSession()}; // Total session time out setting eg 10 sec, Real implementation assign values from jsf controller
+        var loopTill = 20;//#{systemController.getSessionTimeoutAlertDuration()}; //Count down degins from 6 sec and starts after 4 sec ie 10-6
+        var reduce = 1;
+        var handleDialog = null;
+        var redirectPage = "#{request.contextPath}/index.xhtml";
+        var countDownDiv = "dialog-countdown";
+
+        function resetPageTimer() {
+            timeoutDialog.hide();
+            startPageTimer(startFrom, loopTill);
+            clearInterval(handleDialog);
+        } 
+
+        function startPageTimer(wFrom, wReach) {
+            var handle = null;
+            handle = setInterval(function() {
+                if(wFrom == wReach) {
+                clearInterval(handle);
+                dlgFinSession.show()
+                }
+                else {
+                    wFrom -= reduce;
+                }
+            }, reduce * 1000);
+        }
+        
+        function redirectLogin(){
+            window.location.href = redirectPage;
+        }
+        
+        startPageTimer(startFrom, loopTill);
+    </script>
+
+    <h:body>
+        <p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>  
+              
+        <p:dialog modal="true" widgetVar="statusDialog" header="Estado"   
+                draggable="false" closable="true">  
+            <p:graphicImage value="../Imagenes/procesando.gif" />  
+        </p:dialog> 
+        
+        <h:form id="frmLog">
+            
+             <p:dialog header="La session ha expirado!"
+                    widgetVar="timeoutDialog" 
+                    showEffect="fade" 
+                    hideEffect="fade" 
+                    modal="true"
+                    width="400"
+                    height="200"
+                    closable="false"
+                    draggable="false"
+                    resizable="false" 
+                   
+                    > 
+                    <br/>
+                    <p>
+                        <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>
+                        <div>Se cerrara la sesion en  <span id="dialog-countdown" style="font-weight:bold"></span> segundos.</div>
+                    </p>
+                    <br/><br/>
+                    <h:outputText value="¿Deseas continuar con la session?"/>
+                    
+                    <center>
+                        <p:commandButton value="SI"  oncomplete="resetPageTimer()"/>
+                        <p:commandButton value="No"  action="#{controlSesionBean.cerrarSession()}" oncomplete="redirectLogin()"/>
+                    </center>
+                    
+                </p:dialog>
+            
+            <p:dialog header="La session ha expirado!"
+                    widgetVar="dlgFinSession" 
+                    showEffect="fade" 
+                    hideEffect="fade" 
+                    modal="true"
+                    width="400"
+                    height="200"
+                    closable="false"
+                    draggable="false"
+                    resizable="false" 
+                  
+                    > 
+                    <br/>
+                    <p>
+                        <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>
+                        <div> <h:outputText value="La session termino. Actualice la pantalla para continuar."/></div>
+                    </p>
+                    <br/>
+                    
+                    
+                    
+                </p:dialog>
+              
+            <div style="width: 100%;">
+                
+           <div id="top" style="float: left; width: 99.9%; border: 1px solid #000;">
+                 <div style="float: left;">
+                     
+                     </div>
+                     
+                     </div>
+                     
+                     <div style="float: right;">
+                    <h:outputText value="#{fechaActualBean.fechaActual}" style="color: #fff; font-size: 1.5em;"/>
+                     </div>
+                
+            </div>
+                 <div id="top" style="background-color: #FFF; ">
+               <div  style="float: left; margin: -10px;
+                      width: 100%;
+                      text-align: center; padding: 0px;">
+                    <img src="./Imagenes/logo_adec.jpg" height="300px" width="800px" />
+                </div>
+           
+            <ui:insert name="top">
+
+            
+            </ui:insert>
+        </div>
+            
+             <div style="float: left; width: 100%; border: 1px solid #000; background-color: #fff;">
+
+                <div id="content" >
+                    <ui:insert name="content">Content</ui:insert>
+                </div>
+            </div>
+                
+              
+            
+            <div style="clear: both;"/>
+
+           <div id="bottom" style="text-align: center">
+                <ui:insert name="bottom">
+                <h:outputText value="Cluster Horticola Catamarca, Argentina - Año: 2017" style="color: white"/>
+            </ui:insert>
+            </div>
+            
+           
+        </h:form>
+    </h:body>
+
+</html>
+
+

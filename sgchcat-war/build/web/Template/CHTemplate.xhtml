@@ -34,7 +34,7 @@
                     <!--<div id="content" style="position: relative; margin-left: 150px; height: 100%">!-->
                     <p:menubar style="font-size: 14px; width: 99.4%; height: 7% "   >
 
-                        <p:submenu label="Administración" >
+                        <p:submenu label="Administración" rendered="#{usuarioLogerBean.isAdministracion()}">
                             <p:submenu label="Lugares" >
                                 <p:menuitem value="Paises" action="#{navegarBean.entrarFormPais()}"
                                             immediate="true" icon="fa fa-arrow-circle-o-right"/>
@@ -53,22 +53,35 @@
                             <p:menuitem value="Campo" action="#{navegarBean.entrarFormCampo()}"
                                         immediate="true" icon="fa fa-arrow-circle-o-right"/>
                             <p:submenu label="Hortalizas" >
-                            <p:menuitem value="Especies" action="#{navegarBean.entrarFormEspecie()}"
-                                        immediate="true" icon="fa fa-arrow-circle-o-right"/>
-                            <p:menuitem value="Variedades" action="#{navegarBean.entrarFormVariedad()}"
-                                        immediate="true" icon="fa fa-arrow-circle-o-right"/>
-                            <p:menuitem value="Precios" action="#{navegarBean.entrarFormPrecios()}"
-                                        immediate="true" icon="fa fa-arrow-circle-o-right"/>
+                                <p:menuitem value="Especies" action="#{navegarBean.entrarFormEspecie()}"
+                                            immediate="true" icon="fa fa-arrow-circle-o-right"/>
+                                <p:menuitem value="Variedades" action="#{navegarBean.entrarFormVariedad()}"
+                                            immediate="true" icon="fa fa-arrow-circle-o-right"/>
+                                <p:menuitem value="Precios" action="#{navegarBean.entrarFormPrecios()}"
+                                            immediate="true" icon="fa fa-arrow-circle-o-right"/>
                             </p:submenu>
                             <p:submenu label="Mercado de Abasto" >
                                 <p:menuitem value="Ingreso de Hortalizas" action="#{navegarBean.entrarFormIngresoMercado()}"
-                                        immediate="true" icon="fa fa-arrow-circle-o-right"/>
-                            
+                                            immediate="true" icon="fa fa-arrow-circle-o-right"/>
+
                             </p:submenu>
 
+                            <p:menuitem value="Usuario" action="#{navegarBean.entrarFormUsuario()}"
+                                        immediate="true" icon="fa fa-arrow-circle-o-right"/>
+
                         </p:submenu>
+                        <p:menuitem rendered="#{usuarioLogerBean.isEmpaque()}" value="Empaque"   action="#{navegarBean.entrarFormEmpaque()}"
+                                    immediate="true"  icon="fa fa-arrow-circle-o-right" >
+
+                        </p:menuitem>
 
 
+
+                        <p:menuitem id="closeSesion" 
+                                    value="Close Session" 
+                                    action="#{controlSesionBean.cerrarSession()}">
+
+                        </p:menuitem> 
 
                     </p:menubar>
 
@@ -86,8 +99,9 @@
 
 
 
-            <div id="bottom" style="float: bottom; border-top: 1px solid #000;">
-                <h:outputText value="Sistema de Gestion - Cluster Horticola Catamarca"/>
+            <div id="bottom" style="float: bottom; border-top: 1px solid #000;" >
+                <h:outputText value="Sistema de Gestion - Cluster Horticola Catamarca" />
+
 
 
             </div>

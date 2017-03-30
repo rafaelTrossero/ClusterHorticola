@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./Template/CHTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" />
+        <link href="./../resources/css/style.css" rel="stylesheet" type="text/css" />
+
+
+
+
+    </h:head>
+
+    <ui:define name="content">
+
+
+        <!-- DIALOGO PRODUCTOR !-->
+        <p:dialog id="dUsuario" 
+                  widgetVar="dlgUsuario" 
+                  modal="true"
+                  position="top"
+                  closable="false" resizable="false">
+            <f:facet name="header">
+                <h:outputText value="Gestión de Usuario"/>
+            </f:facet>
+
+            <p:panel id="pUsuario" style="float:left;" >
+                <p:focus context="pUsuario"/> 
+
+                <h:inputHidden value="#{usuarioBean.usuario.id}"/>
+                <h:inputHidden value="#{usuarioBean.usu.id}"/>
+                <div style="clear: both;"/>
+
+
+                <p:accordionPanel id ="apUsuario" style="width: 600px;">
+                    <p:tab title="Información Personal">
+                        <h:panelGrid columns="2" cellpadding="3" >
+
+
+                            <h:outputText value="Nombre"/>
+                            <p:inputText value="#{usuarioBean.usu.username}"
+                                         label="Nombre"
+                                         disabled="#{usuarioBean.getbCamposEditables()}"/>
+                            <h:outputText value="Password"/>
+                            <p:inputText value="#{usuarioBean.usu.password}"
+                                         label="Paswword"
+                                         disabled="#{usuarioBean.getbCamposEditables()}"/>
+
+                            <h:outputText value="E-mail"/>
+                            <p:inputText value="#{usuarioBean.usu.email}"
+                                         label="E-mail"
+                                         disabled="#{usuarioBean.getbCamposEditables()}"/>
+
+
+                            <h:outputText value="Tipo de usuario:   "/>
+                            <p:selectOneMenu id="somIDType"                                           
+                                             value="#{usuarioBean.usu.tipousuario}"                                                     
+                                             disabled="#{usuarioBean.getbCamposEditables()}">
+                                <f:selectItems value="#{listIdentificationTypeBean1.lstSIIdentificationType}"/>
+                            </p:selectOneMenu>
+                        </h:panelGrid>    
+                    </p:tab>
+
+                    <div style="clear: both;"/>
+
+                </p:accordionPanel>
+            </p:panel>
+
+            <div style="clear: both;"/>
+
+            <div>
+                <p:messages autoUpdate="true"/>
+            </div>
+
+
+            <div style="clear: both;"/>
+
+            <div  style="float: left; margin: 10px;
+                  width: 100%;
+                  text-align: center;">
+
+                <p:growl id="message" showDetail="true"  />
+                <div style="clear: both;"/>
+                <p:commandButton id="btnAction"
+                                 value=" " 
+                                 icon="ui-icon-disk"
+                                 actionListener="#{usuarioBean.actionBtn}" 
+                                 update=":frmMain:dtUsuario, 
+                                 :frmMain:pUsuario, message, @this"
+                                 binding="#{usuarioBean.cbAction}"
+                                 >
+                    <p:confirm header="Confirmación" message="¿Seguro?" icon="ui-icon-alert" />
+                </p:commandButton>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
+                                     ajax="false"  />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+
+                <p:commandButton id="btnSalir"
+                                 value="Salir" 
+                                 icon="ui-icon-close"
+                                 oncomplete="PF('dlgUsuario').hide()"
+                                 update=":frmMain:pUsuario, 
+                                 :frmMain:dtUsuario"
+                                 process="@this"/>
+            </div>
+
+        </p:dialog>
+
+
+        <!-- PANTALLA PRINCIPAL !-->
+
+        <div class="camposTexto"
+             style="float: left; margin: 10px;
+             width: 100%;
+             text-align: center;">
+
+            <p:commandButton id="cbNuevo"
+                             value="Nuevo Usuario" 
+                             icon="ui-icon-circle-plus" 
+                             oncomplete="PF('dlgUsuario').show();"
+                             actionListener="#{usuarioBean.setBtnSelect}"
+                             update=":frmMain:dUsuario"
+                             process="@this"/><br/><br/>
+
+        </div>
+
+        <p:dataTable id="dtUsuario"
+                     paginator="true"
+                     rows="50"
+                     scrollable="true"
+                     value="#{listaUsuarioBean.lstUsuario}"
+                     var="usu"
+                     >
+            <!--disabledSelection="#1{not prod.active }" -->
+
+
+
+
+            <p:column width="152"  headerText="Operaciones"  >
+
+                <p:commandButton id="cbEditar"
+                                 title="Editar"
+                                 icon="ui-icon-pencil" 
+                                 update=":frmMain:dUsuario"
+                                 oncomplete="PF('dlgUsuario').show();"
+                                 actionListener="#{usuarioBean.setBtnSelect}">
+                    <!--disabledSelection="#1{not prod.active }"> -->
+
+
+                    <f:setPropertyActionListener value="#{usu}" target="#{usuarioBean.usu}"/>
+
+
+                </p:commandButton>
+
+                <p:commandButton id="cbHabilitado"
+                                 title="Activar"
+                                 icon="ui-icon-unlocked" 
+                                 update=":frmMain:dUsuario, @this"
+                                 oncomplete="PF('dlgUsuario').show();"
+                                 actionListener="#{usuarioBean.setBtnSelect}"
+                                 disabled="#/{prod.active }"
+                                 >
+                    <f:setPropertyActionListener value="#{usu}" target="#{usuarioBean.usu}"/>
+
+
+                </p:commandButton>
+
+
+                <p:commandButton id="cbDeshabilitado"
+                                 title="Desactivar"
+                                 icon="ui-icon-circle-close"
+                                 update=":frmMain:dUsuario, @this"
+                                 oncomplete="PF('dlgUsuario').show();"
+                                 actionListener="#{usuarioBean.setBtnSelect}"
+                                 disabled="#/{not prof.active }"
+                                 >
+
+                    <f:setPropertyActionListener value="#{usu}" target="#{usuarioBean.usu}"/>
+                </p:commandButton>
+            </p:column>
+
+
+            <p:column filterBy="#{usu.username}" sortBy="#{usu.username}"  >
+                <f:facet name="header" >
+                    <h:outputText value="Nombre"/>
+                </f:facet>               
+                <h:outputText value="#{usu.username}" />
+
+            </p:column>
+
+            <p:column filterBy="#{usu.tipousuario}" sortBy="#{usu.tipousuario}">
+                <f:facet name="header">
+                    <h:outputText value="Tipo"/>
+                </f:facet>               
+                <h:outputText value="#{usu.tipousuario}"/>
+
+            </p:column>
+
+            <p:column filterBy="#{usu.email}" sortBy="#{usu.email}">
+                <f:facet name="header">
+                    <h:outputText value="E-mail"/>
+                </f:facet>               
+                <h:outputText value="#{usu.email}"/>
+
+            </p:column>
+        </p:dataTable>
+
+
+
+
+    </ui:define>
+
+</ui:composition>

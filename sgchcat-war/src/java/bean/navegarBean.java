@@ -6,11 +6,13 @@ package bean;
 
 import entidad.Barrio;
 import entidad.Departamento;
+import entidad.Empaque;
 import entidad.Especie;
 import entidad.Localidad;
 import entidad.Pais;
 import entidad.Productor;
 import entidad.Provincia;
+import entidad.Usuario;
 import entidad.Variedad;
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
@@ -45,6 +47,15 @@ public class navegarBean {
     private ListaEspecieBean listaEspecieBean;
     @ManagedProperty("#{listaVariedadBean}")
     private ListaVariedadBean listaVariedadBean;
+    @ManagedProperty("#{listaEmpaqueBean}")
+    private ListaEmpaqueBean listaEmpaqueBean;
+    @ManagedProperty("#{listaUsuarioBean}")
+    private ListaUsuarioBean listaUsuarioBean;
+    @ManagedProperty("#{listIdentificationTypeBean1}")
+    private ListIdentificationTypeBean1 listIdentificationTypeBean1;
+    @ManagedProperty("#{listaCampoProductorBean}")
+     private ListaCampoProductorBean listaCampoProductorBean;
+    
 
     /**
      * Creates a new instance of navegarBean
@@ -72,6 +83,14 @@ public class navegarBean {
         return listaDepartamentoBean;
     }
 
+    public ListaEmpaqueBean getListaEmpaqueBean() {
+        return listaEmpaqueBean;
+    }
+
+    public void setListaEmpaqueBean(ListaEmpaqueBean listaEmpaqueBean) {
+        this.listaEmpaqueBean = listaEmpaqueBean;
+    }
+
     public ListaTenenciaBean getListaTenenciaBean() {
         return listaTenenciaBean;
     }
@@ -84,6 +103,15 @@ public class navegarBean {
         return listaProductorBean;
     }
 
+    public ListIdentificationTypeBean1 getListIdentificationTypeBean1() {
+        return listIdentificationTypeBean1;
+    }
+
+    public void setListIdentificationTypeBean1(ListIdentificationTypeBean1 listIdentificationTypeBean1) {
+        this.listIdentificationTypeBean1 = listIdentificationTypeBean1;
+    }
+
+ 
     public void setListaProductorBean(ListaProductorBean listaProductorBean) {
         this.listaProductorBean = listaProductorBean;
     }
@@ -131,6 +159,23 @@ public class navegarBean {
     public void setListaVariedadBean(ListaVariedadBean listaVariedadBean) {
         this.listaVariedadBean = listaVariedadBean;
     }
+
+    public ListaUsuarioBean getListaUsuarioBean() {
+        return listaUsuarioBean;
+    }
+
+    public void setListaUsuarioBean(ListaUsuarioBean listaUsuarioBean) {
+        this.listaUsuarioBean = listaUsuarioBean;
+    }
+
+    public ListaCampoProductorBean getListaCampoProductorBean() {
+        return listaCampoProductorBean;
+    }
+
+    public void setListaCampoProductorBean(ListaCampoProductorBean listaCampoProductorBean) {
+        this.listaCampoProductorBean = listaCampoProductorBean;
+    }
+    
 
     public String entrarFormPais() {
         this.getListaPaisBean().setLstPais(new ArrayList<Pais>());
@@ -218,6 +263,15 @@ public class navegarBean {
 
         return "productor.xhtml?faces-redirect=true";
     }
+    public String entrarFormUsuario() {
+       this.getListaUsuarioBean().setLstUsuario(new ArrayList<Usuario>());
+        this.getListaUsuarioBean().cargar_usuario();
+         this.getListIdentificationTypeBean1().setLstSIIdentificationType(null);
+        this.getListIdentificationTypeBean1().cargarIdentificationTypes();
+        
+
+        return "Usuario.xhtml?faces-redirect=true";
+    }
 
     public String entrarFormEspecie() {
 
@@ -235,6 +289,10 @@ public class navegarBean {
         this.getListaVariedadBean().setLstSIVariedad(null);
         this.getListaVariedadBean().cargarVariedad();
         this.getListaVariedadBean().cargarSIVariedad();
+        this.getListaEspecieBean().setLstEspecie(new ArrayList<Especie>());
+        this.getListaEspecieBean().setLstSIEspecie(null);
+        this.getListaEspecieBean().cargarEspecie();
+        this.getListaEspecieBean().cargarSIEspecie();
 
         return "variedad.xhtml?faces-redirect=true";
     }
@@ -259,12 +317,38 @@ public class navegarBean {
         this.getListaEspecieBean().cargarSIEspecie();
         this.getListaProductorBean().setLstProductor(new ArrayList<Productor>());
         this.getListaProductorBean().setLstSIProductor(null);
+        this.getListaVariedadBean().setLstVariedad(new ArrayList<Variedad>());
+        this.getListaVariedadBean().setLstSIVariedad(null);
+        this.getListaVariedadBean().cargarVariedad();
+        this.getListaVariedadBean().cargarSIVariedad();
         
          this.getListaProductorBean().cargar_productor();
         this.getListaProductorBean().cargar_SI_productor();
     
 
         return "ingresoMercado.xhtml?faces-redirect=true";
+    }
+       public String entrarFormEmpaque() {
+        this.getListaEspecieBean().setLstEspecie(new ArrayList<Especie>());
+        this.getListaEspecieBean().setLstSIEspecie(null);
+        this.getListaEspecieBean().cargarEspecie();
+        this.getListaEspecieBean().cargarSIEspecie();
+        this.getListaProductorBean().setLstProductor(new ArrayList<Productor>());
+        this.getListaProductorBean().setLstSIProductor(null);
+        this.getListaVariedadBean().setLstVariedad(new ArrayList<Variedad>());
+        this.getListaVariedadBean().setLstSIVariedad(null);
+        
+        this.getListaEmpaqueBean().setLstEmpaque(new ArrayList<Empaque>());
+        this.getListaEmpaqueBean().cargarIngresoEmpaque();
+        
+        this.getListaVariedadBean().cargarVariedad();
+        this.getListaVariedadBean().cargarSIVariedad();
+        
+         this.getListaProductorBean().cargar_productor();
+        this.getListaProductorBean().cargar_SI_productor();
+    
+
+        return "empaque.xhtml?faces-redirect=true";
     }
 
     public String entrarFormCampo() {
@@ -282,6 +366,8 @@ public class navegarBean {
         this.getListaProvinciaBean().cargarSIProvincias();
         this.getListaLocalidadBean().cargarLocalidades();
         this.getListaLocalidadBean().cargarSILocalidades();
+        this.getListaCampoProductorBean().cargar_campo_productor();
+        
 
         return "campo.xhtml?faces-redirect=true";
     }
