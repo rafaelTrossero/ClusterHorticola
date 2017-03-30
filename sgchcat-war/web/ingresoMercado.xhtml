@@ -19,76 +19,72 @@
 
                 <p:focus context="pIngresoMercado"/> 
 
-              
+
                 <div class="camposTexto">
                     <h:outputText  value="Todos los campos con * son requeridos."  styleClass="aclaraciones" />
                 </div>
                 <div style="clear: both;"/>
-                 <div class="camposTexto">
-                    <h:outputText  value="Productor*:   " />
 
-                    <p:selectOneMenu id="somProductor"
-                                     value="#{ingresoMercadoBean.ingresoMercado.productor}"  
-                                     converter="ConversorGenerico"
-                                     disabled="#{ingresoMercadoBean.getbCamposEditables()}">
-                        <f:selectItems value="#{listaProductorBean.lstProductor}"/>
-                    </p:selectOneMenu>
-                </div>    
-                 <div class="camposTexto">
+                <div class="camposTexto">
                     <h:outputText  value="Especie / Producto:   " />
 
-                    
+
                     <p:selectOneMenu id="somEspecie"
-                                     
+
                                      valueChangeListener="#{listaVariedadBean.recuperarVariedad}"
                                      converter="ConversorGenerico"
                                      disabled="#{ingresoMercadoBean.getbCamposEditables()}">
                         <f:selectItems value="#{listaEspecieBean.lstSIEspecie}"/>
-                         <p:ajax update="somVariedad"
+                        <p:ajax update="somVariedad"
                                 event="change"  />
                     </p:selectOneMenu>
                 </div>     
-                        
-                  <div class="camposTexto">
+
+                <div class="camposTexto">
                     <h:outputText  value="Variedad*:   " />
 
                     <p:selectOneMenu id="somVariedad"
-                                    
+
                                      value="#{ingresoMercadoBean.ingresoMercado.variedad}"  
                                      converter="ConversorGenerico"
                                      disabled="#{ingresoMercadoBean.getbCamposEditables()}">
-                         <f:selectItem itemLabel="Seleccione una Variedad..." itemValue="0"/>
+                        <f:selectItem itemLabel="Seleccione una Variedad..." itemValue="0"/>
                         <f:selectItems value="#{listaVariedadBean.lstSIVariedad}"/>
-                        
-                       
+
+
                     </p:selectOneMenu>
                 </div>     
                 <div class="camposTexto"> 
-                    <h:outputText value="Cantidad de Kg Local:   "/>
+                    <h:outputText value="Ingreso:   "/>
+                    <p:selectOneMenu id="somIngreso"
 
-                    <p:inputText value="#{ingresoMercadoBean.ingresoMercado.kgLocal}"
-                                 label="Cantidad de Kilos de procedencia local"
-                                 disabled="#{ingresoMercadoBean.getbCamposEditables()}"
-                                 required="#{ingresoMercadoBean.bCamposRequeridos}"/>
+                                     value="#{ingresoMercadoBean.ingresoMercado.ingreso}"  
+                                     converter="ConversorGenerico"
+                                     disabled="#{ingresoMercadoBean.getbCamposEditables()}">
+                        <f:selectItem itemLabel="Seleccione una Variedad..." itemValue="0"/>
+                        <f:selectItem itemLabel="Local" itemValue="Local"/>
+                        <f:selectItem itemLabel="Extra Provincial" itemValue="Extra Provincial"/>
+
+                    </p:selectOneMenu>
                 </div>
-                 <div class="camposTexto"> 
-                    <h:outputText value="Cantidad de kg No Local:   "/>
+                <div class="camposTexto"> 
+                    <h:outputText value="Cantidad de kg:   "/>
 
-                    <p:inputText value="#{ingresoMercadoBean.ingresoMercado.kgNoLocal}"
+                    <p:inputText value="#{ingresoMercadoBean.ingresoMercado.kg}"
                                  label="Cantidad de Kilos de procedencia NO local"
                                  disabled="#{ingresoMercadoBean.getbCamposEditables()}"
                                  required="#{ingresoMercadoBean.bCamposRequeridos}"/>
                 </div>
-                 <div class="camposTexto"> 
+                <div class="camposTexto"> 
                     <h:outputText value="Fecha*:   "/>
 
                     <p:calendar value="#{ingresoMercadoBean.ingresoMercado.fecha}"
-                                 label="fecha de ingreso"
-                                 disabled="#{ingresoMercadoBean.getbCamposEditables()}"
-                                 required="#{ingresoMercadoBean.bCamposRequeridos}"/>
+                                label="fecha de ingreso"
+                                disabled="#{ingresoMercadoBean.getbCamposEditables()}"
+                                required="#{ingresoMercadoBean.bCamposRequeridos}"/>
                 </div>
                 <div style="clear: both;"/>
-               
+
 
 
 
@@ -121,12 +117,12 @@
             </div>
 
         </p:dialog>
-       
+
         <div style="clear: both;"/>
-        
+
         <div class="camposTexto" style="float: left; margin: 10px;
-                 width: 100%;
-                 text-align: center;">
+             width: 100%;
+             text-align: center;">
             <p:commandButton id="cbCreate"
                              value="Nuevo Ingreso" 
                              icon="ui-icon-circle-plus" 
@@ -187,7 +183,7 @@
                     <h:outputText value="#{ingreso.especie.descripcion}"/>
 
                 </p:column>
-                
+
                 <p:column filterBy="#{ingreso.variedad.descripcion}" sortBy="#{ingreso.variedad.descripcion}">
                     <f:facet name="header">
                         <h:outputText value="Variedad"/>
@@ -195,20 +191,20 @@
                     <h:outputText value="#{ingreso.variedad.descripcion}"/>
 
                 </p:column>
-                
-                <p:column filterBy="#{ingreso.kgLocal}" sortBy="#{ingreso.kgLocal}">
+
+                <p:column filterBy="#{ingreso.kg}" sortBy="#{ingreso.kg}">
                     <f:facet name="header">
                         <h:outputText value="Cantidad (Kg) Local"/>
                     </f:facet>               
-                    <h:outputText value="#{ingreso.kgLocal}"/>
+                    <h:outputText value="#{ingreso.kg}"/>
 
                 </p:column>
-                
-                  <p:column filterBy="#{ingreso.kgNoLocal}" sortBy="#{ingreso.kgNoLocal}">
+
+                <p:column filterBy="#{ingreso.ingreso}" sortBy="#{ingreso.ingreso}">
                     <f:facet name="header">
-                        <h:outputText value="Cantidad (Kg) No Local"/>
+                        <h:outputText value="Ingreso"/>
                     </f:facet>               
-                    <h:outputText value="#{ingreso.kgNoLocal}"/>
+                    <h:outputText value="#{ingreso.ingreso}"/>
 
                 </p:column>
 
