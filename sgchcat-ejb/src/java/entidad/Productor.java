@@ -43,7 +43,10 @@ public class Productor implements Serializable {
     @OneToMany(mappedBy = "productor")
     private List<ProductorDomicilio> lstProductorDomicilio;
     @OneToMany(mappedBy = "productor")
-    private List<IngresoMercado> lstIngresoMercado;
+    private List<Empaque> lstEmpaque;
+     @OneToMany(mappedBy = "productor")
+    private List<CampoProductor> lstCampoProductor;
+   
     @Column(nullable = false)
     private String telefono;
     @Column(nullable = false)
@@ -52,6 +55,24 @@ public class Productor implements Serializable {
     public Long getId() {
         return id;
     }
+
+    public List<Empaque> getLstEmpaque() {
+        return lstEmpaque;
+    }
+
+    public List<CampoProductor> getLstCampoProductor() {
+        return lstCampoProductor;
+    }
+
+    public void setLstCampoProductor(List<CampoProductor> lstCampoProductor) {
+        this.lstCampoProductor = lstCampoProductor;
+    }
+    
+
+    public void setLstEmpaque(List<Empaque> lstEmpaque) {
+        this.lstEmpaque = lstEmpaque;
+    }
+    
 
     public void setId(Long id) {
         this.id = id;
@@ -113,14 +134,6 @@ public class Productor implements Serializable {
 
     public void setLstProductorDomicilio(List<ProductorDomicilio> lstProductorDomicilio) {
         this.lstProductorDomicilio = lstProductorDomicilio;
-    }
-
-    public List<IngresoMercado> getLstIngresoMercado() {
-        return lstIngresoMercado;
-    }
-
-    public void setLstIngresoMercado(List<IngresoMercado> lstIngresoMercado) {
-        this.lstIngresoMercado = lstIngresoMercado;
     }
 
     @Override

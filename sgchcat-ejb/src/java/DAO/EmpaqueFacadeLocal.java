@@ -6,7 +6,7 @@
 
 package DAO;
 
-import entidad.Campo;
+import entidad.Empaque;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -15,21 +15,20 @@ import javax.ejb.Local;
  * @author cris
  */
 @Local
-public interface CampoFacadeLocal {
+public interface EmpaqueFacadeLocal {
 
-    void create(Campo campo);
+    void create(Empaque empaque);
 
-    void edit(Campo campo);
+    void edit(Empaque empaque);
 
-    void remove(Campo campo);
+    void remove(Empaque empaque);
 
-    Campo find(Object id);
+    Empaque find(Object id);
 
-    List<Campo> findAll();
+    List<Empaque> findAll();
 
-    List<Campo> findRange(int[] range);
+    List<Empaque> findRange(int[] range);
 
     int count();
-     public void activate(Campo campo, Boolean bEstado);
     
 }

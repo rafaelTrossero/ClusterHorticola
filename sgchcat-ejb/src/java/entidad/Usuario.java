@@ -44,28 +44,30 @@ import javax.persistence.TemporalType;
    // + "OR u.numeroDocumento = :numero "),
    // @NamedQuery(name = "Usuario.UpdateClave", query = "UPDATE Usuario u SET u.password = :clave, u.vencimiento_clave = :fecha WHERE u.id = :id"
     })
-@Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario implements Serializable {
 
-   
-     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    
     private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    
     @Column(name = "username", length = 100, nullable = false)
     private String username;
     @Column(name = "password", length = 64, nullable = false)
     private String password;
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "vencimiento_clave")
+    @Column(name = "vencimiento_clave",nullable = true)
     private Date vencimiento_clave;
     @Enumerated(EnumType.STRING)
     //@Column(nullable = false)
     private tipoUsuario tipousuario;
     //@Column(nullable = false)
-    @Column(name = "email", length = 100)
+    @Column(name = "email", length = 100,nullable = true)
     private String email;
-   
+    @OneToMany(mappedBy = "usuario")
+    private List<Empaque> lstEmpaque;
+     
     @OneToMany(mappedBy = "usuario")
     private List<Auditoria> lstAuditoria;
     
@@ -80,6 +82,14 @@ public class Usuario implements Serializable {
 
     public void setTipousuario(tipoUsuario tipousuario) {
         this.tipousuario = tipousuario;
+    }
+
+    public List<Empaque> getLstEmpaque() {
+        return lstEmpaque;
+    }
+
+    public void setLstEmpaque(List<Empaque> lstEmpaque) {
+        this.lstEmpaque = lstEmpaque;
     }
     
 

@@ -7,6 +7,7 @@ package RN;
 
 import DAO.UsuarioFacadeLocal;
 import entidad.Usuario;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -38,4 +39,21 @@ public class UsuarioRN implements UsuarioRNLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+
+    @Override
+    public void create(Usuario usu) throws Exception {
+   this.usuarioFacadeLocal.create(usu);
+    }
+
+    @Override
+    public void remove(Usuario usu) throws Exception {
+   this.usuarioFacadeLocal.remove(usu);
+    }
+
+    @Override
+    public List<Usuario> findAll() throws Exception {
+    return (this.usuarioFacadeLocal.findAll());
+    
+    }
+    
 }

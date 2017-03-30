@@ -48,7 +48,7 @@ return (this.campoFacadeLocal.findAll());
 
     @Override
     public void activate(Campo campo, Boolean bEstado) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      campoFacadeLocal.activate(campo, bEstado);
     }
 
     @Override

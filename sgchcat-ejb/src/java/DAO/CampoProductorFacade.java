@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package DAO;
 
+import entidad.Campo;
 import entidad.CampoProductor;
+import entidad.Productor;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -17,6 +19,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class CampoProductorFacade extends AbstractFacade<CampoProductor> implements CampoProductorFacadeLocal {
+
     @PersistenceContext(unitName = "ClusterHortDB-ejbPU")
     private EntityManager em;
 
@@ -28,5 +31,20 @@ public class CampoProductorFacade extends AbstractFacade<CampoProductor> impleme
     public CampoProductorFacade() {
         super(CampoProductor.class);
     }
-    
+
+    @Override
+    public CampoProductor buscarCampoProductor(Campo campo, Productor productor) {
+        try {
+            Query q = em.createNamedQuery("CampoProductor.findByCampoProductor");
+
+            q.setParameter("campo", campo);
+            q.setParameter("productor", productor);
+
+            return (CampoProductor) q.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
+
 }

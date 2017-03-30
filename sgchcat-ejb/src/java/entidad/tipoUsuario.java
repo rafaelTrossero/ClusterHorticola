@@ -13,10 +13,10 @@ package entidad;
 public enum tipoUsuario {
     
    
-    ADMINISTRADOR("aDMINISTRADOR"),
-    DOCENTE("DOCENTE"),
-    ALUMNO("ALUMNO"),
-    PROFESIONAL("PROFESIONAL");
+    ADMINISTRADOR("ADMINISTRADOR"),
+    MERCADO("MERCADO"),
+    ADEC("ADEC"),
+    EMPAQUE("EMPAQUE");
     
     private String name;
 

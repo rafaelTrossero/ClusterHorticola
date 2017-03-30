@@ -12,12 +12,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author cris
  */
 @Entity
+@NamedQueries({
+           
+           @NamedQuery(name="CampoProductor.findByCampoProductor", query = "SELECT u FROM CampoProductor u WHERE u.campo =:campo and u.productor =:productor")
+
+})
 public class CampoProductor implements Serializable {
 
     private static final long serialVersionUID = 1L;

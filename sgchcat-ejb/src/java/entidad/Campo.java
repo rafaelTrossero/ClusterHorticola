@@ -15,6 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -23,6 +25,13 @@ import javax.persistence.OneToOne;
  * @author cris
  */
 @Entity
+@NamedQueries({
+           
+          
+           @NamedQuery(name = "Campo.ActualizarEstado", query="UPDATE Campo u SET u.active =:active WHERE u.id =:id"),
+           
+
+})
 public class Campo implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -43,7 +52,9 @@ public class Campo implements Serializable {
     private Tenencia tenencia;
     @OneToMany(mappedBy = "campo")
     private List<CampoProductor> lstCampoProductor;
-    
+      @ManyToOne
+    @JoinColumn(name = "productor_id", referencedColumnName = "id")
+    private Productor productor;
     
     public Long getId() {
         return id;
@@ -56,6 +67,19 @@ public class Campo implements Serializable {
     public Boolean isActive() {
         return active;
     }
+     public Boolean getActive() {
+        return active;
+    }
+
+    public Productor getProductor() {
+        return productor;
+    }
+
+    public void setProductor(Productor productor) {
+        this.productor = productor;
+    }
+
+ 
 
     public void setActive(Boolean active) {
         this.active = active;

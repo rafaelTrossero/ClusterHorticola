@@ -29,4 +29,5 @@ public interface CampoRNLocal {
     public void activate(Campo campo, Boolean bEstado) throws Exception;
     
     List<Campo> findAllActivo() throws Exception;
+    
 }

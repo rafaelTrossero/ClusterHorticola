@@ -33,21 +33,23 @@ public class IngresoMercado implements Serializable {
     @JoinColumn(name = "variedad_id", referencedColumnName = "id")
     private Variedad variedad;
    
-   @ManyToOne
-    @JoinColumn(name = "productor_id", referencedColumnName = "id")
-   private Productor productor;
+ 
    
    @Temporal(javax.persistence.TemporalType.DATE)
     private Date fecha;
    
-    private Float kgLocal;
-    private Float kgNoLocal;
+    private Float kg;
+    private Float precio;
+    private String Ingreso;
+    //private String mes;
     
          
 
     public Long getId() {
         return id;
     }
+
+  
 
     public void setId(Long id) {
         this.id = id;
@@ -69,29 +71,30 @@ public class IngresoMercado implements Serializable {
         this.variedad = variedad;
     }
 
-    public Productor getProductor() {
-        return productor;
+    public Float getKg() {
+        return kg;
     }
 
-    public void setProductor(Productor productor) {
-        this.productor = productor;
+    public void setKg(Float kg) {
+        this.kg = kg;
     }
 
-    public Float getKgLocal() {
-        return kgLocal;
+    public Float getPrecio() {
+        return precio;
     }
 
-    public void setKgLocal(Float kgLocal) {
-        this.kgLocal = kgLocal;
+    public void setPrecio(Float precio) {
+        this.precio = precio;
     }
 
-    public Float getKgNoLocal() {
-        return kgNoLocal;
+    public String getIngreso() {
+        return Ingreso;
     }
 
-    public void setKgNoLocal(Float kgNoLocal) {
-        this.kgNoLocal = kgNoLocal;
+    public void setIngreso(String Ingreso) {
+        this.Ingreso = Ingreso;
     }
+
 
     public Date getFecha() {
         return fecha;

@@ -6,7 +6,9 @@
 
 package DAO;
 
+import entidad.Campo;
 import entidad.CampoProductor;
+import entidad.Productor;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -30,5 +32,6 @@ public interface CampoProductorFacadeLocal {
     List<CampoProductor> findRange(int[] range);
 
     int count();
+     public CampoProductor buscarCampoProductor(Campo campo, Productor productor) throws Exception;
     
 }

@@ -6,8 +6,11 @@
 
 package RN;
 
+
 import DAO.CampoProductorFacadeLocal;
+import entidad.Campo;
 import entidad.CampoProductor;
+import entidad.Productor;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -42,4 +45,10 @@ public class CampoProductorRN implements CampoProductorRNLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+
+    @Override
+    public CampoProductor buscarCampoProductor(Campo campo, Productor productor) throws Exception {
+     return campoProductorFacadeLocal.buscarCampoProductor(campo, productor);
+    }
+    
 }
