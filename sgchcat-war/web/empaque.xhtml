@@ -18,6 +18,10 @@
             <p:panel id="pEmpaque" style="float:left;">
 
                 <p:focus context="pEmpaque"/> 
+                <h:inputHidden value="#{empaqueBean.empaque.id}"/>
+               
+                <h:inputHidden value="#{listaEmpaqueBean.iActionBtnSelect}"/>
+                
 
 
                 <div class="camposTexto">
@@ -143,18 +147,32 @@
             <div  style="float: left; margin: 10px;
                   width: 100%;
                   text-align: center;">
+                <p:growl id="message" showDetail="true"  />
+                <div style="clear: both;"/>
                 <p:commandButton id="btnAction"
-                                 value="Guardar " 
+                                 value="" 
+                                 icon="ui-icon-disk"
                                  actionListener="#{empaqueBean.actionBtn}" 
-                                 update=":frmMain:dtEmpaque, :frmMain:pEmpaque, @this"
-                                 binding="#{empaqueBean.cbAction}"/>
+                                 update=":frmMain:dtEmpaque, 
+                                 :frmMain:pEmpaque, message, @this"
+                                 binding="#{empaqueBean.cbAction}"
+                                 >
+                    <p:confirm header="Confirmación" message="¿Seguro?" icon="ui-icon-alert" />
+                </p:commandButton>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
+                                     ajax="false"  />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
 
-                <p:commandButton id="btnSalir"
+            
+                 <p:commandButton id="btnSalir"
                                  value="Salir" 
-                                 actionListener="#{empaqueBean.cerrarDialog()}" 
-                                 update=":frmMain:pEmpaque, :frmMain:dtEmpaque"
-                                 process="@this"
-                                 />
+                                 icon="ui-icon-close"
+                                 oncomplete="PF('dlgEmpaque').hide()"
+                                 update=":frmMain:pEmpaque, 
+                                 :frmMain:dtEmpaque"
+                                 process="@this"/>
             </div>
 
         </p:dialog>
@@ -186,36 +204,50 @@
                     Cantidad de registros: #{listaEmpaqueBean.lstEmpaque.size()}
                 </f:facet>
                 <p:column>
-                    <p:commandButton id="cbEdit"
-                                     title="Editar"
-                                     icon="ui-icon-pencil" 
-                                     update=":frmMain:dEmpaque"
-                                     oncomplete="PF('dlgEmpaque').show();"
-                                     actionListener="#{empaqueBean.setBtnSelect}"
-                                     >
+                    <p:commandButton id="cbEditar"
+                                 title="Editar"
+                                 icon="ui-icon-pencil" 
+                                 update=":frmMain:dEmpaque,  @this"
+                                 oncomplete="PF('dlgEmpaque').show();"
+                                 actionListener="#{empaqueBean.setBtnSelect}"
+                                 disabled="#{not ingreso.active }"
+                                 process="@this"
+                                 >
+                        <f:setPropertyActionListener value="#{ingreso}" target="#{empaqueBean.empaque}"/> 
+                        <f:setPropertyActionListener value="#{ingreso.especie}" target="#{empaqueBean.empaque.especie}"/>
+                        <f:setPropertyActionListener value="#{ingreso.variedad}" target="#{empaqueBean.empaque.variedad}"/>
+                       
+                    </p:commandButton>
+                     <p:commandButton id="cbHabilitado"
+                                 title="Activar"
+                                 icon="ui-icon-unlocked"
+                                 update=":frmMain:dEmpaque, @this"
+                                 oncomplete="PF('dlgEmpaque').show();"
+                                 actionListener="#{empaqueBean.setBtnSelect}"
+                                 disabled="#{ingreso.active }"
+                                 process="@this"
+                                 >
                         <f:setPropertyActionListener value="#{ingreso}" target="#{empaqueBean.empaque}"/>  
+                      
+                        <f:setPropertyActionListener value="#{ingreso.especie}" target="#{empaqueBean.empaque.especie}"/>
+                        <f:setPropertyActionListener value="#{ingreso.variedad}" target="#{empaqueBean.empaque.variedad}"/>
                     </p:commandButton>
 
-                    <p:commandButton id="cbDelete"
-                                     title="Eliminar"
-                                     icon="ui-icon-circle-close" 
-                                     update=":frmMain:dEmpaque"
-                                     oncomplete="PF('dlgEmpaque').show();"
-                                     actionListener="#{empaqueBean.setBtnSelect}"
-                                     >
-                        <f:setPropertyActionListener value="#{ingreso}" target="#{empaqueBean.empaque}"/>     
+                    <p:commandButton id="cbDeshabilitado"
+                                 title="Desactivar"
+                                 icon="ui-icon-circle-close"
+                                 update=":frmMain:dEmpaque, @this"
+                                 oncomplete="PF('dlgEmpaque').show();"
+                                 actionListener="#{empaqueBean.setBtnSelect}"
+                                 disabled="#{not ingreso.active }"
+                                 process="@this"
+                                 >
+                         <f:setPropertyActionListener value="#{ingreso}" target="#{empaqueBean.empaque}"/> 
+                        <f:setPropertyActionListener value="#{ingreso.especie}" target="#{empaqueBean.empaque.especie}"/>
+                        <f:setPropertyActionListener value="#{ingreso.variedad}" target="#{empaqueBean.empaque.variedad}"/>     
 
                     </p:commandButton>
-                    <p:commandButton id="cbRecuperarBorrado"
-                                     title="Recuperar Borrado"
-                                     icon="ui-icon-unlocked" 
-                                     update=":frmMain:dEmpaque, @this, :frmMain:dtEmpaque"
-                                     oncomplete="PF('dlgEmpaque').show();"
-                                     actionListener="#{empaqueBean.setBtnSelect}"
-                                     >
-                        <f:setPropertyActionListener value="#{ingreso}" target="#{empaqueBean.empaque}"/>  
-
-                    </p:commandButton>
+                   
                 </p:column>
                 <p:column filterBy="#{ingreso.productor.nombre}" sortBy="#{ingreso.productor.nombre}">
                     <f:facet name="header">
