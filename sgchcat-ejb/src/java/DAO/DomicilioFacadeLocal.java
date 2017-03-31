@@ -7,6 +7,7 @@
 package DAO;
 
 import entidad.Domicilio;
+import entidad.Empaque;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -30,5 +31,6 @@ public interface DomicilioFacadeLocal {
     List<Domicilio> findRange(int[] range);
 
     int count();
+     
     
 }

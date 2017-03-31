@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entidad;
 
 import java.io.Serializable;
@@ -14,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 
 /**
@@ -21,7 +22,15 @@ import javax.persistence.Temporal;
  * @author cris
  */
 @Entity
+@NamedQueries({
+           
+          
+           @NamedQuery(name = "Empaque.ActualizarEstado", query="UPDATE Empaque u SET u.active =:active WHERE u.id =:id"),
+           
+
+})
 public class Empaque implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,18 +38,18 @@ public class Empaque implements Serializable {
     @ManyToOne
     @JoinColumn(name = "especie_id", referencedColumnName = "id")
     private Especie especie;
-    
+
     @ManyToOne
     @JoinColumn(name = "variedad_id", referencedColumnName = "id")
     private Variedad variedad;
-    
+
     @ManyToOne
     @JoinColumn(name = "productor_id", referencedColumnName = "id")
     private Productor productor;
     @ManyToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     private Usuario usuario;
-    
+
     private String renspaN;
     private String asociacion;
     private Float cantidad;
@@ -48,7 +57,7 @@ public class Empaque implements Serializable {
     private float total_kilos;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fecha;
-    
+    private Boolean active;
 
     public Long getId() {
         return id;
@@ -62,10 +71,19 @@ public class Empaque implements Serializable {
         return usuario;
     }
 
+    public Boolean isActive() {
+        return active;
+    }
+  public void setActive(Boolean active) {
+        this.active = active;
+    }
+    public Boolean getActive() {
+        return active;
+    }
+
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-    
 
     public Especie getEspecie() {
         return especie;
@@ -98,7 +116,6 @@ public class Empaque implements Serializable {
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
-    
 
     public String getRenspaN() {
         return renspaN;
@@ -139,7 +156,6 @@ public class Empaque implements Serializable {
     public void setTotal_kilos(float total_kilos) {
         this.total_kilos = total_kilos;
     }
-    
 
     @Override
     public int hashCode() {
@@ -165,5 +181,5 @@ public class Empaque implements Serializable {
     public String toString() {
         return "entidad.Empaque[ id=" + id + " ]";
     }
-    
+
 }

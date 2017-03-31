@@ -48,4 +48,9 @@ public class EmpaqueRN implements EmpaqueRNLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+
+    @Override
+    public void activate(Empaque emp, Boolean bEstado) throws Exception {
+    this.empaqueFacadeLocal.activate(emp, bEstado);
+    }
 }

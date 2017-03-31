@@ -30,5 +30,6 @@ public interface EmpaqueFacadeLocal {
     List<Empaque> findRange(int[] range);
 
     int count();
+    public void activate(Empaque emp, Boolean bEstado);
     
 }

@@ -25,4 +25,5 @@ public interface EmpaqueRNLocal {
     public void habilitar(Empaque e) throws Exception;
 
     public List<Empaque> findAll() throws Exception; 
+    public void activate(Empaque emp, Boolean bEstado) throws Exception;
 }
