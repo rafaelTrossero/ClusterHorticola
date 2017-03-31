@@ -33,6 +33,10 @@ public class IngresoMercado implements Serializable {
     @JoinColumn(name = "variedad_id", referencedColumnName = "id")
     private Variedad variedad;
    
+   @ManyToOne
+    @JoinColumn(name = "procedencia", referencedColumnName = "id")
+    private Provincia procedencia;
+   
  
    
    @Temporal(javax.persistence.TemporalType.DATE)
@@ -102,6 +106,14 @@ public class IngresoMercado implements Serializable {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    public Provincia getProcedencia() {
+        return procedencia;
+    }
+
+    public void setProcedencia(Provincia procedencia) {
+        this.procedencia = procedencia;
     }
     
 

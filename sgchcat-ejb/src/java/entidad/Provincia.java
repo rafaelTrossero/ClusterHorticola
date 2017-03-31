@@ -53,6 +53,8 @@ public class Provincia implements Serializable {
     private Boolean borrado;
     @OneToMany(mappedBy = "provincia")
     private List<Departamento> lstDepartamento;
+    @OneToMany(mappedBy = "procedencia")
+    private List<IngresoMercado> lstIngresoMercado;
 
     public Long getId() {
         return id;
@@ -108,6 +110,14 @@ public class Provincia implements Serializable {
 
     public void setLstDepartamento(List<Departamento> lstDepartamento) {
         this.lstDepartamento = lstDepartamento;
+    }
+
+    public List<IngresoMercado> getLstIngresoMercado() {
+        return lstIngresoMercado;
+    }
+
+    public void setLstIngresoMercado(List<IngresoMercado> lstIngresoMercado) {
+        this.lstIngresoMercado = lstIngresoMercado;
     }
 
     @Override

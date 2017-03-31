@@ -49,6 +49,7 @@ public class Localidad implements Serializable {
     private List<Barrio> barrio;
     @OneToMany(mappedBy = "localidad")
     private List<Domicilio> domicilio;
+    
     @Column(name = "descripcion", nullable = false)
     private String descripcion;
     @Column(name = "codigo", nullable = false)
