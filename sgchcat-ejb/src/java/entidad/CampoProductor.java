@@ -37,10 +37,20 @@ public class CampoProductor implements Serializable {
     @ManyToOne(optional = false)
     @JoinColumn(name = "campo_id", referencedColumnName = "id")
     private Campo campo;
+    private Boolean active;
 
     public Long getId() {
         return id;
     }
+
+    public Boolean isActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+    
 
     public void setId(Long id) {
         this.id = id;

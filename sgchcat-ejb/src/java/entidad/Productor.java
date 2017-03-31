@@ -46,6 +46,7 @@ public class Productor implements Serializable {
     private List<Empaque> lstEmpaque;
      @OneToMany(mappedBy = "productor")
     private List<CampoProductor> lstCampoProductor;
+     private Boolean active;
    
     @Column(nullable = false)
     private String telefono;
@@ -71,6 +72,14 @@ public class Productor implements Serializable {
 
     public void setLstEmpaque(List<Empaque> lstEmpaque) {
         this.lstEmpaque = lstEmpaque;
+    }
+
+    public Boolean isActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
     
 

@@ -44,9 +44,18 @@ public class Variedad implements Serializable {
     
     @OneToMany(mappedBy = "variedad")
     private List<IngresoMercado> lstIngresoMercado;
+    private Boolean active;
     
     public Long getId() {
         return id;
+    }
+
+    public Boolean isActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public void setId(Long id) {

@@ -32,6 +32,7 @@ public class Especie implements Serializable {
     private List<PreciosHortaliza> lstPreciosHortaliza;
      @OneToMany(mappedBy = "especie")
     private List<IngresoMercado> lstIngresoMercado;
+     private Boolean active;
 
     public Long getId() {
         return id;
@@ -52,6 +53,14 @@ public class Especie implements Serializable {
 
     public List<Variedad> getLstVariedad() {
         return lstVariedad;
+    }
+
+    public Boolean isActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public void setLstVariedad(List<Variedad> lstVariedad) {

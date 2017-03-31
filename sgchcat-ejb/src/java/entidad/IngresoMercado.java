@@ -36,7 +36,7 @@ public class IngresoMercado implements Serializable {
    @ManyToOne
     @JoinColumn(name = "procedencia", referencedColumnName = "id")
     private Provincia procedencia;
-   
+   private Boolean active;
  
    
    @Temporal(javax.persistence.TemporalType.DATE)
@@ -51,6 +51,14 @@ public class IngresoMercado implements Serializable {
 
     public Long getId() {
         return id;
+    }
+
+    public Boolean isActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
   

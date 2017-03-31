@@ -40,9 +40,18 @@ public class CultivosCampo implements Serializable {
     private Integer hectareas;
     
     private Integer numero;
+    private Boolean active;
 
     public Long getId() {
         return id;
+    }
+
+    public Boolean isActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public void setId(Long id) {

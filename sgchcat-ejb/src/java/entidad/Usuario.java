@@ -70,10 +70,19 @@ public class Usuario implements Serializable {
      
     @OneToMany(mappedBy = "usuario")
     private List<Auditoria> lstAuditoria;
+    private Boolean active;
     
 
     public Long getId() {
         return id;
+    }
+
+    public Boolean isActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public tipoUsuario getTipousuario() {

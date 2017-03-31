@@ -39,12 +39,21 @@ public class PreciosHortaliza implements Serializable {
     
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fecha;
-    
+    private Boolean active;
     private Boolean baja;
 
     public Long getId() {
         return id;
     }
+
+    public Boolean isActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+    
 
     public void setId(Long id) {
         this.id = id;
