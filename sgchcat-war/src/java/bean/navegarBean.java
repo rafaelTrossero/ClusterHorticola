@@ -315,6 +315,10 @@ public class navegarBean {
         this.getListaPaisBean().setLstSIPais(null);
         this.getListaPaisBean().cargarPais();
         this.getListaPaisBean().cargarSIPais();
+         this.getListaProvinciaBean().setLstProvincia(new ArrayList<Provincia>());
+        this.getListaProvinciaBean().setLstSIProvincia(null);
+        this.getListaProvinciaBean().cargarProvincias();
+        this.getListaProvinciaBean().cargarSIProvincias();
         this.getListaEspecieBean().setLstEspecie(new ArrayList<Especie>());
         this.getListaEspecieBean().setLstSIEspecie(null);
         this.getListaEspecieBean().cargarEspecie();
