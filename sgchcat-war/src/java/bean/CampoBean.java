@@ -8,11 +8,17 @@ package bean;
 import RN.CampoDomicilioRNLocal;
 import RN.CampoProductorRNLocal;
 import RN.CampoRNLocal;
+import RN.CultivosCampoRNLocal;
 import RN.DomicilioRNLocal;
+import RN.ProductorRNLocal;
 import entidad.Campo;
 import entidad.CampoDomicilio;
 import entidad.CampoProductor;
+import entidad.CultivosCampo;
 import entidad.Domicilio;
+import entidad.Productor;
+import entidad.tipoUsuario;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -35,15 +41,21 @@ public class CampoBean {
 
     private Campo campo;
     private CampoProductor campoProductor;
-    private CampoProductor camprod;
 
     private Domicilio domicilio;
     private CampoDomicilio campodomicilio;
     private Boolean bCamposEditables;
     private CommandButton cbAction;
     private int iActionBtnSelect;
+    private CultivosCampo cultivosCampo;
+     private CultivosCampo cultivosCampoIT;
+    
     @ManagedProperty("#{listaCampoBean}")
     private ListaCampoBean listaCampoBean;
+    
+    @ManagedProperty("#{listaCultivosCampoBean}")
+    private ListaCultivosCampoBean listaCultivosCampoBean;
+    
     @ManagedProperty("#{listaCampoProductorBean}")
     private ListaCampoProductorBean listaCampoProductorBean;
     @ManagedProperty("#{listaCampoProductoAuxrBean}")
@@ -56,8 +68,8 @@ public class CampoBean {
     private DomicilioRNLocal domicilioRNLocal;
     @EJB
     private CampoProductorRNLocal campoProductorRNLocal;
-    
-            
+    @EJB
+    private CultivosCampoRNLocal cultivosCampoRNLocal;
 
     /**
      * Creates a new instance of CampoBean
@@ -67,7 +79,8 @@ public class CampoBean {
         this.domicilio = new Domicilio();
         this.campodomicilio = new CampoDomicilio();
         this.campoProductor = new CampoProductor();
-        this.camprod= new CampoProductor();
+        this.cultivosCampo = new CultivosCampo();
+        this.cultivosCampoIT = new CultivosCampo();
     }
 
     public Campo getCampo() {
@@ -84,14 +97,6 @@ public class CampoBean {
 
     public int getiActionBtnSelect() {
         return iActionBtnSelect;
-    }
-
-    public CampoProductor getCamprod() {
-        return camprod;
-    }
-
-    public void setCamprod(CampoProductor camprod) {
-        this.camprod = camprod;
     }
 
     public ListaCampoProductoAuxrBean getListaCampoProductorAuxBean() {
@@ -194,9 +199,33 @@ public class CampoBean {
         this.domicilioRNLocal = domicilioRNLocal;
     }
 
+    public CultivosCampo getCultivosCampo() {
+        return cultivosCampo;
+    }
+
+    public void setCultivosCampo(CultivosCampo cultivosCampo) {
+        this.cultivosCampo = cultivosCampo;
+    }
+
+    public ListaCultivosCampoBean getListaCultivosCampoBean() {
+        return listaCultivosCampoBean;
+    }
+
+    public void setListaCultivosCampoBean(ListaCultivosCampoBean listaCultivosCampoBean) {
+        this.listaCultivosCampoBean = listaCultivosCampoBean;
+    }
+
+    public CultivosCampo getCultivosCampoIT() {
+        return cultivosCampoIT;
+    }
+
+    public void setCultivosCampoIT(CultivosCampo cultivosCampoIT) {
+        this.cultivosCampoIT = cultivosCampoIT;
+    }
+
     public void actionBtn() {
         System.out.println("..............." + this.getListaCampoBean().getiActionBtnSelect());
-        System.out.println(" campo productor " +  campoProductor.getId());
+
         switch (this.getListaCampoBean().getiActionBtnSelect()) {
             case 0:
                 create();
@@ -208,11 +237,11 @@ public class CampoBean {
                 break;
             case 2:
                 //deshabilita el campo
-                 this.activate(Boolean.FALSE);
+                // this.activate(Boolean.FALSE);
                 break;
             case 3:
                 //habilita el campo
-                this.activate(Boolean.TRUE);
+                //  this.activate(Boolean.TRUE);
                 break;
 
         }//fin switch
@@ -221,7 +250,6 @@ public class CampoBean {
     public void setBtnSelect(ActionEvent e) {
         CommandButton btnSelect = (CommandButton) e.getSource();
         System.out.println("boton select: " + btnSelect.getId());
-        System.out.println(" campo productor " +  campoProductor.getId());
     //0 crea
         //1: edit
         //2 delete
@@ -240,6 +268,7 @@ public class CampoBean {
             this.getCbAction().setValue("Modificar");
             this.getListaCampoBean().setiActionBtnSelect(1);
             System.out.println("numero........: " + this.getListaCampoBean().getiActionBtnSelect());
+           
             //campos requeridos
             //this.setbCamposRequeridos(true);
         } else if (btnSelect.getId().equals("cbDeshabilitado")) {
@@ -280,7 +309,7 @@ public class CampoBean {
             campodomicilio.setDomicilio(domicilio);
             campoDomicilioRNLocal.create(campodomicilio);
             campoProductorRNLocal.create(campoProductor);
-
+            this.setear_cultivosCampo();
             System.out.println("Campo: " + campo);
 
             sMensaje = "El dato fue guardado";
@@ -310,7 +339,8 @@ public class CampoBean {
         FacesMessage fm;
         FacesMessage.Severity severity = null;
         try {
-            System.out.println("................. campo productor............. " +  camprod.getId() + camprod.getCampo()+ camprod.getProductor());
+            
+            
             campo.setActive(Boolean.TRUE);
             domicilioRNLocal.edit(domicilio);
             
@@ -319,11 +349,11 @@ public class CampoBean {
             campoRNLocal.edit(campo);
            
             campodomicilio.setCampo(campo);
+            campoProductor.setProductor(campo.getProductor());
+            campoProductor.setCampo(campo);
             campodomicilio.setDomicilio(domicilio);
             campoDomicilioRNLocal.edit(campodomicilio);
-            camprod.setCampo(campo);
-            camprod.setProductor(campo.getProductor());
-           campoProductorRNLocal.edit(camprod);
+            campoProductorRNLocal.edit(campoProductor);
             
             
           
@@ -355,67 +385,31 @@ public class CampoBean {
             fc.addMessage(null, fm);
         }
     }
+
+     public void setear_cultivosCampo() {
+         System.out.println("ENtro a setear Cultivos");
+        
+        cultivosCampo.setCampo(campo);
      
-    public void buscar(Campo camp){
-     
-        try {
-            this.camprod= new CampoProductor();
-            this.camprod= this.campoProductorRNLocal.buscarCampoProductor(camp, camp.getProductor());
-        } catch (Exception ex) {
-            Logger.getLogger(CampoBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-     System.out.println("ennnnnnnnnnnnntrooooo"+ camprod.getId());
-     }
-   public void activate(Boolean bEstado) {
-        String sMensaje = "";
-        FacesMessage fm;
-        FacesMessage.Severity severity = null;
 
-        try {
-             campoRNLocal.activate(this.getCampo(), bEstado);
-            
+        /*
+         Se recorre la lista que tiene los cultivos insertados y se hace un create en la tabla
+         por cada cultivo de la lista
+         */
+        Iterator<CultivosCampo> it = listaCultivosCampoBean.getListaCultivosCampo().iterator();
 
-            //elimino el organismo de la lista
-            //int iPos = this.getListaAlumnoBean().getLstAlumno()).indexOf(this.getAlumno());
-            int iPos = this.getListaCampoBean().getLstCampo().indexOf(this.getCampo());
+        while (it.hasNext()) {
+            cultivosCampoIT = it.next();
 
-            this.setCampo(this.getListaCampoBean().getLstCampo().get(iPos));
-            this.getCampo().setActive(bEstado);
-            
-            this.getListaCampoBean().getLstCampo().remove(iPos);
-            this.getListaCampoBean().getLstCampo().add(iPos, this.getCampo());
+            this.cultivosCampoIT.setCampo(campo);
+            this.setCultivosCampo(cultivosCampoIT);
+            try {
+                this.cultivosCampoRNLocal.create(cultivosCampoIT);
 
-            if (!bEstado) {
-                sMensaje = "Campo desactivado correctamente";
-            } else {
-                sMensaje = "Campo reactivado correctaamente";
+            } catch (Exception ex) {
+               
             }
-            severity = FacesMessage.SEVERITY_INFO;
-
-            this.getCbAction().setDisabled(true);
-
-            //limíar campos
-            this.clear();
-            //this.setbCamposRequeridos(false);
-            RequestContext context = RequestContext.getCurrentInstance();
-            context.execute("PF('dlgCampo').hide()");
-
-        } catch (Exception ex) {
-            severity = FacesMessage.SEVERITY_ERROR;
-            sMensaje = "An error ocurred during activation: " + ex.getMessage();
-
-        } finally {
-            fm = new FacesMessage(severity, sMensaje, null);
-            FacesContext fc = FacesContext.getCurrentInstance();
-            fc.addMessage(null, fm);
         }
+         System.out.println("Salio de setear Cultivos");
     }
-     
-     private void clear() {
-        this.setCampo(new Campo());
-        this.setDomicilio(new Domicilio());
-        this.setCampodomicilio(new CampoDomicilio());
-        this.setCampoProductor(new CampoProductor());
-        this.setCamprod(new CampoProductor());       
-    } 
 }

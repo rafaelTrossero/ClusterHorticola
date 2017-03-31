@@ -36,7 +36,7 @@
 
                 <h:inputHidden value="#{campoBean.campo.id}"/>
                 <h:inputHidden value="#{campoBean.campoProductor.id}"/>
-                <h:inputHidden value="#{campoBean.camprod.id}"/>
+
                 <h:inputHidden value="#{listaCampoBean.iActionBtnSelect}"/>
                 <h:inputHidden value="#{listaCampoProductorBean.iActionBtnSelect}"/>
 
@@ -44,7 +44,7 @@
 
 
                 <p:accordionPanel id ="apProd" style="width: 600px;">
-                    <p:tab title="Identificacion">
+                    <p:tab title="Identificación">
                         <h:panelGrid columns="2" cellpadding="3" >
 
 
@@ -146,10 +146,96 @@
                             </p:selectOneMenu>
 
                         </h:panelGrid>    
-                    </p:tab>
+                    </p:tab> 
 
                     <div style="clear: both;"/>
+                    <p:tab title="Cultivos implantados">
 
+
+                        <p:panel header="Cultivos">  
+                            <h:panelGrid columns="2" id="grid">  
+
+                                <h:outputLabel value="Número: " ></h:outputLabel> 
+                                <p:inputText   size="1" value="#{listaCultivosCampoBean.cultivosCampoObj.numero}"/>
+
+
+                                <h:outputLabel value="Especie: " ></h:outputLabel> 
+                                <p:selectOneMenu id="somEspecie"
+                                                 value="#{listaCultivosCampoBean.cultivosCampoObj.especie}"
+                                                 valueChangeListener="#{listaVariedadBean.recuperarVariedad}"
+                                                 converter="ConversorGenerico"
+                                                 disabled="#{campoBean.getbCamposEditables()}">
+                                     <f:selectItem itemLabel="Seleccione una Especie..." itemValue="0"/>
+                                    <f:selectItems value="#{listaEspecieBean.lstSIEspecie}"/>
+                                    <p:ajax update="somVariedad"
+                                            event="change"  />
+                                </p:selectOneMenu>
+
+
+                                <h:outputText  value="Variedad*:   " />
+
+                                <p:selectOneMenu id="somVariedad"
+
+                                                 value="#{listaCultivosCampoBean.cultivosCampoObj.variedad}"  
+                                                 converter="ConversorGenerico"
+                                                 disabled="#{campoBean.getbCamposEditables()}">
+                                    <f:selectItem itemLabel="Seleccione una Variedad..." itemValue="0"/>
+                                    <f:selectItems value="#{listaVariedadBean.lstSIVariedad}"/>
+
+
+                                </p:selectOneMenu>
+
+                                <h:outputLabel value="Cantidad de Ha: " ></h:outputLabel>  
+                                <p:inputNumber   value="#{listaCultivosCampoBean.cultivosCampoObj.hectareas}"/>
+
+                                <p:commandButton   update="grid" value="Limpiar" action="#{listaCultivosCampoBean.reinit()}" />  
+
+                                <p:commandButton  update="cultivos" action="#{listaCultivosCampoBean.setCultivosCampoObj(listaCultivosCampoBean.cultivosCampoObj)}" value="Añadir"></p:commandButton> 
+                                                                            
+                            </h:panelGrid>  
+                        </p:panel>  
+
+                        <p:outputPanel id="cultivos">  
+                            <p:dataTable id="cultivosTable" value="#{listaCultivosCampoBean.listaCultivosCampo}" var="cultivos" >  
+
+
+                                <p:column  >  
+                                    <f:facet name="header" >  
+                                        <h:outputText value="N°" />   
+                                    </f:facet>   
+                                    <h:outputText value="#{cultivos.numero}"  />  
+                                </p:column> 
+
+                                <p:column>  
+                                    <f:facet name="header">  
+                                        <h:outputText value="Especie" />  
+                                    </f:facet>  
+                                    <h:outputText value="#{cultivos.especie.descripcion}" />  
+                                </p:column>  
+
+                                <p:column>  
+                                    <f:facet name="header">  
+                                        <h:outputText value="Variedad" />  
+                                    </f:facet>  
+                                    <h:outputText value="#{cultivos.variedad.descripcion}" >
+
+                                    </h:outputText>
+                                </p:column>  
+
+                                <p:column>  
+                                    <f:facet name="header">  
+                                        <h:outputText value="Hectáreas implantadas" />  
+                                    </f:facet>  
+                                    <h:outputText value="#{cultivos.hectareas}" >
+
+                                    </h:outputText>  
+                                </p:column>  
+
+                               
+                            </p:dataTable>  
+                        </p:outputPanel>  
+
+                    </p:tab>
                 </p:accordionPanel>
             </p:panel>
 
@@ -212,7 +298,6 @@
                              process="@this"/><br/><br/>
 
         </div>
-       
 
         <p:dataTable id="dtCampo"
                      paginator="true"
@@ -234,9 +319,7 @@
                                  update=":frmMain:dCampo,  @this"
                                  oncomplete="PF('dlgCampo').show();"
                                  actionListener="#{campoBean.setBtnSelect}"
-                                 disabled="#{not cam.active }"
-                                 process="@this"
-                                 >
+                                 process="@this">
                     <!--disabledSelection="#1{not prod.active }"> -->
 
 
@@ -244,7 +327,8 @@
                     <f:setPropertyActionListener value="#{cam.domicilio}" target="#{campoBean.domicilio}"/>
                     <f:setPropertyActionListener value="#{cam.lstCampoProductor}" target="#{listaCampoProductoAuxrBean.lstcampoProductor}"/>
                     <f:setPropertyActionListener value="#{cam.lstCampoProductor}" target="#{listaCampoProductorBean.lstCampoProductor}"/>
-                    <f:actionListener binding="#{campoBean.buscar(campoBean.campo)}"/>
+
+
                 </p:commandButton>
 
                 <p:commandButton id="cbHabilitado"
@@ -252,15 +336,10 @@
                                  icon="ui-icon-unlocked" 
                                  update=":frmMain:dCampo, @this"
                                  oncomplete="PF('dlgCampo').show();"
-                                 actionListener="#{campoBean.setBtnSelect}"
-                                 disabled="#{cam.active }"
-                                 process="@this"
+                                 actionListener="#{productorBean.setBtnSelect}"
+                                 disabled="#/{prod.active }"
                                  >
-                    <f:setPropertyActionListener value="#{cam}" target="#{campoBean.campo}"/>
-                    <f:setPropertyActionListener value="#{cam.domicilio}" target="#{campoBean.domicilio}"/>
-                    <f:setPropertyActionListener value="#{cam.lstCampoProductor}" target="#{listaCampoProductoAuxrBean.lstcampoProductor}"/>
-                    <f:setPropertyActionListener value="#{cam.lstCampoProductor}" target="#{listaCampoProductorBean.lstCampoProductor}"/>
-                    <f:actionListener binding="#{campoBean.buscar(campoBean.campo)}"/>
+                    <f:setPropertyActionListener value="#{prod}" target="#{productorBean.productor}"/>
 
 
                 </p:commandButton>
@@ -272,15 +351,11 @@
                                  update=":frmMain:dCampo, @this"
                                  oncomplete="PF('dlgCampo').show();"
                                  actionListener="#{campoBean.setBtnSelect}"
-                                 disabled="#{not cam.active }"
-                                 process="@this"
+                                 disabled="#/{not prof.active }"
                                  >
 
                     <f:setPropertyActionListener value="#{cam}" target="#{campoBean.campo}"/>
-                    <f:setPropertyActionListener value="#{cam.domicilio}" target="#{campoBean.domicilio}"/>
-                    <f:setPropertyActionListener value="#{cam.lstCampoProductor}" target="#{listaCampoProductoAuxrBean.lstcampoProductor}"/>
-                    <f:setPropertyActionListener value="#{cam.lstCampoProductor}" target="#{listaCampoProductorBean.lstCampoProductor}"/>
-                    <f:actionListener binding="#{campoBean.buscar(campoBean.campo)}"/>                </p:commandButton>
+                </p:commandButton>
             </p:column>
 
 
@@ -302,7 +377,7 @@
 
             </p:column>
         </p:dataTable>
-        
+
 
 
 

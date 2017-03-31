@@ -361,14 +361,20 @@ public class navegarBean {
         this.getListaTenenciaBean().cargar_SI_tenencia();
         this.getListaProductorBean().cargar_productor();
         this.getListaProductorBean().cargar_SI_productor();
-        this.getListaTenenciaBean().cargar_SI_tenencia();
+     
         this.getListaProvinciaBean().cargarProvincias();
         this.getListaProvinciaBean().cargarSIProvincias();
         this.getListaLocalidadBean().cargarLocalidades();
         this.getListaLocalidadBean().cargarSILocalidades();
         this.getListaCampoProductorBean().cargar_campo_productor();
-        
-
+           this.getListaVariedadBean().setLstVariedad(new ArrayList<Variedad>());
+        this.getListaVariedadBean().setLstSIVariedad(null);
+        this.getListaVariedadBean().cargarVariedad();
+        this.getListaVariedadBean().cargarSIVariedad();
+        this.getListaEspecieBean().setLstEspecie(new ArrayList<Especie>());
+        this.getListaEspecieBean().setLstSIEspecie(null);
+        this.getListaEspecieBean().cargarEspecie();
+        this.getListaEspecieBean().cargarSIEspecie();
         return "campo.xhtml?faces-redirect=true";
     }
 }
