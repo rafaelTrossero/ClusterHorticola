@@ -7,6 +7,7 @@ package bean;
 
 import RN.IngresoMercadoRNLocal;
 import entidad.IngresoMercado;
+import entidad.Provincia;
 import entidad.Variedad;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -17,6 +18,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -189,6 +191,7 @@ public class IngresoMercadoBean {
             //this.getEspecie().setBorrado(false);
             String mes="";
             System.out.println("el mes es" + ingresoMercado.getFecha().getMonth());
+             System.out.println("LA PROCEDENCIA ES" + ingresoMercado.getProcedencia());
             /*if(ingresoMercado.getFecha().getMonth() == 0){
              mes ="ENERO";
             }
@@ -259,8 +262,20 @@ public class IngresoMercadoBean {
         context.execute("PF('dlgIngresoMercado').hide()");  
     }//fin cerrarDialog
 
+   public void cargarProvinciasSelect(SelectEvent event){
+       
+    System.out.println(" entra a cargarProvinciasSelect: ");
+      Provincia provincia = ((Provincia) event.getObject());
+    System.out.println(" provincia: " + provincia);  
+    this.ingresoMercado.setProcedencia(provincia);
+      System.out.println("LA PROCEDENCIA ANTES DEL CREATE ES::--" + ingresoMercado.getProcedencia());
+    
+    }
+      
+      
     public void limpiar() {
         this.setIngresoMercado(new IngresoMercado());
     }//fin limpiar
+    
     
 }

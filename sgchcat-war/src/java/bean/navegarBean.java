@@ -311,6 +311,10 @@ public class navegarBean {
     }
     
       public String entrarFormIngresoMercado() {
+          this.getListaPaisBean().setLstPais(new ArrayList<Pais>());
+        this.getListaPaisBean().setLstSIPais(null);
+        this.getListaPaisBean().cargarPais();
+        this.getListaPaisBean().cargarSIPais();
         this.getListaEspecieBean().setLstEspecie(new ArrayList<Especie>());
         this.getListaEspecieBean().setLstSIEspecie(null);
         this.getListaEspecieBean().cargarEspecie();
@@ -324,7 +328,7 @@ public class navegarBean {
         
          this.getListaProductorBean().cargar_productor();
         this.getListaProductorBean().cargar_SI_productor();
-    
+        
 
         return "ingresoMercado.xhtml?faces-redirect=true";
     }

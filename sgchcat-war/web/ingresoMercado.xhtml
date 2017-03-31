@@ -8,6 +8,71 @@
                 xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:define name="content">
+        
+         <p:dialog id="dPaisProv"
+              modal="true" responsive="true"
+              widgetVar="dlgPaisProv">
+
+      <td> 
+        <div>
+          <h:outputText value="País:"/>
+        </div>
+        <div>
+          <p:selectOneMenu id="somPais"
+                           converter="ConversorGenerico"        
+                           valueChangeListener="#{listaProvinciaBean.recuperarProvincias}"                               height="100"
+                           disabled="#{provinciaBean.getbCamposEditables()}">
+
+            <f:selectItems value="#{listaPaisBean.lstSIPais}"/>
+            <p:ajax        update="dtProvincia"
+                           event="change" 
+
+                           />
+          </p:selectOneMenu>
+        </div>
+      </td>
+
+      <td>
+        <div>
+          <h:outputText value="Provincia"/>
+        </div>
+        <div>
+
+
+          <p:dataTable id="dtProvincia"
+                       value="#{listaProvinciaBean.lstProvinciaBorrado}"
+                       var="prov"
+                       rowKey="#{prov.id}"
+                       selectionMode="single"
+                       paginator="true"
+                       rows="10"
+                       >
+              <p:ajax event="rowSelect" listener="#{ingresoMercadoBean.cargarProvinciasSelect}"   
+                    update=":frmMain:pgLugares"
+                    oncomplete="PF('dlgPaisProv').hide();" />
+            <p:column>
+              <f:facet name="header">
+                <h:outputText value="Código"/>
+              </f:facet>
+              <h:outputText value="#{prov.codigo}"/>
+            </p:column>
+
+            <p:column filterBy="#{prov.descripcion}">
+              <f:facet name="header">
+                <h:outputText value="Provincia"/>
+              </f:facet>
+              <h:outputText value="#{prov.descripcion}"/>
+            </p:column>
+
+          </p:dataTable>
+        </div>
+
+
+
+
+      </td>
+    </p:dialog>
+        
         <p:dialog id="dIngresoMercado" 
                   widgetVar="dlgIngresoMercado" 
                   modal="true" responsive="true"
@@ -17,20 +82,15 @@
             </f:facet>
             <p:panel id="pIngresoMercado" style="float:left;">
 
-                <p:focus context="pIngresoMercado"/> 
+                <h:outputText  value="Todos los campos con * son requeridos."  styleClass="aclaraciones" />
 
+                <p:panelGrid columns="2" >
 
-                <div class="camposTexto">
-                    <h:outputText  value="Todos los campos con * son requeridos."  styleClass="aclaraciones" />
-                </div>
-                <div style="clear: both;"/>
-
-                <div class="camposTexto">
                     <h:outputText  value="Especie / Producto:   " />
 
 
                     <p:selectOneMenu id="somEspecie"
-
+                                     value="#{ingresoMercadoBean.ingresoMercado.especie}"  
                                      valueChangeListener="#{listaVariedadBean.recuperarVariedad}"
                                      converter="ConversorGenerico"
                                      disabled="#{ingresoMercadoBean.getbCamposEditables()}">
@@ -38,9 +98,9 @@
                         <p:ajax update="somVariedad"
                                 event="change"  />
                     </p:selectOneMenu>
-                </div>     
 
-                <div class="camposTexto">
+
+
                     <h:outputText  value="Variedad*:   " />
 
                     <p:selectOneMenu id="somVariedad"
@@ -53,40 +113,67 @@
 
 
                     </p:selectOneMenu>
-                </div>     
-                <div class="camposTexto"> 
+
+
                     <h:outputText value="Ingreso:   "/>
                     <p:selectOneMenu id="somIngreso"
 
                                      value="#{ingresoMercadoBean.ingresoMercado.ingreso}"  
                                      converter="ConversorGenerico"
                                      disabled="#{ingresoMercadoBean.getbCamposEditables()}">
-                        <f:selectItem itemLabel="Seleccione una Variedad..." itemValue="0"/>
+                        <f:selectItem itemLabel="Seleccionar..." itemValue="0"/>
                         <f:selectItem itemLabel="Local" itemValue="Local"/>
                         <f:selectItem itemLabel="Extra Provincial" itemValue="Extra Provincial"/>
-
+                        <p:ajax update="cbBuscarProv" /> 
                     </p:selectOneMenu>
-                </div>
-                <div class="camposTexto"> 
+                       
+                    
+                      
+          
+              
+              <p:commandButton id="cbBuscarProv" 
+                               title="Buscar"
+                               icon="ui-icon-search"
+                               oncomplete="PF('dlgPaisProv').show()"
+                               value="Procedencia"
+                               action="#{listaProvinciaBean.cargarSIProvincias()}"
+                               process="@this"
+                               immediate="true"
+                               update="dtProvincia"
+                               disabled="#{ingresoMercadoBean.ingresoMercado.ingreso == 'Local'}"
+                               />
+
+        
+              <h:panelGroup id="pgLugares">
+                <h:inputHidden id="ihProvinciaId" value="#{departamentoBean.departamento.provincia.id}"/>
+                <h:inputHidden id="ihProvinciaDesc" value="#{departamentoBean.departamento.provincia.descripcion}"/>
+                <h:inputHidden id="ihPaisId" value="#{departamentoBean.departamento.provincia.pais.id}"/>
+                <h:inputHidden id="ihPaisDesc" value="#{departamentoBean.departamento.provincia.pais.descripcion}"/>
+                <p:inputText id ="otDomicilio" 
+                             value="#{ingresoMercadoBean.ingresoMercado.procedencia.descripcion}" 
+                             readonly="true"
+                             disabled="#{ingresoMercadoBean.ingresoMercado.ingreso == 'Local'}"
+                             />
+              </h:panelGroup>
+       
                     <h:outputText value="Cantidad de kg:   "/>
 
                     <p:inputText value="#{ingresoMercadoBean.ingresoMercado.kg}"
                                  label="Cantidad de Kilos de procedencia NO local"
                                  disabled="#{ingresoMercadoBean.getbCamposEditables()}"
                                  required="#{ingresoMercadoBean.bCamposRequeridos}"/>
-                </div>
-                <div class="camposTexto"> 
+
                     <h:outputText value="Fecha*:   "/>
 
                     <p:calendar value="#{ingresoMercadoBean.ingresoMercado.fecha}"
                                 label="fecha de ingreso"
                                 disabled="#{ingresoMercadoBean.getbCamposEditables()}"
                                 required="#{ingresoMercadoBean.bCamposRequeridos}"/>
-                </div>
-                <div style="clear: both;"/>
 
 
 
+
+                </p:panelGrid>
 
             </p:panel>
 
