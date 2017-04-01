@@ -29,5 +29,6 @@ public interface ProductorFacadeLocal {
     List<Productor> findRange(int[] range);
 
     int count();
+    public void activate(Productor productor, Boolean bEstado);
     
 }

@@ -49,7 +49,7 @@ public class ProductorRN implements ProductorRNLocal {
 
     @Override
     public void activate(Productor productor, Boolean bEstado) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+   productorFacadeLocal.activate(productor, bEstado);
     }
 
     @Override
