@@ -7,6 +7,7 @@ package bean;
 
 import RN.IngresoMercadoRNLocal;
 import entidad.IngresoMercado;
+import entidad.Pais;
 import entidad.Provincia;
 import entidad.Variedad;
 import javax.ejb.EJB;
@@ -19,6 +20,7 @@ import javax.faces.event.ActionEvent;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
+import recursos.AuxBean;
 
 /**
  *
@@ -27,7 +29,9 @@ import org.primefaces.event.SelectEvent;
 @ManagedBean
 @RequestScoped
 public class IngresoMercadoBean {
-
+@ManagedProperty("#{auxBean}")
+  private AuxBean auxBean;
+private Provincia pro;
      private IngresoMercado ingresoMercado;
     @ManagedProperty("#{listaIngresoMercadoBean}")
     private ListaIngresoMercadoBean listaIngresoMercadoBean;
@@ -42,15 +46,36 @@ public class IngresoMercadoBean {
     private String cadenaVariedad;
     public IngresoMercadoBean() {
         this.ingresoMercado = new IngresoMercado();
+        
+        
+   
     }
 
     public IngresoMercado getIngresoMercado() {
         return ingresoMercado;
     }
 
+    public Provincia getPro() {
+        return pro;
+    }
+
+    public void setPro(Provincia pro) {
+        this.pro = pro;
+    }
+
     public void setIngresoMercado(IngresoMercado ingresoMercado) {
         this.ingresoMercado = ingresoMercado;
+       
     }
+
+    public AuxBean getAuxBean() {
+        return auxBean;
+    }
+
+    public void setAuxBean(AuxBean auxBean) {
+        this.auxBean = auxBean;
+    }
+    
 
     public ListaIngresoMercadoBean getListaIngresoMercadoBean() {
         return listaIngresoMercadoBean;
@@ -191,46 +216,10 @@ public class IngresoMercadoBean {
             //this.getEspecie().setBorrado(false);
             String mes="";
             System.out.println("el mes es" + ingresoMercado.getFecha().getMonth());
+           
              System.out.println("LA PROCEDENCIA ES" + ingresoMercado.getProcedencia());
-            /*if(ingresoMercado.getFecha().getMonth() == 0){
-             mes ="ENERO";
-            }
-            if(ingresoMercado.getFecha().getMonth() == 1){
-             mes ="FEBRERO";
-            }
-            if(ingresoMercado.getFecha().getMonth() == 2){
-             mes ="MARZO";
-            }
-            if(ingresoMercado.getFecha().getMonth() == 3){
-             mes ="ABRIL";
-            }
-            if(ingresoMercado.getFecha().getMonth() == 4){
-             mes ="MAYO";
-            }
-            if(ingresoMercado.getFecha().getMonth() == 5){
-             mes ="JUNIO";
-            }
-            if(ingresoMercado.getFecha().getMonth() == 6){
-             mes ="JULIO";
-            }
-            if(ingresoMercado.getFecha().getMonth() == 7){
-             mes ="AGOSTO";
-            }
-            if(ingresoMercado.getFecha().getMonth() == 8){
-             mes ="SEPTIEMBRE";
-            }
-            if(ingresoMercado.getFecha().getMonth() == 9){
-             mes ="OCTUBRE";
-            }
-            if(ingresoMercado.getFecha().getMonth() == 10){
-             mes ="NOVIEMBRE";
-            }
-            if(ingresoMercado.getFecha().getMonth() == 11){
-             mes ="DICIEMBRE";
-            }
-            ingresoMercado.setMes(mes);
-            System.out.println("el mes es" + mes);
-           */
+            
+            
             ingresoMercadoRNLocal.create(ingresoMercado);
             sMensaje = "El dato fue guardado";
             severity = FacesMessage.SEVERITY_INFO;
@@ -258,20 +247,23 @@ public class IngresoMercadoBean {
         this.setbCamposRequeridos(false);
         //cerrar el dialog
         RequestContext context = RequestContext.getCurrentInstance();
-        // context.update("pDialog");
+        context.update("pDialog");
         context.execute("PF('dlgIngresoMercado').hide()");  
     }//fin cerrarDialog
+      
 
    public void cargarProvinciasSelect(SelectEvent event){
-       
+       ingresoMercado.setProcedencia(new Provincia());
     System.out.println(" entra a cargarProvinciasSelect: ");
       Provincia provincia = ((Provincia) event.getObject());
     System.out.println(" provincia: " + provincia);  
     this.ingresoMercado.setProcedencia(provincia);
       System.out.println("LA PROCEDENCIA ANTES DEL CREATE ES::--" + ingresoMercado.getProcedencia());
-    
+     
+  System.out.println("cargarProvinciasSelect: " + this.getAuxBean().getLstProvinciaSelect());
     }
-      
+     
+     
       
     public void limpiar() {
         this.setIngresoMercado(new IngresoMercado());

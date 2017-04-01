@@ -49,7 +49,7 @@
                                          label="Nombre"
                                          disabled="#{productorBean.getbCamposEditables()}"/>
 
-                            
+
                             <p:outputLabel for="dni" value="DNI:" />
                             <p:inputMask id="dni" value="#{productorBean.productor.dni}" mask="99999999"
                                          disabled="#{productorBean.getbCamposEditables()}"/>
@@ -111,20 +111,20 @@
                                     value="#{listaLocalidadBean.lstSILocalidad}"/>
 
                             </p:selectOneMenu>
-                            
-                              <h:outputText value="Calle: "/>
-                              <p:inputText value="#{productorBean.domicilio.calle}"
+
+                            <h:outputText value="Calle: "/>
+                            <p:inputText value="#{productorBean.domicilio.calle}"
                                          label="Calle"
                                          disabled="#{profesionalBean.getbCamposEditables()}"/>
-                               <h:outputText value="Numero: "/>
-                               <p:inputText value="#{productorBean.domicilio.numero}"
+                            <h:outputText value="Numero: "/>
+                            <p:inputText value="#{productorBean.domicilio.numero}"
                                          label="Numero"
                                          disabled="#{profesionalBean.getbCamposEditables()}"/>
-                                <h:outputText value="Georeferenciación "/>
-                                <p:inputText value="#{productorBean.domicilio.referencia}"
+                            <h:outputText value="Georeferenciación "/>
+                            <p:inputText value="#{productorBean.domicilio.referencia}"
                                          label="Georeferenciacion"
                                          disabled="#{profesionalBean.getbCamposEditables()}"/>
-                            
+
                             <h:outputText value="Teléfono: "/>
                             <p:inputText value="#{productorBean.productor.telefono}"
                                          label="Telefono"
@@ -208,26 +208,26 @@
                      value="#{listaProductorBean.lstProductor}"
                      var="prod"
                      >
-                     <!--disabledSelection="#1{not prod.active }" -->
+            <!--disabledSelection="#1{not prod.active }" -->
 
 
 
 
-                     <p:column width="152"  headerText="Operaciones"  >
+            <p:column width="152"  headerText="Operaciones"  >
 
                 <p:commandButton id="cbEditar"
                                  title="Editar"
                                  icon="ui-icon-pencil" 
-                                 update=":frmMain:dProductor"
+                                 update=":frmMain:dProductor,  @this"
                                  oncomplete="PF('dlgProductor').show();"
-                                 actionListener="#{productorBean.setBtnSelect}">
-                                 <!--disabledSelection="#1{not prod.active }"> -->
+                                 actionListener="#{productorBean.setBtnSelect}"
+                                 disabled="#{not prod.active}"
+                                 process="@this">
 
-                                 
-                                 <f:setPropertyActionListener value="#{prod}" target="#{productorBean.productor}"/>
-
-
+                    <f:setPropertyActionListener value="#{prod}" target="#{productorBean.productor}"/>
+                    <f:setPropertyActionListener value="#{prod.domicilio}" target="#{productorBean.domicilio}"/>
                 </p:commandButton>
+
 
                 <p:commandButton id="cbHabilitado"
                                  title="Activar"
@@ -235,13 +235,14 @@
                                  update=":frmMain:dProductor, @this"
                                  oncomplete="PF('dlgProductor').show();"
                                  actionListener="#{productorBean.setBtnSelect}"
-                                 disabled="#/{prod.active }"
+                                 disabled="#{prod.active}"
+                                 process="@this"
                                  >
                     <f:setPropertyActionListener value="#{prod}" target="#{productorBean.productor}"/>
+                    <f:setPropertyActionListener value="#{prod.domicilio}" target="#{productorBean.domicilio}"/>
 
 
                 </p:commandButton>
-
 
                 <p:commandButton id="cbDeshabilitado"
                                  title="Desactivar"
@@ -249,11 +250,15 @@
                                  update=":frmMain:dProductor, @this"
                                  oncomplete="PF('dlgProductor').show();"
                                  actionListener="#{productorBean.setBtnSelect}"
-                                 disabled="#/{not prof.active }"
+                                 disabled="#{not prod.active }"
+                                 process="@this"
                                  >
 
                     <f:setPropertyActionListener value="#{prod}" target="#{productorBean.productor}"/>
+                    <f:setPropertyActionListener value="#{prod.domicilio}" target="#{productorBean.domicilio}"/>
                 </p:commandButton>
+               
+                
             </p:column>
 
 
@@ -273,7 +278,7 @@
 
             </p:column>
 
-                     <p:column filterBy="#{prod.domicilio.localidad}" sortBy="#{prod.domicilio.localidad}">
+            <p:column filterBy="#{prod.domicilio.localidad}" sortBy="#{prod.domicilio.localidad}">
                 <f:facet name="header">
                     <h:outputText value="Localidad"/>
                 </f:facet>               

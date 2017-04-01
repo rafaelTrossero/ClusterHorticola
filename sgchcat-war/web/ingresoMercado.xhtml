@@ -75,12 +75,16 @@
         
         <p:dialog id="dIngresoMercado" 
                   widgetVar="dlgIngresoMercado" 
-                  modal="true" responsive="true"
-                  closable="false" resizable="false">
+                  modal="true"
+                  closable="false">
             <f:facet name="header">
                 <h:outputText value=" Gestión de Ingreso de Hortalizas al Mercado de Abasto" styleClass="subTitulo"/>
             </f:facet>
             <p:panel id="pIngresoMercado" style="float:left;">
+                <h:inputHidden value="#{ingresoMercadoBean.ingresoMercado.id}"/>
+               
+
+                <h:inputHidden value="#{listaIngresoMercadoBean.iActionBtnSelect}"/>
 
                 <h:outputText  value="Todos los campos con * son requeridos."  styleClass="aclaraciones" />
 
@@ -194,13 +198,13 @@
                                  actionListener="#{ingresoMercadoBean.actionBtn}" 
                                  update=":frmMain:dtIngresoMercado, :frmMain:pIngresoMercado, @this"
                                  binding="#{ingresoMercadoBean.cbAction}"/>
+                
 
                 <p:commandButton id="btnSalir"
                                  value="Salir" 
                                  actionListener="#{ingresoMercadoBean.cerrarDialog()}" 
-                                 update=":frmMain:pIngresoMercado, :frmMain:dtIngresoMercado"
-                                 process="@this"
-                                 />
+                                 update=":frmMain:pIngresoMercado, :frmMain:dtIngresoMercado, @this"
+                         process="@this"/>
             </div>
 
         </p:dialog>
@@ -235,11 +239,13 @@
                     <p:commandButton id="cbEdit"
                                      title="Editar"
                                      icon="ui-icon-pencil" 
-                                     update=":frmMain:dIngresoMercado"
+                                     update=":frmMain:dIngresoMercado,  @this"
                                      oncomplete="PF('dlgIngresoMercado').show();"
                                      actionListener="#{ingresoMercadoBean.setBtnSelect}"
+                                     process="@this"
                                      >
-                        <f:setPropertyActionListener value="#{ingreso}" target="#{ingresoMercadoBean.ingresoMercado}"/>  
+                        <f:setPropertyActionListener value="#{ingreso}" target="#{ingresoMercadoBean.ingresoMercado}"/> 
+                        <f:setPropertyActionListener value="#{ingreso.procedencia}" target="#{ingresoMercadoBean.ingresoMercado.procedencia}"/> 
                     </p:commandButton>
 
                     <p:commandButton id="cbDelete"

@@ -17,6 +17,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.primefaces.component.commandbutton.CommandButton;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -103,15 +104,15 @@ public class productorBean {
                 //this.limpiar();
                 break;
             case 1:
-                // this.edit();
+                this.edit();
                 break;
             case 2:
                 //deshabilita el campo
-                // this.activate(Boolean.FALSE);
+                 this.activate(Boolean.FALSE);
                 break;
             case 3:
                 //habilita el campo
-                //  this.activate(Boolean.TRUE);
+                 this.activate(Boolean.TRUE);
                 break;
 
         }//fin switch
@@ -163,7 +164,7 @@ public class productorBean {
         FacesMessage fm;
         FacesMessage.Severity severity = null;
         try {
-
+             productor.setActive(Boolean.TRUE);
              domicilioRNLocal.create(domicilio);
              System.out.println("Domicilio: " + domicilio);
              productor.setDomicilio(domicilio);
@@ -192,5 +193,97 @@ public class productorBean {
         }
 
     }//fin crear
+    public void edit() {
+        System.out.println("Entro al edit");
+        String sMensaje = "";
+        FacesMessage fm;
+        FacesMessage.Severity severity = null;
+        try {
+            
+            
+            productor.setActive(Boolean.TRUE);
+            domicilioRNLocal.edit(domicilio);
+            
+            productor.setDomicilio(domicilio);
+            System.out.println("Domicilio: " + domicilio);
+            productorRNLocal.edit(productor);
+            
+            
+          
+            //usersRNLocal.edit(this.getUsers());
+
+            sMensaje = "Información actualizada con éxito";
+            severity = FacesMessage.SEVERITY_INFO;
+
+            //elimino y agrego el organismo modificado a la lista
+            //int iPos = this.getListaAlumnoBean().getLstUsers().indexOf(this.getUsers());
+            int iPos = this.getListaProductorBean().getLstProductor().indexOf(this.getProductor());
+         
+            this.getListaProductorBean().getLstProductor().remove(iPos);
+            this.getListaProductorBean().getLstProductor().add(iPos, this.getProductor());
+
+            //this.getCbAction().setValue("Update");
+            this.getCbAction().setDisabled(true);
+
+            //this.setbCamposRequeridos(false);
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('dlgProductor').hide()");
+        } catch (Exception ex) {
+            severity = FacesMessage.SEVERITY_ERROR;
+            sMensaje = "Error al actualizar: " + ex.getMessage();
+
+        } finally {
+            fm = new FacesMessage(severity, sMensaje, "");
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage(null, fm);
+        }
+    }
+    public void activate(Boolean bEstado) {
+        String sMensaje = "";
+        FacesMessage fm;
+        FacesMessage.Severity severity = null;
+
+        try {
+             productorRNLocal.activate(this.getProductor(), bEstado);
+            
+
+            //elimino el organismo de la lista
+            //int iPos = this.getListaAlumnoBean().getLstAlumno()).indexOf(this.getAlumno());
+            int iPos = this.getListaProductorBean().getLstProductor().indexOf(this.getProductor());
+
+            this.setProductor(this.getListaProductorBean().getLstProductor().get(iPos));
+            this.getProductor().setActive(bEstado);
+            
+            this.getListaProductorBean().getLstProductor().remove(iPos);
+            this.getListaProductorBean().getLstProductor().add(iPos, this.getProductor());
+
+            if (!bEstado) {
+                sMensaje = "Empaque desactivado correctamente";
+            } else {
+                sMensaje = "Empaque reactivado correctaamente";
+            }
+            severity = FacesMessage.SEVERITY_INFO;
+
+            this.getCbAction().setDisabled(true);
+
+            //limíar campos
+            this.limpiar();
+            //this.setbCamposRequeridos(false);
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('dlgEmpaque').hide()");
+
+        } catch (Exception ex) {
+            severity = FacesMessage.SEVERITY_ERROR;
+            sMensaje = "An error ocurred during activation: " + ex.getMessage();
+
+        } finally {
+            fm = new FacesMessage(severity, sMensaje, null);
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage(null, fm);
+        }
+    }
+    public void limpiar() {
+        this.setProductor(new Productor());
+    }//fin limpiar
 
 }
