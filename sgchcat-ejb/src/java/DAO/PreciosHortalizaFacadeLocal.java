@@ -29,5 +29,6 @@ public interface PreciosHortalizaFacadeLocal {
     List<PreciosHortaliza> findRange(int[] range);
 
     int count();
+     public void activate(PreciosHortaliza preciosHortaliza, Boolean bEstado);
     
 }

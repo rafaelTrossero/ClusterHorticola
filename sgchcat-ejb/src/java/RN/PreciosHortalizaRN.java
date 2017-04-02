@@ -43,8 +43,8 @@ public class PreciosHortalizaRN implements PreciosHortalizaRNLocal {
 
     @Override
     public void activate(PreciosHortaliza p, Boolean bEstado) throws Exception {
-       
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       preciosHortalizaFacadeLocal.activate(p, bEstado);
+
     }
 
     @Override

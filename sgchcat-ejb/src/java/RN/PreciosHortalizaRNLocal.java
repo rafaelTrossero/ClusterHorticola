@@ -28,4 +28,5 @@ public interface PreciosHortalizaRNLocal {
     public void activate(PreciosHortaliza p, Boolean bEstado) throws Exception;
     
     List<PreciosHortaliza> findAllActivo() throws Exception;
+   
 }
