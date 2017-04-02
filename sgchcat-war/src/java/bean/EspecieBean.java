@@ -117,23 +117,15 @@ public class EspecieBean {
                 //this.limpiar();
                 break;
             case 1:
-             //   this.edit();
+              this.edit();
                 break;
-            case 2:
-                System.out.println("Entro al delete");
-            //    this.delete(Boolean.TRUE);
+           case 2:
+                //deshabilita el campo
+                 this.activate(Boolean.FALSE);
                 break;
             case 3:
-                //recupera el campo borrado
-             //   this.delete(Boolean.FALSE);
-                break;
-            case 4:
-                //deshabilita el campo
-             //   this.habilitar(Boolean.FALSE);
-                break;
-            case 5:
                 //habilita el campo
-             //   this.habilitar(Boolean.TRUE);
+                this.activate(Boolean.TRUE);
                 break;
         }//fin switch
     }//fin actionBtn
@@ -154,28 +146,18 @@ public class EspecieBean {
             //campos requeridos
             this.setbCamposRequeridos(true);
 
-        } else if (btnSelect.getId().equals("cbDelete")) {
-            this.getListaEspecieBean().setiActionBtnSelect(2);
-            this.getCbAction().setValue("Eliminar");
-            this.setbCamposEditables(true);
-
         } else if (btnSelect.getId().equals("cbEdit")) {
             this.getListaEspecieBean().setiActionBtnSelect(1);
             this.getCbAction().setValue("Modificar");
             //campos requeridos
             this.setbCamposRequeridos(true);
-        } else if (btnSelect.getId().equals("cbRecuperarBorrado")) {
-            this.getListaEspecieBean().setiActionBtnSelect(3);
-            this.setbCamposEditables(true);
-            this.getCbAction().setValue("Recuperar");
-
         } else if (btnSelect.getId().equals("cbDeshabilitado")) {
-            this.getListaEspecieBean().setiActionBtnSelect(4);
+            this.getListaEspecieBean().setiActionBtnSelect(2);
             this.setbCamposEditables(true);
             this.getCbAction().setValue("Deshabilitar");
 
         } else if (btnSelect.getId().equals("cbHabilitado")) {
-            this.getListaEspecieBean().setiActionBtnSelect(5);
+            this.getListaEspecieBean().setiActionBtnSelect(3);
             this.setbCamposEditables(true);
             this.getCbAction().setValue("Habilitar");
         }
@@ -189,7 +171,7 @@ public class EspecieBean {
         FacesMessage.Severity severity = null;
         try {
             //this.getEspecie().setBorrado(false);
-
+            especie.setActive(Boolean.TRUE);
             especieRNLocal.create(especie);
             sMensaje = "El dato fue guardado";
             severity = FacesMessage.SEVERITY_INFO;
@@ -224,4 +206,89 @@ public class EspecieBean {
     public void limpiar() {
         this.setEspecie(new Especie());
     }//fin limpiar
+    public void edit() {
+        System.out.println("Entro al edit");
+        String sMensaje = "";
+        FacesMessage fm;
+        FacesMessage.Severity severity = null;
+        try {
+            especie.setActive(Boolean.TRUE);
+            
+            especieRNLocal.edit(especie);
+            
+            
+          
+            //usersRNLocal.edit(this.getUsers());
+
+            sMensaje = "Información actualizada con éxito";
+            severity = FacesMessage.SEVERITY_INFO;
+
+            //elimino y agrego el organismo modificado a la lista
+            //int iPos = this.getListaAlumnoBean().getLstUsers().indexOf(this.getUsers());
+            int iPos = this.getListaEspecieBean().getLstEspecie().indexOf(this.getEspecie());
+         
+            this.getListaEspecieBean().getLstEspecie().remove(iPos);
+            this.getListaEspecieBean().getLstEspecie().add(iPos, this.getEspecie());
+
+            //this.getCbAction().setValue("Update");
+            this.getCbAction().setDisabled(true);
+
+            //this.setbCamposRequeridos(false);
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('dlgEspecie').hide()");
+        } catch (Exception ex) {
+            severity = FacesMessage.SEVERITY_ERROR;
+            sMensaje = "Error al actualizar: " + ex.getMessage();
+
+        } finally {
+            fm = new FacesMessage(severity, sMensaje, "");
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage(null, fm);
+        }
+    }
+    
+     public void activate(Boolean bEstado) {
+        String sMensaje = "";
+        FacesMessage fm;
+        FacesMessage.Severity severity = null;
+
+        try {
+             especieRNLocal.activate(this.getEspecie(), bEstado);
+            
+
+            //elimino el organismo de la lista
+            //int iPos = this.getListaAlumnoBean().getLstAlumno()).indexOf(this.getAlumno());
+            int iPos = this.getListaEspecieBean().getLstEspecie().indexOf(this.getEspecie());
+
+            this.setEspecie(this.getListaEspecieBean().getLstEspecie().get(iPos));
+            this.getEspecie().setActive(bEstado);
+            
+            this.getListaEspecieBean().getLstEspecie().remove(iPos);
+            this.getListaEspecieBean().getLstEspecie().add(iPos, this.getEspecie());
+
+            if (!bEstado) {
+                sMensaje = "Especie desactivado correctamente";
+            } else {
+                sMensaje = "Especie reactivado correctaamente";
+            }
+            severity = FacesMessage.SEVERITY_INFO;
+
+            this.getCbAction().setDisabled(true);
+
+            //limíar campos
+            this.limpiar();
+            //this.setbCamposRequeridos(false);
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('dlgEspecie').hide()");
+
+        } catch (Exception ex) {
+            severity = FacesMessage.SEVERITY_ERROR;
+            sMensaje = "An error ocurred during activation: " + ex.getMessage();
+
+        } finally {
+            fm = new FacesMessage(severity, sMensaje, null);
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage(null, fm);
+        }
+    }
 }

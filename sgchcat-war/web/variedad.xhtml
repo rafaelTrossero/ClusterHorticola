@@ -28,7 +28,7 @@
                     <h:outputText  value="Todos los campos con * son requeridos."  styleClass="aclaraciones" />
                 </div>
                 <div style="clear: both;"/>
-                 <div class="camposTexto">
+                <div class="camposTexto">
                     <h:outputText  value="Especie*:   " />
 
                     <p:selectOneMenu id="somEspecie"
@@ -47,7 +47,7 @@
                                  required="#{variedadBean.bCamposRequeridos}"/>
                 </div>
                 <div style="clear: both;"/>
-               
+
 
 
 
@@ -65,11 +65,20 @@
             <div  style="float: left; margin: 10px;
                   width: 100%;
                   text-align: center;">
+                <p:growl id="message" showDetail="true"  />
+                <div style="clear: both;"/>
                 <p:commandButton id="btnAction"
                                  value="Guardar " 
                                  actionListener="#{variedadBean.actionBtn}" 
-                                 update=":frmMain:dtVariedad, :frmMain:pVariedad, @this"
-                                 binding="#{variedadBean.cbAction}"/>
+                                 update=":frmMain:dtVariedad, :frmMain:pVariedad,message, @this"
+                                 binding="#{variedadBean.cbAction}">
+                    <p:confirm header="Confirmación" message="¿Seguro?" icon="ui-icon-alert" />
+                </p:commandButton>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
+                                     ajax="false"  />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
 
                 <p:commandButton id="btnSalir"
                                  value="Salir" 
@@ -125,30 +134,39 @@
                                      update=":frmMain:dVariedad"
                                      oncomplete="PF('dlgVariedad').show();"
                                      actionListener="#{variedadBean.setBtnSelect}"
+                                     disabled="#{not pa.active }"
+                                     process="@this"
                                      >
                         <f:setPropertyActionListener value="#{pa}" target="#{variedadBean.variedad}"/>  
                     </p:commandButton>
 
-                    <p:commandButton id="cbDelete"
-                                     title="Eliminar"
-                                     icon="ui-icon-circle-close" 
-                                     update=":frmMain:dVariedad"
-                                     oncomplete="PF('dlgVariedad').show();"
-                                     actionListener="#{variedadBean.setBtnSelect}"
-                                     >
-                        <f:setPropertyActionListener value="#{pa}" target="#{variedadBean.variedad}"/>   
 
-                    </p:commandButton>
-                    <p:commandButton id="cbRecuperarBorrado"
-                                     title="Recuperar Borrado"
-                                     icon="ui-icon-unlocked" 
-                                     update=":frmMain:dVariedad, @this, :frmMain:dtVariedad"
+                    <p:commandButton id="cbHabilitado"
+                                     title="Activar"
+                                     icon="ui-icon-unlocked"
+                                     update=":frmMain:dVariedad, @this"
                                      oncomplete="PF('dlgVariedad').show();"
                                      actionListener="#{variedadBean.setBtnSelect}"
+                                     disabled="#{pa.active }"
+                                     process="@this"
                                      >
                         <f:setPropertyActionListener value="#{pa}" target="#{variedadBean.variedad}"/>  
 
                     </p:commandButton>
+
+                    <p:commandButton id="cbDeshabilitado"
+                                     title="Desactivar"
+                                     icon="ui-icon-circle-close"
+                                     update=":frmMain:dVariedad, @this"
+                                     oncomplete="PF('dlgVariedad').show();"
+                                     actionListener="#{variedadBean.setBtnSelect}"
+                                     disabled="#{not pa.active }"
+                                     process="@this"
+                                     >
+                        <f:setPropertyActionListener value="#{pa}" target="#{variedadBean.variedad}"/>  
+
+                    </p:commandButton>
+
                 </p:column>
                 <p:column filterBy="#{pa.descripcion}" sortBy="#{pa.descripcion}">
                     <f:facet name="header">
@@ -157,7 +175,7 @@
                     <h:outputText value="#{pa.descripcion}"/>
 
                 </p:column>
-                
+
                 <p:column filterBy="#{pa.especie.descripcion}" sortBy="#{pa.especie.descripcion}">
                     <f:facet name="header">
                         <h:outputText value="Especie"/>

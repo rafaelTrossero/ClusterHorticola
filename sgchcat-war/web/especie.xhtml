@@ -55,12 +55,21 @@
             <div  style="float: left; margin: 10px;
                   width: 100%;
                   text-align: center;">
+                <p:growl id="message" showDetail="true"  />
+                <div style="clear: both;"/>
                 <p:commandButton id="btnAction"
                                  value="Guardar " 
                                  actionListener="#{especieBean.actionBtn}" 
-                                 update=":frmMain:dtEspecie, :frmMain:pEspecie, @this"
-                                 binding="#{especieBean.cbAction}"/>
-
+                                 update=":frmMain:dtEspecie, :frmMain:pEspecie,message, @this"
+                                 binding="#{especieBean.cbAction}"
+                                >
+                    <p:confirm header="Confirmación" message="¿Seguro?" icon="ui-icon-alert" />
+                </p:commandButton>
+                 <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
+                                     ajax="false"  />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
                 <p:commandButton id="btnSalir"
                                  value="Salir" 
                                  actionListener="#{especieBean.cerrarDialog()}" 
@@ -113,30 +122,37 @@
                     <p:commandButton id="cbEdit"
                                      title="Editar"
                                      icon="ui-icon-pencil" 
-                                     update=":frmMain:dEspecie"
+                                     update=":frmMain:dEspecie,  @this"
                                      oncomplete="PF('dlgEspecie').show();"
                                      actionListener="#{especieBean.setBtnSelect}"
+                                     disabled="#{not pa.active }"
+                                 process="@this"
                                     >
                         <f:setPropertyActionListener value="#{pa}" target="#{especieBean.especie}"/>  
                     </p:commandButton>
 
-                    <p:commandButton id="cbDelete"
-                                     title="Eliminar"
-                                     icon="ui-icon-circle-close" 
-                                     update=":frmMain:dEspecie"
-                                     oncomplete="PF('dlgEspecie').show();"
-                                     actionListener="#{especieBean.setBtnSelect}"
-                                     >
+                     <p:commandButton id="cbHabilitado"
+                                 title="Activar"
+                                 icon="ui-icon-unlocked"
+                                 update=":frmMain:dEspecie, @this"
+                                 oncomplete="PF('dlgEspecie').show();"
+                                 actionListener="#{especieBean.setBtnSelect}"
+                                 disabled="#{pa.active }"
+                                 process="@this"
+                                 >
                         <f:setPropertyActionListener value="#{pa}" target="#{especieBean.especie}"/>  
 
                     </p:commandButton>
-                    <p:commandButton id="cbRecuperarBorrado"
-                                     title="Recuperar Borrado"
-                                     icon="ui-icon-unlocked" 
-                                     update=":frmMain:dEspecie, @this, :frmMain:dtEspecie"
-                                     oncomplete="PF('dlgEspecie').show();"
-                                     actionListener="#{especieBean.setBtnSelect}"
-                                     >
+                    
+                   <p:commandButton id="cbDeshabilitado"
+                                 title="Desactivar"
+                                 icon="ui-icon-circle-close"
+                                 update=":frmMain:dEspecie, @this"
+                                 oncomplete="PF('dlgEspecie').show();"
+                                 actionListener="#{especieBean.setBtnSelect}"
+                                 disabled="#{not pa.active }"
+                                 process="@this"
+                                 >
                         <f:setPropertyActionListener value="#{pa}" target="#{especieBean.especie}"/>  
 
                     </p:commandButton>

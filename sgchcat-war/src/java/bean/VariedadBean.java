@@ -118,23 +118,15 @@ public class VariedadBean {
                 //this.limpiar();
                 break;
             case 1:
-             //   this.edit();
+              this.edit();
                 break;
-            case 2:
-                System.out.println("Entro al delete");
-            //    this.delete(Boolean.TRUE);
+           case 2:
+                //deshabilita el campo
+                 this.activate(Boolean.FALSE);
                 break;
             case 3:
-                //recupera el campo borrado
-             //   this.delete(Boolean.FALSE);
-                break;
-            case 4:
-                //deshabilita el campo
-             //   this.habilitar(Boolean.FALSE);
-                break;
-            case 5:
                 //habilita el campo
-             //   this.habilitar(Boolean.TRUE);
+                this.activate(Boolean.TRUE);
                 break;
         }//fin switch
     }//fin actionBtn
@@ -155,28 +147,18 @@ public class VariedadBean {
             //campos requeridos
             this.setbCamposRequeridos(true);
 
-        } else if (btnSelect.getId().equals("cbDelete")) {
-            this.getListaVariedadBean().setiActionBtnSelect(2);
-            this.getCbAction().setValue("Eliminar");
-            this.setbCamposEditables(true);
-
-        } else if (btnSelect.getId().equals("cbEdit")) {
+        }  else if (btnSelect.getId().equals("cbEdit")) {
             this.getListaVariedadBean().setiActionBtnSelect(1);
             this.getCbAction().setValue("Modificar");
             //campos requeridos
             this.setbCamposRequeridos(true);
-        } else if (btnSelect.getId().equals("cbRecuperarBorrado")) {
-            this.getListaVariedadBean().setiActionBtnSelect(3);
-            this.setbCamposEditables(true);
-            this.getCbAction().setValue("Recuperar");
-
         } else if (btnSelect.getId().equals("cbDeshabilitado")) {
-            this.getListaVariedadBean().setiActionBtnSelect(4);
+            this.getListaVariedadBean().setiActionBtnSelect(2);
             this.setbCamposEditables(true);
             this.getCbAction().setValue("Deshabilitar");
 
         } else if (btnSelect.getId().equals("cbHabilitado")) {
-            this.getListaVariedadBean().setiActionBtnSelect(5);
+            this.getListaVariedadBean().setiActionBtnSelect(3);
             this.setbCamposEditables(true);
             this.getCbAction().setValue("Habilitar");
         }
@@ -190,7 +172,7 @@ public class VariedadBean {
         FacesMessage.Severity severity = null;
         try {
             //this.getEspecie().setBorrado(false);
-
+            variedad.setActive(Boolean.TRUE);
             VariedadRNLocal.create(variedad);
             sMensaje = "El dato fue guardado";
             severity = FacesMessage.SEVERITY_INFO;
@@ -225,6 +207,90 @@ public class VariedadBean {
     public void limpiar() {
         this.setVariedad(new Variedad());
     }//fin limpiar
+    public void edit() {
+        System.out.println("Entro al edit");
+        String sMensaje = "";
+        FacesMessage fm;
+        FacesMessage.Severity severity = null;
+        try {
+            variedad.setActive(Boolean.TRUE);
+            
+            VariedadRNLocal.edit(variedad);
+            
+            
+          
+            //usersRNLocal.edit(this.getUsers());
+
+            sMensaje = "Información actualizada con éxito";
+            severity = FacesMessage.SEVERITY_INFO;
+
+            //elimino y agrego el organismo modificado a la lista
+            //int iPos = this.getListaAlumnoBean().getLstUsers().indexOf(this.getUsers());
+            int iPos = this.getListaVariedadBean().getLstVariedad().indexOf(this.getVariedad());
+         
+            this.getListaVariedadBean().getLstVariedad().remove(iPos);
+            this.getListaVariedadBean().getLstVariedad().add(iPos, this.getVariedad());
+
+            //this.getCbAction().setValue("Update");
+            this.getCbAction().setDisabled(true);
+
+            //this.setbCamposRequeridos(false);
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('dlgVariedad').hide()");
+        } catch (Exception ex) {
+            severity = FacesMessage.SEVERITY_ERROR;
+            sMensaje = "Error al actualizar: " + ex.getMessage();
+
+        } finally {
+            fm = new FacesMessage(severity, sMensaje, "");
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage(null, fm);
+        }
+    }
     
+     public void activate(Boolean bEstado) {
+        String sMensaje = "";
+        FacesMessage fm;
+        FacesMessage.Severity severity = null;
+
+        try {
+             VariedadRNLocal.activate(this.getVariedad(), bEstado);
+            
+
+            //elimino el organismo de la lista
+            //int iPos = this.getListaAlumnoBean().getLstAlumno()).indexOf(this.getAlumno());
+            int iPos = this.getListaVariedadBean().getLstVariedad().indexOf(this.getVariedad());
+
+            this.setVariedad(this.getListaVariedadBean().getLstVariedad().get(iPos));
+            this.getVariedad().setActive(bEstado);
+            
+            this.getListaVariedadBean().getLstVariedad().remove(iPos);
+            this.getListaVariedadBean().getLstVariedad().add(iPos, this.getVariedad());
+
+            if (!bEstado) {
+                sMensaje = "Variedad desactivado correctamente";
+            } else {
+                sMensaje = "Variedad reactivado correctaamente";
+            }
+            severity = FacesMessage.SEVERITY_INFO;
+
+            this.getCbAction().setDisabled(true);
+
+            //limíar campos
+            this.limpiar();
+            //this.setbCamposRequeridos(false);
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('dlgVariedad').hide()");
+
+        } catch (Exception ex) {
+            severity = FacesMessage.SEVERITY_ERROR;
+            sMensaje = "An error ocurred during activation: " + ex.getMessage();
+
+        } finally {
+            fm = new FacesMessage(severity, sMensaje, null);
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage(null, fm);
+        }
+    }
      
 }
