@@ -46,14 +46,15 @@ public class PreciosHortaliza implements Serializable {
         return id;
     }
 
-    public Boolean isActive() {
+   public Boolean isActive() {
         return active;
     }
-
-    public void setActive(Boolean active) {
+  public void setActive(Boolean active) {
         this.active = active;
     }
-    
+    public Boolean getActive() {
+        return active;
+    }
 
     public void setId(Long id) {
         this.id = id;

@@ -29,6 +29,7 @@ public interface VariedadRNLocal {
     public List<Variedad> findAll() throws Exception;
     
     public List <Variedad> findByEspecie (Long idEspecie) throws Exception;
+    public void activate(Variedad variedad, Boolean bEstado) throws Exception;
     
 
     

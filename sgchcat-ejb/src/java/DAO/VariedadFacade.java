@@ -18,6 +18,7 @@ import javax.persistence.Query;
  */
 @Stateless
 public class VariedadFacade extends AbstractFacade<Variedad> implements VariedadFacadeLocal {
+
     @PersistenceContext(unitName = "ClusterHortDB-ejbPU")
     private EntityManager em;
 
@@ -32,9 +33,20 @@ public class VariedadFacade extends AbstractFacade<Variedad> implements Variedad
 
     @Override
     public List<Variedad> findByEspecie(Long idEspecie) throws Exception {
-     Query q = em.createNamedQuery("Variedad.findByEspecie");
+        Query q = em.createNamedQuery("Variedad.findByEspecie");
         q.setParameter("idEspecie", idEspecie);
         return q.getResultList();
     }
-    
+
+    @Override
+    public void activate(Variedad variedad, Boolean bEstado) {
+        Query q = em.createNamedQuery("Especie.ActualizarEstado");
+        q.setParameter("active", bEstado);
+        q.setParameter("id", variedad.getId());
+        // Query q = em.createQuery("UPDATE Agenda p SET p.habilitado = " + estado + " WHERE p.id = " +  id);    
+         /*q.setParameter("id", id);
+         q.setParameter("estado", estado);  */
+        q.executeUpdate();
+    }
+
 }

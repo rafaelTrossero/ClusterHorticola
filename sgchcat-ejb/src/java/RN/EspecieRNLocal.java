@@ -25,4 +25,5 @@ public interface EspecieRNLocal {
     public void habilitar(Especie e) throws Exception;
 
     public List<Especie> findAll() throws Exception;
+    public void activate(Especie especie, Boolean bEstado) throws Exception;
 }

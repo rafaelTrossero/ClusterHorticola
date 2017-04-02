@@ -24,7 +24,8 @@ import javax.persistence.OneToMany;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "Variedad.findByEspecie", query = "SELECT p FROM Variedad p WHERE p.especie.id =:idEspecie ORDER BY p.descripcion")
+    @NamedQuery(name = "Variedad.findByEspecie", query = "SELECT p FROM Variedad p WHERE p.especie.id =:idEspecie ORDER BY p.descripcion"),
+     @NamedQuery(name = "Variedad.ActualizarEstado", query="UPDATE Variedad u SET u.active =:active WHERE u.id =:id"),
    })
 public class Variedad implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -53,11 +54,12 @@ public class Variedad implements Serializable {
     public Boolean isActive() {
         return active;
     }
-
-    public void setActive(Boolean active) {
+  public void setActive(Boolean active) {
         this.active = active;
     }
-
+    public Boolean getActive() {
+        return active;
+    }
     public void setId(Long id) {
         this.id = id;
     }

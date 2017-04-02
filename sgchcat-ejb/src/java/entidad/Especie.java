@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 /**
@@ -19,6 +21,13 @@ import javax.persistence.OneToMany;
  * @author RafaTrossero
  */
 @Entity
+@NamedQueries({
+           
+          
+           @NamedQuery(name = "Especie.ActualizarEstado", query="UPDATE Especie u SET u.active =:active WHERE u.id =:id"),
+           
+
+})
 public class Especie implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -58,9 +67,11 @@ public class Especie implements Serializable {
     public Boolean isActive() {
         return active;
     }
-
-    public void setActive(Boolean active) {
+  public void setActive(Boolean active) {
         this.active = active;
+    }
+    public Boolean getActive() {
+        return active;
     }
 
     public void setLstVariedad(List<Variedad> lstVariedad) {

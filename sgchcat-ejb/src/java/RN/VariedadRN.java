@@ -51,5 +51,10 @@ public class VariedadRN implements VariedadRNLocal {
     return (this.variedadFacadeLocal.findByEspecie(idEspecie));
     }
 
+    @Override
+    public void activate(Variedad variedad, Boolean bEstado) throws Exception {
+      variedadFacadeLocal.activate(variedad, bEstado);
+    }
+
     
 }

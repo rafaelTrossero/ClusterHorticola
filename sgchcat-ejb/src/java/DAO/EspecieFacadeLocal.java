@@ -27,6 +27,7 @@ public interface EspecieFacadeLocal {
     List<Especie> findAll();
 
     List<Especie> findRange(int[] range);
+     public void activate(Especie especie, Boolean bEstado);
 
     int count();
     
