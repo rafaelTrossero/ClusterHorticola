@@ -106,7 +106,7 @@ public class PreciosHortalizaBean {
         this.cadenaVariedad = cadenaVariedad;
     }
     
-     public void actionBtn() {
+    public void actionBtn() {
 
         switch (this.getListaPreciosHortalizaBean().getiActionBtnSelect()) {
             case 0:
@@ -115,27 +115,18 @@ public class PreciosHortalizaBean {
                 //this.limpiar();
                 break;
             case 1:
-             //   this.edit();
+              this.edit();
                 break;
-            case 2:
-                System.out.println("Entro al delete");
-            //    this.delete(Boolean.TRUE);
+           case 2:
+                //deshabilita el campo
+                 this.activate(Boolean.FALSE);
                 break;
             case 3:
-                //recupera el campo borrado
-             //   this.delete(Boolean.FALSE);
-                break;
-            case 4:
-                //deshabilita el campo
-             //   this.habilitar(Boolean.FALSE);
-                break;
-            case 5:
                 //habilita el campo
-             //   this.habilitar(Boolean.TRUE);
+                this.activate(Boolean.TRUE);
                 break;
         }//fin switch
     }//fin actionBtn
-
     public void setBtnSelect(ActionEvent e) {
         CommandButton btnSelect = (CommandButton) e.getSource();
         System.out.println("boton select: " + btnSelect.getId());
@@ -152,28 +143,28 @@ public class PreciosHortalizaBean {
             //campos requeridos
             this.setbCamposRequeridos(true);
 
-        } else if (btnSelect.getId().equals("cbDelete")) {
+        } /*else if (btnSelect.getId().equals("cbDelete")) {
             this.getListaPreciosHortalizaBean().setiActionBtnSelect(2);
             this.getCbAction().setValue("Eliminar");
             this.setbCamposEditables(true);
 
-        } else if (btnSelect.getId().equals("cbEdit")) {
+        }*/ else if (btnSelect.getId().equals("cbEdit")) {
             this.getListaPreciosHortalizaBean().setiActionBtnSelect(1);
             this.getCbAction().setValue("Modificar");
             //campos requeridos
             this.setbCamposRequeridos(true);
-        } else if (btnSelect.getId().equals("cbRecuperarBorrado")) {
+        }/* else if (btnSelect.getId().equals("cbRecuperarBorrado")) {
             this.getListaPreciosHortalizaBean().setiActionBtnSelect(3);
             this.setbCamposEditables(true);
             this.getCbAction().setValue("Recuperar");
 
-        } else if (btnSelect.getId().equals("cbDeshabilitado")) {
-            this.getListaPreciosHortalizaBean().setiActionBtnSelect(4);
+        } */else if (btnSelect.getId().equals("cbDeshabilitado")) {
+            this.getListaPreciosHortalizaBean().setiActionBtnSelect(2);
             this.setbCamposEditables(true);
             this.getCbAction().setValue("Deshabilitar");
 
         } else if (btnSelect.getId().equals("cbHabilitado")) {
-            this.getListaPreciosHortalizaBean().setiActionBtnSelect(5);
+            this.getListaPreciosHortalizaBean().setiActionBtnSelect(3);
             this.setbCamposEditables(true);
             this.getCbAction().setValue("Habilitar");
         }
@@ -187,7 +178,7 @@ public class PreciosHortalizaBean {
         FacesMessage.Severity severity = null;
         try {
             //this.getEspecie().setBorrado(false);
-
+             preciosHortaliza.setActive(Boolean.TRUE);
             preciosHortalizaRNLocal.create(preciosHortaliza);
             sMensaje = "El dato fue guardado";
             severity = FacesMessage.SEVERITY_INFO;
@@ -223,5 +214,89 @@ public class PreciosHortalizaBean {
         this.setPreciosHortaliza(new PreciosHortaliza());
     }//fin limpiar
     
+     public void edit() {
+        System.out.println("Entro al edit");
+        String sMensaje = "";
+        FacesMessage fm;
+        FacesMessage.Severity severity = null;
+        try {
+            preciosHortaliza.setActive(Boolean.TRUE);
+           
+            preciosHortalizaRNLocal.edit(preciosHortaliza);
+            
+            
+          
+            //usersRNLocal.edit(this.getUsers());
+
+            sMensaje = "Información actualizada con éxito";
+            severity = FacesMessage.SEVERITY_INFO;
+
+            //elimino y agrego el organismo modificado a la lista
+            //int iPos = this.getListaAlumnoBean().getLstUsers().indexOf(this.getUsers());
+            int iPos = this.getListaPreciosHortalizaBean().getLstPreciosHortaliza().indexOf(this.getPreciosHortaliza());
+         
+            this.getListaPreciosHortalizaBean().getLstPreciosHortaliza().remove(iPos);
+            this.getListaPreciosHortalizaBean().getLstPreciosHortaliza().add(iPos, this.getPreciosHortaliza());
+
+            //this.getCbAction().setValue("Update");
+            this.getCbAction().setDisabled(true);
+
+            //this.setbCamposRequeridos(false);
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('dlgPreciosHortaliza').hide()");
+        } catch (Exception ex) {
+            severity = FacesMessage.SEVERITY_ERROR;
+            sMensaje = "Error al actualizar: " + ex.getMessage();
+
+        } finally {
+            fm = new FacesMessage(severity, sMensaje, "");
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage(null, fm);
+        }
+    }
+     public void activate(Boolean bEstado) {
+        String sMensaje = "";
+        FacesMessage fm;
+        FacesMessage.Severity severity = null;
+
+        try {
+             preciosHortalizaRNLocal.activate(this.getPreciosHortaliza(), bEstado);
+            
+
+            //elimino el organismo de la lista
+            //int iPos = this.getListaAlumnoBean().getLstAlumno()).indexOf(this.getAlumno());
+            int iPos = this.getListaPreciosHortalizaBean().getLstPreciosHortaliza().indexOf(this.getPreciosHortaliza());
+
+            this.setPreciosHortaliza(this.getListaPreciosHortalizaBean().getLstPreciosHortaliza().get(iPos));
+            this.getPreciosHortaliza().setActive(bEstado);
+            
+            this.getListaPreciosHortalizaBean().getLstPreciosHortaliza().remove(iPos);
+            this.getListaPreciosHortalizaBean().getLstPreciosHortaliza().add(iPos, this.getPreciosHortaliza());
+
+            if (!bEstado) {
+                sMensaje = "Precio de Hortaliza desactivado correctamente";
+            } else {
+                sMensaje = "Precio de Hortaliza reactivado correctaamente";
+            }
+            severity = FacesMessage.SEVERITY_INFO;
+
+            this.getCbAction().setDisabled(true);
+
+            //limíar campos
+            this.limpiar();
+            //this.setbCamposRequeridos(false);
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('dlgPreciosHortaliza').hide()");
+
+        } catch (Exception ex) {
+            severity = FacesMessage.SEVERITY_ERROR;
+            sMensaje = "An error ocurred during activation: " + ex.getMessage();
+
+        } finally {
+            fm = new FacesMessage(severity, sMensaje, null);
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage(null, fm);
+        }
+    }
     
 }

@@ -18,29 +18,40 @@
             <p:panel id="pPreciosHortaliza" style="float:left;">
 
                 <p:focus context="pPreciosHortaliza"/> 
+                <h:inputHidden value="#{preciosHortalizaBean.preciosHortaliza.id}"/>
+               
+                <h:inputHidden value="#{listaPreciosHortalizaBean.iActionBtnSelect}"/>
 
-              
+
                 <div class="camposTexto">
                     <h:outputText  value="Todos los campos con * son requeridos."  styleClass="aclaraciones" />
                 </div>
                 <div style="clear: both;"/>
-                 <div class="camposTexto">
+                <div class="camposTexto">
                     <h:outputText  value="Especie*:   " />
 
                     <p:selectOneMenu id="somEspecie"
-                                     value="#{preciosHortalizaBean.preciosHortaliza.especie}"  
+
                                      converter="ConversorGenerico"
+                                     valueChangeListener="#{listaVariedadBean.recuperarVariedad}"
+                                     value="#{preciosHortalizaBean.preciosHortaliza.especie}"
                                      disabled="#{preciosHortalizaBean.getbCamposEditables()}">
+                        <f:selectItem itemLabel="Seleccionar.." itemValue=""/>
                         <f:selectItems value="#{listaEspecieBean.lstSIEspecie}"/>
+                        <p:ajax         update="somVariedad" 
+                                        event="change" 
+                                        />
                     </p:selectOneMenu>
+
                 </div>     
-                  <div class="camposTexto">
+                <div class="camposTexto">
                     <h:outputText  value="Variedad*:   " />
 
                     <p:selectOneMenu id="somVariedad"
                                      value="#{preciosHortalizaBean.preciosHortaliza.variedad}"  
                                      converter="ConversorGenerico"
                                      disabled="#{preciosHortalizaBean.getbCamposEditables()}">
+                        <f:selectItem itemLabel="Seleccionar.." itemValue=""/>
                         <f:selectItems value="#{listaVariedadBean.lstSIVariedad}"/>
                     </p:selectOneMenu>
                 </div>     
@@ -52,7 +63,7 @@
                                  disabled="#{preciosHortalizaBean.getbCamposEditables()}"
                                  required="#{preciosHortalizaBean.bCamposRequeridos}"/>
                 </div>
-                 <div class="camposTexto"> 
+                <div class="camposTexto"> 
                     <h:outputText value="Precio Máximo*:   "/>
 
                     <p:inputText value="#{preciosHortalizaBean.preciosHortaliza.precioMax}"
@@ -60,16 +71,16 @@
                                  disabled="#{preciosHortalizaBean.getbCamposEditables()}"
                                  required="#{preciosHortalizaBean.bCamposRequeridos}"/>
                 </div>
-                 <div class="camposTexto"> 
+                <div class="camposTexto"> 
                     <h:outputText value="Fecha*:   "/>
 
                     <p:calendar value="#{preciosHortalizaBean.preciosHortaliza.fecha}"
-                                 label="fecha"
-                                 disabled="#{preciosHortalizaBean.getbCamposEditables()}"
-                                 required="#{preciosHortalizaBean.bCamposRequeridos}"/>
+                                label="fecha"
+                                disabled="#{preciosHortalizaBean.getbCamposEditables()}"
+                                required="#{preciosHortalizaBean.bCamposRequeridos}"/>
                 </div>
                 <div style="clear: both;"/>
-               
+
 
 
 
@@ -87,12 +98,20 @@
             <div  style="float: left; margin: 10px;
                   width: 100%;
                   text-align: center;">
+                <p:growl id="message" showDetail="true"  />
+                <div style="clear: both;"/>
                 <p:commandButton id="btnAction"
                                  value="Guardar " 
                                  actionListener="#{preciosHortalizaBean.actionBtn}" 
-                                 update=":frmMain:dtPreciosHortaliza, :frmMain:pPreciosHortaliza, @this"
-                                 binding="#{preciosHortalizaBean.cbAction}"/>
-
+                                 update=":frmMain:dtPreciosHortaliza, :frmMain:pPreciosHortaliza,message, @this"
+                                 binding="#{preciosHortalizaBean.cbAction}" >
+                    <p:confirm header="Confirmación" message="¿Seguro?" icon="ui-icon-alert" />
+                </p:commandButton>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
+                                     ajax="false"  />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
                 <p:commandButton id="btnSalir"
                                  value="Salir" 
                                  actionListener="#{preciosHortalizaBean.cerrarDialog()}" 
@@ -102,12 +121,12 @@
             </div>
 
         </p:dialog>
-       
+
         <div style="clear: both;"/>
-        
+
         <div class="camposTexto" style="float: left; margin: 10px;
-                 width: 100%;
-                 text-align: center;">
+             width: 100%;
+             text-align: center;">
             <p:commandButton id="cbCreate"
                              value="Nuevos Precios" 
                              icon="ui-icon-circle-plus" 
@@ -133,31 +152,39 @@
                     <p:commandButton id="cbEdit"
                                      title="Editar"
                                      icon="ui-icon-pencil" 
-                                     update=":frmMain:dPreciosHortaliza"
+                                     update=":frmMain:dPreciosHortaliza,  @this"
                                      oncomplete="PF('dlgPreciosHortaliza').show();"
                                      actionListener="#{preciosHortalizaBean.setBtnSelect}"
+                                     disabled="#{not pa.active }"
+                                     process="@this"
                                      >
-                        <f:setPropertyActionListener value="#{pa}" target="#{preciosHortalizaBean.preciosHortaliza}"/>  
+                        <f:setPropertyActionListener value="#{pa}" target="#{preciosHortalizaBean.preciosHortaliza}"/>
+                        <f:setPropertyActionListener value="#{pa.variedad}" target="#{preciosHortalizaBean.preciosHortaliza.variedad}"/>
+                        
                     </p:commandButton>
 
-                    <p:commandButton id="cbDelete"
-                                     title="Eliminar"
-                                     icon="ui-icon-circle-close" 
-                                     update=":frmMain:dPreciosHortaliza"
+                    <p:commandButton id="cbHabilitado"
+                                     title="Activar"
+                                     icon="ui-icon-unlocked"
+                                     update=":frmMain:dPreciosHortaliza, @this"
                                      oncomplete="PF('dlgPreciosHortaliza').show();"
                                      actionListener="#{preciosHortalizaBean.setBtnSelect}"
+                                     disabled="#{pa.active }"
+                                     process="@this"
                                      >
-                        <f:setPropertyActionListener value="#{pa}" target="#{preciosHortalizaBean.preciosHortaliza}"/>   
-
+                        <f:setPropertyActionListener value="#{pa}" target="#{preciosHortalizaBean.preciosHortaliza}"/>
                     </p:commandButton>
-                    <p:commandButton id="cbRecuperarBorrado"
-                                     title="Recuperar Borrado"
-                                     icon="ui-icon-unlocked" 
-                                     update=":frmMain:dPreciosHortaliza, @this, :frmMain:dtPreciosHortaliza"
+
+                    <p:commandButton id="cbDeshabilitado"
+                                     title="Desactivar"
+                                     icon="ui-icon-circle-close"
+                                     update=":frmMain:dPreciosHortaliza, @this"
                                      oncomplete="PF('dlgPreciosHortaliza').show();"
                                      actionListener="#{preciosHortalizaBean.setBtnSelect}"
+                                     disabled="#{not pa.active }"
+                                     process="@this"
                                      >
-                        <f:setPropertyActionListener value="#{pa}" target="#{preciosHortalizaBean.preciosHortaliza}"/>  
+                        <f:setPropertyActionListener value="#{pa}" target="#{preciosHortalizaBean.preciosHortaliza}"/>     
 
                     </p:commandButton>
                 </p:column>
@@ -168,7 +195,7 @@
                     <h:outputText value="#{pa.especie.descripcion}"/>
 
                 </p:column>
-                
+
                 <p:column filterBy="#{pa.variedad.descripcion}" sortBy="#{pa.variedad.descripcion}">
                     <f:facet name="header">
                         <h:outputText value="Variedad"/>
@@ -176,7 +203,7 @@
                     <h:outputText value="#{pa.variedad.descripcion}"/>
 
                 </p:column>
-                
+
                 <p:column filterBy="#{pa.precioMin}" sortBy="#{pa.precioMin}">
                     <f:facet name="header">
                         <h:outputText value="Precio Mínimo"/>
@@ -184,8 +211,8 @@
                     <h:outputText value="#{pa.precioMin}"/>
 
                 </p:column>
-                
-                  <p:column filterBy="#{pa.precioMax}" sortBy="#{pa.precioMax}">
+
+                <p:column filterBy="#{pa.precioMax}" sortBy="#{pa.precioMax}">
                     <f:facet name="header">
                         <h:outputText value="Precio Máximo"/>
                     </f:facet>               
