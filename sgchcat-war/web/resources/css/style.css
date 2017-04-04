@@ -8,8 +8,10 @@ html, body{
     font-size: 100%;
 	background:	#fff;
 	font-family: 'Open Sans', sans-serif;
+       
 }
 p,body{
+    
 	margin:0;
 }
 h1,h2,h3,h4,h5,h6{
@@ -23,25 +25,7 @@ ul,label{
 body a:hover{
 	text-decoration:none;
 }
-/*-- banner --*/
-.banner{
-	background:url(../..//Imagenes/informatica.jpg) no-repeat 0px 0px;
-	background-size:cover;
-	-webkit-background-size:cover;
-	-moz-background-size:cover;
-	-o-background-size:cover;
-	-ms-background-size:cover;
-	min-height:800px;
-}
-.banner1{
-	background:url(../..//Imagenes/informatica.jpg) no-repeat 0px 0px;
-	background-size:cover;
-	-webkit-background-size:cover;
-	-moz-background-size:cover;
-	-o-background-size:cover;
-	-ms-background-size:cover;
-	min-height:365px;
-}
+
 .logo{
 	padding:2em 0 0;
 	text-align:center;

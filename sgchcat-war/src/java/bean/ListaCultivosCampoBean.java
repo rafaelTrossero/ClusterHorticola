@@ -128,4 +128,11 @@ public class ListaCultivosCampoBean implements Serializable {
         System.out.println("tamañooooooooouuooooooooo" +listaCultivosCampo.size());
         reinit();
     }
+      
+      public void limpiar (){
+          cultivosCampoObj = new CultivosCampo();
+         cultivosCampoObj.setNumero(i);
+        this.listaCultivosCampo = new ArrayList<CultivosCampo>();
+        this.cultCam = new CultivosCampo();
+      }
 }

@@ -9,69 +9,7 @@
 
     <ui:define name="content">
         
-         <p:dialog id="dPaisProv"
-              modal="true" responsive="true"
-              widgetVar="dlgPaisProv">
-
-      <td> 
-        <div>
-          <h:outputText value="País:"/>
-        </div>
-        <div>
-          <p:selectOneMenu id="somPais"
-                           converter="ConversorGenerico"        
-                           valueChangeListener="#{listaProvinciaBean.recuperarProvincias}"                               height="100"
-                           disabled="#{provinciaBean.getbCamposEditables()}">
-
-            <f:selectItems value="#{listaPaisBean.lstSIPais}"/>
-            <p:ajax        update="dtProvincia"
-                           event="change" 
-
-                           />
-          </p:selectOneMenu>
-        </div>
-      </td>
-
-      <td>
-        <div>
-          <h:outputText value="Provincia"/>
-        </div>
-        <div>
-
-
-          <p:dataTable id="dtProvincia"
-                       value="#{listaProvinciaBean.lstProvinciaBorrado}"
-                       var="prov"
-                       rowKey="#{prov.id}"
-                       selectionMode="single"
-                       paginator="true"
-                       rows="10"
-                       >
-              <p:ajax event="rowSelect" listener="#{ingresoMercadoBean.cargarProvinciasSelect}"   
-                    update=":frmMain:pgLugares"
-                    oncomplete="PF('dlgPaisProv').hide();" />
-            <p:column>
-              <f:facet name="header">
-                <h:outputText value="Código"/>
-              </f:facet>
-              <h:outputText value="#{prov.codigo}"/>
-            </p:column>
-
-            <p:column filterBy="#{prov.descripcion}">
-              <f:facet name="header">
-                <h:outputText value="Provincia"/>
-              </f:facet>
-              <h:outputText value="#{prov.descripcion}"/>
-            </p:column>
-
-          </p:dataTable>
-        </div>
-
-
-
-
-      </td>
-    </p:dialog>
+      
         
         <p:dialog id="dIngresoMercado" 
                   widgetVar="dlgIngresoMercado" 
@@ -128,38 +66,25 @@
                         <f:selectItem itemLabel="Seleccionar..." itemValue="0"/>
                         <f:selectItem itemLabel="Local" itemValue="Local"/>
                         <f:selectItem itemLabel="Extra Provincial" itemValue="Extra Provincial"/>
-                        <p:ajax update="cbBuscarProv" /> 
+                        <p:ajax update="advanced" /> 
                     </p:selectOneMenu>
                        
                     
+                    <p:outputLabel for="advanced" value="Procedencia:"  />
+                    <p:selectOneMenu id="advanced" value="#{ingresoMercadoBean.ingresoMercado.procedencia}" converter="ConversorGenerico" panelStyle="width:180px"
+                                     effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith"
+                                     disabled="#{ingresoMercadoBean.ingresoMercado.ingreso == 'Local'}">
+                        <f:selectItems value="#{listaProvinciaBean.lstProvincia}" var="theme" itemLabel="#{theme.descripcion}" itemValue="#{theme}" />
+
+                        <p:column style="width:10%">
+                            <h:outputText value="#{t.descripcion}" />
+                        </p:column>
+
+                       
+                    </p:selectOneMenu>        
                       
           
-              
-              <p:commandButton id="cbBuscarProv" 
-                               title="Buscar"
-                               icon="ui-icon-search"
-                               oncomplete="PF('dlgPaisProv').show()"
-                               value="Procedencia"
-                               action="#{listaProvinciaBean.cargarSIProvincias()}"
-                               process="@this"
-                               immediate="true"
-                               update="dtProvincia"
-                               disabled="#{ingresoMercadoBean.ingresoMercado.ingreso == 'Local'}"
-                               />
-
-        
-              <h:panelGroup id="pgLugares">
-                <h:inputHidden id="ihProvinciaId" value="#{departamentoBean.departamento.provincia.id}"/>
-                <h:inputHidden id="ihProvinciaDesc" value="#{departamentoBean.departamento.provincia.descripcion}"/>
-                <h:inputHidden id="ihPaisId" value="#{departamentoBean.departamento.provincia.pais.id}"/>
-                <h:inputHidden id="ihPaisDesc" value="#{departamentoBean.departamento.provincia.pais.descripcion}"/>
-                <p:inputText id ="otDomicilio" 
-                             value="#{ingresoMercadoBean.ingresoMercado.procedencia.descripcion}" 
-                             readonly="true"
-                             disabled="#{ingresoMercadoBean.ingresoMercado.ingreso == 'Local'}"
-                             />
-              </h:panelGroup>
-       
+            
                     <h:outputText value="Cantidad de kg:   "/>
 
                     <p:inputText value="#{ingresoMercadoBean.ingresoMercado.kg}"

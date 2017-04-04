@@ -5,9 +5,11 @@
 package bean;
 
 import entidad.Barrio;
+import entidad.Campo;
 import entidad.Departamento;
 import entidad.Empaque;
 import entidad.Especie;
+import entidad.IngresoMercado;
 import entidad.Localidad;
 import entidad.Pais;
 import entidad.Productor;
@@ -55,6 +57,9 @@ public class navegarBean {
     private ListIdentificationTypeBean1 listIdentificationTypeBean1;
     @ManagedProperty("#{listaCampoProductorBean}")
      private ListaCampoProductorBean listaCampoProductorBean;
+    @ManagedProperty("#{listaIngresoMercadoBean}")
+     private ListaIngresoMercadoBean listaIngresoMercadoBean;
+
     
 
     /**
@@ -174,6 +179,14 @@ public class navegarBean {
 
     public void setListaCampoProductorBean(ListaCampoProductorBean listaCampoProductorBean) {
         this.listaCampoProductorBean = listaCampoProductorBean;
+    }
+
+    public ListaIngresoMercadoBean getListaIngresoMercadoBean() {
+        return listaIngresoMercadoBean;
+    }
+
+    public void setListaIngresoMercadoBean(ListaIngresoMercadoBean listaIngresoMercadoBean) {
+        this.listaIngresoMercadoBean = listaIngresoMercadoBean;
     }
     
 
@@ -310,12 +323,9 @@ public class navegarBean {
         return "preciosHortaliza.xhtml?faces-redirect=true";
     }
     
+      
       public String entrarFormIngresoMercado() {
-          this.getListaPaisBean().setLstPais(new ArrayList<Pais>());
-        this.getListaPaisBean().setLstSIPais(null);
-        this.getListaPaisBean().cargarPais();
-        this.getListaPaisBean().cargarSIPais();
-         this.getListaProvinciaBean().setLstProvincia(new ArrayList<Provincia>());
+          this.getListaProvinciaBean().setLstProvincia(new ArrayList<Provincia>());
         this.getListaProvinciaBean().setLstSIProvincia(null);
         this.getListaProvinciaBean().cargarProvincias();
         this.getListaProvinciaBean().cargarSIProvincias();
@@ -332,10 +342,13 @@ public class navegarBean {
         
          this.getListaProductorBean().cargar_productor();
         this.getListaProductorBean().cargar_SI_productor();
+        this.getListaIngresoMercadoBean().setLstIngresoMercado(new ArrayList<IngresoMercado>());
+        this.getListaIngresoMercadoBean().cargarIngresoMercado();
         
 
         return "ingresoMercado.xhtml?faces-redirect=true";
     }
+
        public String entrarFormEmpaque() {
         this.getListaEspecieBean().setLstEspecie(new ArrayList<Especie>());
         this.getListaEspecieBean().setLstSIEspecie(null);
@@ -384,5 +397,23 @@ public class navegarBean {
         this.getListaEspecieBean().cargarEspecie();
         this.getListaEspecieBean().cargarSIEspecie();
         return "campo.xhtml?faces-redirect=true";
+    }
+    
+     public String entrarFormCultivosCampo() {
+
+         this.getListaCampoBean().setLstCampo(new ArrayList<Campo>());
+         this.getListaCampoBean().cargar_campo();
+        this.getListaCampoProductorBean().cargar_campo_productor();
+           this.getListaVariedadBean().setLstVariedad(new ArrayList<Variedad>());
+           this.getListaVariedadBean().cargarVariedad();
+        this.getListaVariedadBean().setLstSIVariedad(null);
+        
+        this.getListaVariedadBean().cargarSIVariedad();
+        this.getListaEspecieBean().setLstEspecie(new ArrayList<Especie>());
+        this.getListaEspecieBean().cargarEspecie();
+        this.getListaEspecieBean().setLstSIEspecie(null);
+       
+        this.getListaEspecieBean().cargarSIEspecie();
+        return "cultivosCampo.xhtml?faces-redirect=true";
     }
 }

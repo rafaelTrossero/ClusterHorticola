@@ -16,7 +16,7 @@
 
     </h:head>
 
-    <h:body>
+    <h:body >
         <h:form id="frmMain">
             <!--
             <div id="top" style="height: 160px; width: 100%; border-bottom: 1px solid #000;">
@@ -29,6 +29,7 @@
                    
                 </div>
             </div>-->
+          
             <div style="height: 600px; width: 100%;"> 
                 <div style="float: left; width: 100%">
                     <!--<div id="content" style="position: relative; margin-left: 150px; height: 100%">!-->
@@ -50,8 +51,14 @@
                             </p:submenu>
                             <p:menuitem value="Productores" action="#{navegarBean.entrarFormProductor()}"
                                         immediate="true" icon="fa fa-arrow-circle-o-right"/>
-                            <p:menuitem value="Campo" action="#{navegarBean.entrarFormCampo()}"
+                            
+                            <p:submenu label="Campo" >
+                            
+                            <p:menuitem value="Nuevo Campo" action="#{navegarBean.entrarFormCampo()}"
                                         immediate="true" icon="fa fa-arrow-circle-o-right"/>
+                                <p:menuitem value="Cultivos a implantar" action="#{navegarBean.entrarFormCultivosCampo()}"
+                                        immediate="true" icon="fa fa-arrow-circle-o-right"/>
+                            </p:submenu>
                             <p:submenu label="Hortalizas" >
                                 <p:menuitem value="Especies" action="#{navegarBean.entrarFormEspecie()}"
                                             immediate="true" icon="fa fa-arrow-circle-o-right"/>

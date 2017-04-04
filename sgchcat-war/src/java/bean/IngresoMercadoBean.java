@@ -213,11 +213,6 @@ private Provincia pro;
         FacesMessage fm;
         FacesMessage.Severity severity = null;
         try {
-            //this.getEspecie().setBorrado(false);
-            String mes="";
-            System.out.println("el mes es" + ingresoMercado.getFecha().getMonth());
-           
-             System.out.println("LA PROCEDENCIA ES" + ingresoMercado.getProcedencia());
             
             
             ingresoMercadoRNLocal.create(ingresoMercado);
@@ -252,18 +247,7 @@ private Provincia pro;
     }//fin cerrarDialog
       
 
-   public void cargarProvinciasSelect(SelectEvent event){
-       ingresoMercado.setProcedencia(new Provincia());
-    System.out.println(" entra a cargarProvinciasSelect: ");
-      Provincia provincia = ((Provincia) event.getObject());
-    System.out.println(" provincia: " + provincia);  
-    this.ingresoMercado.setProcedencia(provincia);
-      System.out.println("LA PROCEDENCIA ANTES DEL CREATE ES::--" + ingresoMercado.getProcedencia());
-     
-  System.out.println("cargarProvinciasSelect: " + this.getAuxBean().getLstProvinciaSelect());
-    }
-     
-     
+  
       
     public void limpiar() {
         this.setIngresoMercado(new IngresoMercado());

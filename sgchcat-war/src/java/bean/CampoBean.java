@@ -8,19 +8,11 @@ package bean;
 import RN.CampoDomicilioRNLocal;
 import RN.CampoProductorRNLocal;
 import RN.CampoRNLocal;
-import RN.CultivosCampoRNLocal;
 import RN.DomicilioRNLocal;
-import RN.ProductorRNLocal;
 import entidad.Campo;
 import entidad.CampoDomicilio;
 import entidad.CampoProductor;
-import entidad.CultivosCampo;
 import entidad.Domicilio;
-import entidad.Productor;
-import entidad.tipoUsuario;
-import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -47,8 +39,7 @@ public class CampoBean {
     private Boolean bCamposEditables;
     private CommandButton cbAction;
     private int iActionBtnSelect;
-    private CultivosCampo cultivosCampo;
-     private CultivosCampo cultivosCampoIT;
+  
     
     @ManagedProperty("#{listaCampoBean}")
     private ListaCampoBean listaCampoBean;
@@ -68,9 +59,7 @@ public class CampoBean {
     private DomicilioRNLocal domicilioRNLocal;
     @EJB
     private CampoProductorRNLocal campoProductorRNLocal;
-    @EJB
-    private CultivosCampoRNLocal cultivosCampoRNLocal;
-
+  
     /**
      * Creates a new instance of CampoBean
      */
@@ -79,8 +68,7 @@ public class CampoBean {
         this.domicilio = new Domicilio();
         this.campodomicilio = new CampoDomicilio();
         this.campoProductor = new CampoProductor();
-        this.cultivosCampo = new CultivosCampo();
-        this.cultivosCampoIT = new CultivosCampo();
+     
     }
 
     public Campo getCampo() {
@@ -199,13 +187,7 @@ public class CampoBean {
         this.domicilioRNLocal = domicilioRNLocal;
     }
 
-    public CultivosCampo getCultivosCampo() {
-        return cultivosCampo;
-    }
-
-    public void setCultivosCampo(CultivosCampo cultivosCampo) {
-        this.cultivosCampo = cultivosCampo;
-    }
+   
 
     public ListaCultivosCampoBean getListaCultivosCampoBean() {
         return listaCultivosCampoBean;
@@ -215,13 +197,7 @@ public class CampoBean {
         this.listaCultivosCampoBean = listaCultivosCampoBean;
     }
 
-    public CultivosCampo getCultivosCampoIT() {
-        return cultivosCampoIT;
-    }
-
-    public void setCultivosCampoIT(CultivosCampo cultivosCampoIT) {
-        this.cultivosCampoIT = cultivosCampoIT;
-    }
+   
 
     public void actionBtn() {
         System.out.println("..............." + this.getListaCampoBean().getiActionBtnSelect());
@@ -309,7 +285,7 @@ public class CampoBean {
             campodomicilio.setDomicilio(domicilio);
             campoDomicilioRNLocal.create(campodomicilio);
             campoProductorRNLocal.create(campoProductor);
-            this.setear_cultivosCampo();
+          
             System.out.println("Campo: " + campo);
 
             sMensaje = "El dato fue guardado";
@@ -386,30 +362,5 @@ public class CampoBean {
         }
     }
 
-     public void setear_cultivosCampo() {
-         System.out.println("ENtro a setear Cultivos");
-        
-        cultivosCampo.setCampo(campo);
-     
-
-        /*
-         Se recorre la lista que tiene los cultivos insertados y se hace un create en la tabla
-         por cada cultivo de la lista
-         */
-        Iterator<CultivosCampo> it = listaCultivosCampoBean.getListaCultivosCampo().iterator();
-
-        while (it.hasNext()) {
-            cultivosCampoIT = it.next();
-
-            this.cultivosCampoIT.setCampo(campo);
-            this.setCultivosCampo(cultivosCampoIT);
-            try {
-                this.cultivosCampoRNLocal.create(cultivosCampoIT);
-
-            } catch (Exception ex) {
-               
-            }
-        }
-         System.out.println("Salio de setear Cultivos");
-    }
+    
 }
