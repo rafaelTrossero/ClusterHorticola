@@ -10,7 +10,7 @@
     <ui:define name="content">
 
         <!-- DIALOGO PROYECTO PASO 1 !-->
-        <p:dialog id="dModProyBrr" 
+        <p:dialog id="dCultivosCampo" 
                   widgetVar="dlgCultivosCampo" 
                   modal="true"
 
@@ -42,7 +42,7 @@
                         </h:panelGrid>
                     </p:tab>
 
-                       <div style="clear: both;"/>
+                    <div style="clear: both;"/>
                     <p:tab title="Cultivos implantados">
 
 
@@ -59,7 +59,7 @@
                                                  valueChangeListener="#{listaVariedadBean.recuperarVariedad}"
                                                  converter="ConversorGenerico"
                                                  disabled="#{campoBean.getbCamposEditables()}">
-                                     <f:selectItem itemLabel="Seleccione una Especie..." />
+                                    <f:selectItem itemLabel="Seleccione una Especie..." />
                                     <f:selectItems value="#{listaEspecieBean.lstSIEspecie}"/>
                                     <p:ajax update="somVariedad"
                                             event="change"  />
@@ -82,10 +82,22 @@
                                 <h:outputLabel value="Cantidad de Ha: " ></h:outputLabel>  
                                 <p:inputNumber   value="#{listaCultivosCampoBean.cultivosCampoObj.hectareas}"/>
 
+                                <h:outputText value="Destino: "/>
+                                <p:selectOneMenu id="somDestino"
+
+                                                 value="#{listaCultivosCampoBean.cultivosCampoObj.destino}"  
+                                                 converter="ConversorGenerico"
+                                                 disabled="#{ingresoMercadoBean.getbCamposEditables()}">
+                                    <f:selectItem itemLabel="Seleccionar..." itemValue="0"/>
+                                    <f:selectItem itemLabel="Consumo" itemValue="CONSUMO"/>
+                                </p:selectOneMenu>
+
                                 <p:commandButton   update="grid" value="Limpiar" action="#{listaCultivosCampoBean.reinit()}" />  
 
                                 <p:commandButton  update="cultivos" action="#{listaCultivosCampoBean.setCultivosCampoObj(listaCultivosCampoBean.cultivosCampoObj)}" value="Añadir"></p:commandButton> 
-                                                                            
+
+
+
                             </h:panelGrid>  
                         </p:panel>  
 
@@ -124,8 +136,15 @@
 
                                     </h:outputText>  
                                 </p:column>  
+                                 <p:column>  
+                                    <f:facet name="header">  
+                                        <h:outputText value="Destino" />  
+                                    </f:facet>  
+                                     <h:outputText value="#{cultivos.destino}" >
 
-                               
+                                    </h:outputText>  
+                                </p:column>
+
                             </p:dataTable>  
                         </p:outputPanel>  
 
@@ -136,23 +155,23 @@
 
 
             </p:panel>    
-            
-               <div  style="float: left; margin: 10px;
+
+            <div  style="float: left; margin: 10px;
                   width: 100%;
                   text-align: center;">
                 <p:growl id="message" showDetail="true"  />
                 <div style="clear: both;"/>
-                 <p:commandButton id="btnSalir"
-                             value="Salir" 
-                             oncomplete="PF('dlgCultivosCampo').hide()"
+                <p:commandButton id="btnSalir"
+                                 value="Salir" 
+                                 oncomplete="PF('dlgCultivosCampo').hide()"
 
-                             process="@this"/>
-            <p:commandButton id="btnAction"
-                             value="Guardar " 
-                             actionListener="#{cultivosCampoBean.create()}" 
-                             update="message"
-                             >
-           
+                                 process="@this"/>
+                <p:commandButton id="btnAction"
+                                 value="Guardar " 
+                                 actionListener="#{cultivosCampoBean.create()}" 
+                                 update="message"
+                                 >
+
                     <p:confirm header="Confirmación" message="¿Seguro?" icon="ui-icon-alert" />
                 </p:commandButton>
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
@@ -175,7 +194,7 @@
             </div>
 
 
-            
+
 
 
             <div style="clear: both;"/>
@@ -200,17 +219,17 @@
             <h:outputText value="Campo:  "/>
             <p:selectOneMenu id="somProyecto" 
                              panelStyle="width:180px"
-                                     effect="fade" var="t" style="width:160px"
-                                     filter="true"
-                                     filterMatchMode="startsWith"
+                             effect="fade" var="t" style="width:160px"
+                             filter="true"
+                             filterMatchMode="startsWith"
                              converter="ConversorGenerico"
                              value="#{cultivosCampoBean.campo}">
                 <f:selectItem itemLabel="Seleccionar Campo.." itemValue=""/>
                 <f:selectItems var="campo" itemLabel="#{campo.nombre}" itemValue="#{campo}"
-                    value="#{listaCampoBean.lstCampo}"/>
+                               value="#{listaCampoBean.lstCampo}"/>
                 <p:column style="width:10%">
-                            <h:outputText value="#{t.nombre}" />
-                        </p:column>
+                    <h:outputText value="#{t.nombre}" />
+                </p:column>
             </p:selectOneMenu>
 
             <div class="camposTexto"
@@ -221,8 +240,8 @@
                     value="Continuar" 
                     icon="ui-icon-circle-plus" 
                     oncomplete="PF('dlgCultivosCampo').show()"
-                    update="dModProyBrr"
-                    
+                    update="CultivosCampo"
+
                     />
 
 
