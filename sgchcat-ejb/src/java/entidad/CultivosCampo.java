@@ -38,7 +38,8 @@ public class CultivosCampo implements Serializable {
     private Variedad variedad;
     
     private Integer hectareas;
-    
+    private String destino;
+       
     private Integer numero;
     private Boolean active;
 
@@ -96,6 +97,14 @@ public class CultivosCampo implements Serializable {
 
     public void setNumero(Integer numero) {
         this.numero = numero;
+    }
+
+    public String getDestino() {
+        return destino;
+    }
+
+    public void setDestino(String destino) {
+        this.destino = destino;
     }
     
 
