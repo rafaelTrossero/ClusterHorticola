@@ -1,0 +1,6 @@
+/dist/
+/build/
+/sgchcat-ejb/dist/
+/sgchcat-ejb/build/
+/sgchcat-war/build/
+/sgchcat-war/dist/
