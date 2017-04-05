@@ -16,18 +16,14 @@
                 <h:outputText value=" Gestión de Precios de Hortalizas" styleClass="subTitulo"/>
             </f:facet>
             <p:panel id="pPreciosHortaliza" style="float:left;">
-
+                <h:panelGrid columns="2"  cellpadding="3">
                 <p:focus context="pPreciosHortaliza"/> 
                 <h:inputHidden value="#{preciosHortalizaBean.preciosHortaliza.id}"/>
                
                 <h:inputHidden value="#{listaPreciosHortalizaBean.iActionBtnSelect}"/>
 
-
-                <div class="camposTexto">
                     <h:outputText  value="Todos los campos con * son requeridos."  styleClass="aclaraciones" />
-                </div>
-                <div style="clear: both;"/>
-                <div class="camposTexto">
+               
                     <h:outputText  value="Especie*:   " />
 
                     <p:selectOneMenu id="somEspecie"
@@ -35,53 +31,57 @@
                                      converter="ConversorGenerico"
                                      valueChangeListener="#{listaVariedadBean.recuperarVariedad}"
                                      value="#{preciosHortalizaBean.preciosHortaliza.especie}"
-                                     disabled="#{preciosHortalizaBean.getbCamposEditables()}">
-                        <f:selectItem itemLabel="Seleccionar.." itemValue=""/>
+                                     disabled="#{preciosHortalizaBean.getbCamposEditables()}"
+                                     required="true"
+                                 requiredMessage="Debe seleccionar una especie">
+                        <f:selectItem itemLabel="Seleccionar..." itemValue=""/>
                         <f:selectItems value="#{listaEspecieBean.lstSIEspecie}"/>
                         <p:ajax         update="somVariedad" 
                                         event="change" 
                                         />
                     </p:selectOneMenu>
 
-                </div>     
-                <div class="camposTexto">
+                
                     <h:outputText  value="Variedad*:   " />
 
                     <p:selectOneMenu id="somVariedad"
                                      value="#{preciosHortalizaBean.preciosHortaliza.variedad}"  
                                      converter="ConversorGenerico"
-                                     disabled="#{preciosHortalizaBean.getbCamposEditables()}">
-                        <f:selectItem itemLabel="Seleccionar.." itemValue=""/>
+                                     disabled="#{preciosHortalizaBean.getbCamposEditables()}"
+                                     required="true"
+                                 requiredMessage="Debe seleccionar una variedad">
+                        <f:selectItem itemLabel="Seleccionar..." itemValue=""/>
                         <f:selectItems value="#{listaVariedadBean.lstSIVariedad}"/>
                     </p:selectOneMenu>
-                </div>     
-                <div class="camposTexto"> 
+             
+               
                     <h:outputText value="Precio Mínimo*:   "/>
 
                     <p:inputText value="#{preciosHortalizaBean.preciosHortaliza.precioMin}"
                                  label="PrecioMin"
                                  disabled="#{preciosHortalizaBean.getbCamposEditables()}"
-                                 required="#{preciosHortalizaBean.bCamposRequeridos}"/>
-                </div>
-                <div class="camposTexto"> 
+                                 required="true"
+                                 requiredMessage="Debe ingresar una precio mínimo"/>
+                
+                
                     <h:outputText value="Precio Máximo*:   "/>
 
                     <p:inputText value="#{preciosHortalizaBean.preciosHortaliza.precioMax}"
                                  label="PrecioMax"
                                  disabled="#{preciosHortalizaBean.getbCamposEditables()}"
-                                 required="#{preciosHortalizaBean.bCamposRequeridos}"/>
-                </div>
-                <div class="camposTexto"> 
+                                 required="true"
+                                 requiredMessage="Debe ingresar un precio maximo"/>
+                
                     <h:outputText value="Fecha*:   "/>
 
                     <p:calendar value="#{preciosHortalizaBean.preciosHortaliza.fecha}"
                                 label="fecha"
                                 disabled="#{preciosHortalizaBean.getbCamposEditables()}"
-                                required="#{preciosHortalizaBean.bCamposRequeridos}"/>
-                </div>
-                <div style="clear: both;"/>
+                                required="true"
+                                 requiredMessage="Debe ingresar una fecha"/>
+                
 
-
+                </h:panelGrid>
 
 
             </p:panel>
@@ -145,9 +145,7 @@
                          paginator="true"
                          rows="20"
                          var="pa">      
-                <f:facet name="header">
-                    Cantidad de registros: #{listaPreciosHortalizaBean.lstPreciosHortaliza.size()}
-                </f:facet>
+                
                 <p:column>
                     <p:commandButton id="cbEdit"
                                      title="Editar"
