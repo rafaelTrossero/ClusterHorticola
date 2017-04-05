@@ -306,6 +306,8 @@ public class CampoBean {
             FacesContext fc = FacesContext.getCurrentInstance();
             fc.addMessage(null, fm);
         }
+        
+         
 
     }//fin
     

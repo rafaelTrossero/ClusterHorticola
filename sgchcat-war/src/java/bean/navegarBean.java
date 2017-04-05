@@ -266,6 +266,10 @@ public class navegarBean {
     }
 
     public String entrarFormProductor() {
+         this.getListaProductorBean().setLstProductor(new ArrayList<Productor>());
+        this.getListaProductorBean().setLstSIProductor(null);
+        this.getListaProductorBean().cargar_productor();
+        this.getListaProductorBean().cargar_SI_productor();
 
         this.getListaPaisBean().cargarPais();
         this.getListaPaisBean().cargarSIPais();
@@ -377,7 +381,7 @@ public class navegarBean {
         this.getListaPaisBean().cargarPais();
         this.getListaPaisBean().cargarSIPais();
         this.getListaCampoBean().cargar_campo();
-        this.getListaPaisBean().cargarSIPais();
+        this.getListaCampoBean().cargar_SI_campo();
         this.getListaTenenciaBean().cargar_tenencia();
         this.getListaTenenciaBean().cargar_SI_tenencia();
         this.getListaProductorBean().cargar_productor();

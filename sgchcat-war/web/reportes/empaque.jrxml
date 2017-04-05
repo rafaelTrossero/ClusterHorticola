@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="1008" pageHeight="612" orientation="Landscape" columnWidth="968" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="74"/>
+	<property name="ireport.y" value="250"/>
+	<queryString>
+		<![CDATA[select especie.descripcion,productor.nombre,sum(total_kilos),productor_id,especie_id from empaque INNER JOIN productor ON (empaque.productor_id = productor.id) INNER JOIN especie ON (empaque.especie_id = especie.id) group by productor_id,productor.nombre,especie_id,especie.descripcion]]>
+	</queryString>
+	<field name="descripcion" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="sum" class="java.lang.Double"/>
+	<field name="productor_id" class="java.lang.Long"/>
+	<field name="especie_id" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<summary>
+		<band height="461" splitType="Stretch">
+			<bar3DChart>
+				<chart theme="eye.candy.sixties">
+					<reportElement x="47" y="0" width="870" height="389"/>
+					<chartTitle>
+						<titleExpression><![CDATA["Ingreso Empaque"]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{descripcion}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{nombre}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{sum}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
+					<plot/>
+					<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
+					<categoryAxisFormat>
+						<axisFormat>
+							<labelFont/>
+							<tickLabelFont/>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat>
+							<labelFont/>
+							<tickLabelFont/>
+						</axisFormat>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</bar3DChart>
+		</band>
+	</summary>
+</jasperReport>

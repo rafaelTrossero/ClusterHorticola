@@ -19,9 +19,9 @@
 
                 <p:focus context="pEmpaque"/> 
                 <h:inputHidden value="#{empaqueBean.empaque.id}"/>
-               
+
                 <h:inputHidden value="#{listaEmpaqueBean.iActionBtnSelect}"/>
-                
+
 
 
                 <div class="camposTexto">
@@ -40,7 +40,7 @@
                                              value="#{empaqueBean.empaque.productor}"  
                                              converter="ConversorGenerico"
                                              disabled="#{empaqueBean.getbCamposEditables()}">
-                                <f:selectItem itemLabel="Seleccione una Productor..." itemValue="0"/>
+                                <f:selectItem itemLabel="Seleccione una Productor..." itemValue=""/>
                                 <f:selectItems value="#{listaProductorBean.lstSIProductor}"/>
                             </p:selectOneMenu>
 
@@ -67,7 +67,7 @@
                                              valueChangeListener="#{listaVariedadBean.recuperarVariedad}"
                                              converter="ConversorGenerico"
                                              disabled="#{empaqueBean.getbCamposEditables()}">
-                                <f:selectItem itemLabel="Seleccione una Especie..." itemValue="0"/>
+                                <f:selectItem itemLabel="Seleccione una Especie..." itemValue=""/>
                                 <f:selectItems value="#{listaEspecieBean.lstSIEspecie}"/>
                                 <p:ajax update="somVariedad"
                                         event="change"  />
@@ -81,18 +81,33 @@
                                              value="#{empaqueBean.empaque.variedad}"  
                                              converter="ConversorGenerico"
                                              disabled="#{empaqueBean.getbCamposEditables()}">
-                                <f:selectItem itemLabel="Seleccione una Variedad..." itemValue="0"/>
+                                <f:selectItem itemLabel="Seleccione una Variedad..." itemValue=""/>
                                 <f:selectItems value="#{listaVariedadBean.lstSIVariedad}"/>
 
 
                             </p:selectOneMenu>
-                            
+
                             <h:outputText value="Cantidad*        "/>
 
                             <p:inputText value="#{empaqueBean.empaque.cantidad}"
                                          label="Cantidad"
                                          disabled="#{empaqueBean.getbCamposEditables()}"
                                          required="#7{empaqueBean.bCamposRequeridos}"/>
+                            <h:outputText  value="Unidad*:   " />
+
+                            <p:selectOneMenu id="somIngreso"
+
+                                             value="#{empaqueBean.empaque.unidad}"  
+                                             converter="ConversorGenerico"
+                                             disabled="#{empaqueBean.getbCamposEditables()}">
+                                <f:selectItem itemLabel="Seleccione tipo de Ingreso..." itemValue=""/>
+                                <f:selectItem itemLabel="KG" itemValue="KG"/>
+                                <f:selectItem itemLabel="CAJON" itemValue="CAJON"/>
+                                <f:selectItem itemLabel="BOLSA" itemValue="BOLSA"/>
+                                <f:selectItem itemLabel="TONELADA" itemValue="TONELADA"/>
+
+
+                            </p:selectOneMenu>
 
                             <h:outputText value="Total Kg*        "/>
 
@@ -101,21 +116,7 @@
                                          disabled="#{empaqueBean.getbCamposEditables()}"
                                          required="#7{empaqueBean.bCamposRequeridos}"/>
 
-                            <h:outputText  value="Unidad*:   " />
 
-                            <p:selectOneMenu id="somIngreso"
-
-                                             value="#{empaqueBean.empaque.unidad}"  
-                                             converter="ConversorGenerico"
-                                             disabled="#{empaqueBean.getbCamposEditables()}">
-                                <f:selectItem itemLabel="Seleccione tipo de Ingreso..." itemValue="0"/>
-                                <f:selectItem itemLabel="KG" itemValue="KG"/>
-                                <f:selectItem itemLabel="CAJON" itemValue="CAJON"/>
-                                <f:selectItem itemLabel="BOLSA" itemValue="BOLSA"/>
-                                <f:selectItem itemLabel="TONELADA" itemValue="TONELADA"/>
-
-
-                            </p:selectOneMenu>
 
                             <h:outputText value="Fecha*:   "/>
 
@@ -165,8 +166,8 @@
                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                 </p:confirmDialog>
 
-            
-                 <p:commandButton id="btnSalir"
+
+                <p:commandButton id="btnSalir"
                                  value="Salir" 
                                  icon="ui-icon-close"
                                  oncomplete="PF('dlgEmpaque').hide()"
@@ -205,49 +206,49 @@
                 </f:facet>
                 <p:column>
                     <p:commandButton id="cbEditar"
-                                 title="Editar"
-                                 icon="ui-icon-pencil" 
-                                 update=":frmMain:dEmpaque,  @this"
-                                 oncomplete="PF('dlgEmpaque').show();"
-                                 actionListener="#{empaqueBean.setBtnSelect}"
-                                 disabled="#{not ingreso.active }"
-                                 process="@this"
-                                 >
+                                     title="Editar"
+                                     icon="ui-icon-pencil" 
+                                     update=":frmMain:dEmpaque,  @this"
+                                     oncomplete="PF('dlgEmpaque').show();"
+                                     actionListener="#{empaqueBean.setBtnSelect}"
+                                     disabled="#{not ingreso.active }"
+                                     process="@this"
+                                     >
                         <f:setPropertyActionListener value="#{ingreso}" target="#{empaqueBean.empaque}"/> 
                         <f:setPropertyActionListener value="#{ingreso.especie}" target="#{empaqueBean.empaque.especie}"/>
                         <f:setPropertyActionListener value="#{ingreso.variedad}" target="#{empaqueBean.empaque.variedad}"/>
-                       
+
                     </p:commandButton>
-                     <p:commandButton id="cbHabilitado"
-                                 title="Activar"
-                                 icon="ui-icon-unlocked"
-                                 update=":frmMain:dEmpaque, @this"
-                                 oncomplete="PF('dlgEmpaque').show();"
-                                 actionListener="#{empaqueBean.setBtnSelect}"
-                                 disabled="#{ingreso.active }"
-                                 process="@this"
-                                 >
+                    <p:commandButton id="cbHabilitado"
+                                     title="Activar"
+                                     icon="ui-icon-unlocked"
+                                     update=":frmMain:dEmpaque, @this"
+                                     oncomplete="PF('dlgEmpaque').show();"
+                                     actionListener="#{empaqueBean.setBtnSelect}"
+                                     disabled="#{ingreso.active }"
+                                     process="@this"
+                                     >
                         <f:setPropertyActionListener value="#{ingreso}" target="#{empaqueBean.empaque}"/>  
-                      
+
                         <f:setPropertyActionListener value="#{ingreso.especie}" target="#{empaqueBean.empaque.especie}"/>
                         <f:setPropertyActionListener value="#{ingreso.variedad}" target="#{empaqueBean.empaque.variedad}"/>
                     </p:commandButton>
 
                     <p:commandButton id="cbDeshabilitado"
-                                 title="Desactivar"
-                                 icon="ui-icon-circle-close"
-                                 update=":frmMain:dEmpaque, @this"
-                                 oncomplete="PF('dlgEmpaque').show();"
-                                 actionListener="#{empaqueBean.setBtnSelect}"
-                                 disabled="#{not ingreso.active }"
-                                 process="@this"
-                                 >
-                         <f:setPropertyActionListener value="#{ingreso}" target="#{empaqueBean.empaque}"/> 
+                                     title="Desactivar"
+                                     icon="ui-icon-circle-close"
+                                     update=":frmMain:dEmpaque, @this"
+                                     oncomplete="PF('dlgEmpaque').show();"
+                                     actionListener="#{empaqueBean.setBtnSelect}"
+                                     disabled="#{not ingreso.active }"
+                                     process="@this"
+                                     >
+                        <f:setPropertyActionListener value="#{ingreso}" target="#{empaqueBean.empaque}"/> 
                         <f:setPropertyActionListener value="#{ingreso.especie}" target="#{empaqueBean.empaque.especie}"/>
                         <f:setPropertyActionListener value="#{ingreso.variedad}" target="#{empaqueBean.empaque.variedad}"/>     
 
                     </p:commandButton>
-                   
+
                 </p:column>
                 <p:column filterBy="#{ingreso.productor.nombre}" sortBy="#{ingreso.productor.nombre}">
                     <f:facet name="header">
@@ -263,7 +264,7 @@
                     <h:outputText value="#{ingreso.renspaN}"/>
 
                 </p:column>
-                
+
                 <p:column filterBy="#{ingreso.asociacion}" sortBy="#{ingreso.asociacion}">
                     <f:facet name="header">
                         <h:outputText value="Asociacion"/>
@@ -278,8 +279,8 @@
                     <h:outputText value="#{ingreso.fecha}"/>
 
                 </p:column>
-                
-                
+
+
                 <p:column filterBy="#{ingreso.especie.descripcion}" sortBy="#{ingreso.especie.descripcion}">
                     <f:facet name="header">
                         <h:outputText value="Especie"/>
@@ -316,7 +317,7 @@
                     <h:outputText value="#{ingreso.total_kilos}"/>
 
                 </p:column>
-                
+
 
                 <f:facet name="footer">
                     Cantidad de registros: #{listaEmpaqueBean.lstEmpaque.size()}

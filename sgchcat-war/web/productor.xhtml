@@ -92,7 +92,7 @@
                                              valueChangeListener="#{listaLocalidadBean.recuperarLocalidades}"
                                              disabled="#{productorBean.getbCamposEditables()}"
                                              >
-                                <f:selectItem itemLabel="Seleccione un Departamento..." itemValue="0"/>
+                                <f:selectItem itemLabel="Seleccione un Departamento..." itemValue=""/>
                                 <f:selectItems value="#{listaDepartamentoBean.lstSIDepartamento}"/>
 
                                 <p:ajax         update="somLocalidad"
@@ -115,15 +115,15 @@
                             <h:outputText value="Calle: "/>
                             <p:inputText value="#{productorBean.domicilio.calle}"
                                          label="Calle"
-                                         disabled="#{profesionalBean.getbCamposEditables()}"/>
+                                         disabled="#{productorBean.getbCamposEditables()}"/>
                             <h:outputText value="Numero: "/>
                             <p:inputText value="#{productorBean.domicilio.numero}"
                                          label="Numero"
-                                         disabled="#{profesionalBean.getbCamposEditables()}"/>
+                                        disabled="#{productorBean.getbCamposEditables()}"/>
                             <h:outputText value="Georeferenciación "/>
                             <p:inputText value="#{productorBean.domicilio.referencia}"
                                          label="Georeferenciacion"
-                                         disabled="#{profesionalBean.getbCamposEditables()}"/>
+                                        disabled="#{productorBean.getbCamposEditables()}"/>
 
                             <h:outputText value="Teléfono: "/>
                             <p:inputText value="#{productorBean.productor.telefono}"

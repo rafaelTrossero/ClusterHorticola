@@ -180,7 +180,12 @@ public class productorBean {
             this.getListaProductorBean().getLstProductor().add(productor);
 
       //limpiar campos
-            //  this.limpiar();
+            this.limpiar();
+             this.getCbAction().setDisabled(true);
+
+            //this.setbCamposRequeridos(false);
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('dlgProductor').hide()");
         } catch (Exception ex) {
 
             severity = FacesMessage.SEVERITY_ERROR;
@@ -270,7 +275,7 @@ public class productorBean {
             this.limpiar();
             //this.setbCamposRequeridos(false);
             RequestContext context = RequestContext.getCurrentInstance();
-            context.execute("PF('dlgEmpaque').hide()");
+            context.execute("PF('dlgProductor').hide()");
 
         } catch (Exception ex) {
             severity = FacesMessage.SEVERITY_ERROR;
@@ -284,6 +289,7 @@ public class productorBean {
     }
     public void limpiar() {
         this.setProductor(new Productor());
+        this.setDomicilio(new Domicilio());
     }//fin limpiar
 
 }
