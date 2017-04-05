@@ -10,6 +10,7 @@ import entidad.Campo;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import recursos.cadenas;
 
 /**
  *
@@ -23,6 +24,8 @@ public class CampoRN implements CampoRNLocal {
 
     @Override
     public void create(Campo cam) throws Exception {
+        this.convertir_strings(cam);
+        this.validar(cam, 0);
         this.campoFacadeLocal.create(cam);
     }
 
@@ -33,6 +36,8 @@ public class CampoRN implements CampoRNLocal {
 
     @Override
     public void edit(Campo cam) throws Exception {
+        this.convertir_strings(cam);
+        this.validar(cam, 1);
          this.campoFacadeLocal.edit(cam);
     }
 
@@ -56,6 +61,37 @@ return (this.campoFacadeLocal.findAll());
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+     private void convertir_strings(Campo p) {
+        p.setNombre(cadenas.convertir(p.getNombre()));
+    }
+      private void validar(Campo p, int op) throws Exception {
+        //verifica si el código es menor o igual a cero
+        
+
+        //verifica si es una línea en blanco
+        if (p.getNombre().trim().length() == 0) {
+            throw new Exception("El nombre del Campo no puede estar vacio");
+        }
+        if (!cadenas.es_letras(p.getNombre())) {
+            throw new Exception("El nombre del Campo debe contener solo caracteres alfabeticos");
+        }
+        
+//Valida si contine letras
+       if (!cadenas.es_numero(p.getSuperficie_total())){ 
+            throw new Exception("Superficie Total debe contener solo caracteres numéricos");
+        }
+        if (p.getDomicilio() == null) {
+            throw new Exception("Debe Ingresar el domicilio");
+        }
+         if (p.getProductor() == null) {
+            throw new Exception("Debe Ingresar Seleccionar el productor");
+        }
+         if (p.getTenencia() == null) {
+            throw new Exception("Debe Ingresar Seleccionar la tenencia");
+        }
+
+
+    }//fin validar
+     
+    
 }

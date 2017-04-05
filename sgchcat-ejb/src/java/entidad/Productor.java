@@ -30,7 +30,10 @@ import javax.persistence.OneToOne;
            
           
            @NamedQuery(name = "Productor.ActualizarEstado", query="UPDATE Productor u SET u.active =:active WHERE u.id =:id"),
-           
+           @NamedQuery(name = "Productor.findByDni", query = "SELECT p FROM Productor p WHERE p.dni = :dni ORDER BY p.nombre"),
+           @NamedQuery(name = "Productor.findByDniID", query = "SELECT p FROM Productor p WHERE p.dni = :dni  AND p.id <>:id ORDER BY p.nombre"),
+           @NamedQuery(name = "Productor.findByCuil", query = "SELECT p FROM Productor p WHERE p.cuil = :cuil ORDER BY p.nombre"),
+           @NamedQuery(name = "Productor.findByCuilID", query = "SELECT p FROM Productor p WHERE p.cuil = :cuil  AND p.id <>:id ORDER BY p.nombre"),
 
 })
 public class Productor implements Serializable {
@@ -40,7 +43,7 @@ public class Productor implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private Integer dni;
+    private String dni;
     @Column(nullable = false)
     private String cuil;
    
@@ -99,13 +102,15 @@ public class Productor implements Serializable {
         this.id = id;
     }
 
-    public Integer getDni() {
+    public String getDni() {
         return dni;
     }
 
-    public void setDni(Integer dni) {
+    public void setDni(String dni) {
         this.dni = dni;
     }
+
+
 
     public String getCuil() {
         return cuil;

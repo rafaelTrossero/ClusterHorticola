@@ -46,7 +46,7 @@ public class Campo implements Serializable {
     @OneToMany(mappedBy = "campo")
     private List<CampoDomicilio> lstCampoDomicilio;
     @Column(nullable = false)
-    private Double superficie_total;
+    private String superficie_total;
     @OneToOne
     @JoinColumn(name = "tenencia_id", referencedColumnName = "id", nullable = false)
     private Tenencia tenencia;
@@ -127,13 +127,14 @@ public class Campo implements Serializable {
         this.lstCampoDomicilio = lstCampoDomicilio;
     }
 
-    public Double getSuperficie_total() {
+    public String getSuperficie_total() {
         return superficie_total;
     }
 
-    public void setSuperficie_total(Double superficie_total) {
+    public void setSuperficie_total(String superficie_total) {
         this.superficie_total = superficie_total;
     }
+    
 
     @Override
     public int hashCode() {

@@ -27,7 +27,8 @@ public interface ProductorFacadeLocal {
     List<Productor> findAll();
 
     List<Productor> findRange(int[] range);
-
+     public Boolean bFindByDni(Productor p, int op) throws Exception;
+     public Boolean bFindByCuil(Productor p, int op) throws Exception;
     int count();
     public void activate(Productor productor, Boolean bEstado);
     

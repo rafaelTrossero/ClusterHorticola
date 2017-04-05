@@ -7,10 +7,12 @@
 package RN;
 
 import DAO.CampoDomicilioFacadeLocal;
+import entidad.Campo;
 import entidad.CampoDomicilio;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import recursos.cadenas;
 
 /**
  *
@@ -23,6 +25,7 @@ public class CampoDomicilioRN implements CampoDomicilioRNLocal {
 
     @Override
     public void create(CampoDomicilio cam) throws Exception {
+        this.validar(cam, 0);
      this.campoDomicilioFacadeLocal.create(cam);
     }
 
@@ -44,4 +47,21 @@ public class CampoDomicilioRN implements CampoDomicilioRNLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
+    
+      private void validar(CampoDomicilio p, int op) throws Exception {
+        //verifica si el código es menor o igual a cero
+        
+
+       
+//Valida si contine letras
+       if (p.getCampo() == null) {
+            throw new Exception("Debe Ingresar el Campo");
+        }
+       if (p.getDomicilio().getLocalidad() == null) {
+            throw new Exception("Debe Ingresar la localidad");
+        }
+        
+        
+
+    }//fin validar
 }
