@@ -14,6 +14,7 @@ import java.util.HashMap;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -146,5 +147,37 @@ private final String escudo1 = FacesContext.getCurrentInstance().getExternalCont
         }
 
     }
+     
+         public void generar() throws SQLException {
+
+        Connection conect;
+        conect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ClusterHortDB", "postgres", "123456");
+      String path;
+        System.out.println("funcionando");
+
+        try {
+           
+            HashMap parametros = new HashMap();
+            path = "reportes\\nuevoReporte.jasper";
+//funcionando
+            
+           
+            FacesContext context = FacesContext.getCurrentInstance();
+            String reportPath = context.getExternalContext().getRealPath(path);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, parametros, conect); //new JREmptyDataSource() si le pongo eso en vez de conect me devuelve null
+            HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            httpServletResponse.addHeader("Content-disposition", "filename=reporte.pdf");
+            ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+            JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+            servletOutputStream.flush();
+            servletOutputStream.close();
+            FacesContext.getCurrentInstance().responseComplete();
+
+        } catch (Exception ex) {
+            System.out.println(ex + "CAUSA: " + ex.getCause());
+
+        }
+       
+    }//fin generar
     
 }
