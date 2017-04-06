@@ -10,6 +10,7 @@ import entidad.IngresoMercado;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import recursos.cadenas;
 
 /**
  *
@@ -23,6 +24,7 @@ public class IngresoMercadoRN implements IngresoMercadoRNLocal {
     
     @Override
     public void create(IngresoMercado i) throws Exception {
+        this.validar(i, 0);
     this.ingresoMercadoFacadeLocal.create(i);
     }
 
@@ -53,5 +55,21 @@ public class IngresoMercadoRN implements IngresoMercadoRNLocal {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-  
+  private void validar(IngresoMercado i, int op) throws Exception {
+     
+        System.out.println("ingreso es--->"+ i.getIngreso());
+        System.out.println("procedencia es--->"+ i.getProcedencia());
+
+        //verifica si es una línea en blanco
+      if(i.getIngreso().equals("Extra Provincial")){
+        if (i.getProcedencia() == null) {
+            throw new Exception("Debe seleccionar una provincia de procedencia");
+        }
+      }/*
+        if (!cadenas.es_numero(i.getKg().toString())){ 
+            throw new Exception("Cantidad de Kg debe contener solo caracteres numéricos");
+        }*/
+
+
+    }//fin validar
 }

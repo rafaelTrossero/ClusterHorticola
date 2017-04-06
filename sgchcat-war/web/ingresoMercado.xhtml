@@ -35,7 +35,10 @@
                                      value="#{ingresoMercadoBean.ingresoMercado.especie}"  
                                      valueChangeListener="#{listaVariedadBean.recuperarVariedad}"
                                      converter="ConversorGenerico"
-                                     disabled="#{ingresoMercadoBean.getbCamposEditables()}">
+                                     disabled="#{ingresoMercadoBean.getbCamposEditables()}"
+                                     required="true"
+                                 requiredMessage="Debe seleccionar una especie">
+                        <f:selectItem itemLabel="Seleccionar..." />
                         <f:selectItems value="#{listaEspecieBean.lstSIEspecie}"/>
                         <p:ajax update="somVariedad"
                                 event="change"  />
@@ -49,8 +52,10 @@
 
                                      value="#{ingresoMercadoBean.ingresoMercado.variedad}"  
                                      converter="ConversorGenerico"
-                                     disabled="#{ingresoMercadoBean.getbCamposEditables()}">
-                        <f:selectItem itemLabel="Seleccione una Variedad..." itemValue="0"/>
+                                     disabled="#{ingresoMercadoBean.getbCamposEditables()}"
+                                     required="true"
+                                 requiredMessage="Debe seleccionar una variedad">
+                        <f:selectItem itemLabel="Seleccionar..." />
                         <f:selectItems value="#{listaVariedadBean.lstSIVariedad}"/>
 
 
@@ -62,8 +67,10 @@
 
                                      value="#{ingresoMercadoBean.ingresoMercado.ingreso}"  
                                      converter="ConversorGenerico"
-                                     disabled="#{ingresoMercadoBean.getbCamposEditables()}">
-                        <f:selectItem itemLabel="Seleccionar..." itemValue="0"/>
+                                     disabled="#{ingresoMercadoBean.getbCamposEditables()}"
+                                     required="true"
+                                 requiredMessage="Debe seleccionar un tipo de ingreso">
+                        <f:selectItem itemLabel="Seleccionar..." />
                         <f:selectItem itemLabel="Local" itemValue="Local"/>
                         <f:selectItem itemLabel="Extra Provincial" itemValue="Extra Provincial"/>
                         <p:ajax update="advanced" /> 
@@ -73,7 +80,9 @@
                     <p:outputLabel for="advanced" value="Procedencia:"  />
                     <p:selectOneMenu id="advanced" value="#{ingresoMercadoBean.ingresoMercado.procedencia}" converter="ConversorGenerico" panelStyle="width:180px"
                                      effect="fade" var="t" style="width:160px" filter="true" filterMatchMode="startsWith"
-                                     disabled="#{ingresoMercadoBean.ingresoMercado.ingreso == 'Local'}">
+                                     disabled="#{ingresoMercadoBean.ingresoMercado.ingreso == 'Local'}"
+                                    >
+                        <f:selectItem itemLabel="Seleccionar..." />
                         <f:selectItems value="#{listaProvinciaBean.lstProvincia}" var="theme" itemLabel="#{theme.descripcion}" itemValue="#{theme}" />
 
                         <p:column style="width:10%">
@@ -88,16 +97,19 @@
                     <h:outputText value="Cantidad de kg:   "/>
 
                     <p:inputText value="#{ingresoMercadoBean.ingresoMercado.kg}"
-                                 label="Cantidad de Kilos de procedencia NO local"
+                                 label="Cantidad de Kg"
                                  disabled="#{ingresoMercadoBean.getbCamposEditables()}"
-                                 required="#{ingresoMercadoBean.bCamposRequeridos}"/>
+                                 required="true"
+                                 requiredMessage="Debe ingresar la cantidad de Kg"
+                                 />
 
                     <h:outputText value="Fecha*:   "/>
 
                     <p:calendar value="#{ingresoMercadoBean.ingresoMercado.fecha}"
                                 label="fecha de ingreso"
                                 disabled="#{ingresoMercadoBean.getbCamposEditables()}"
-                                required="#{ingresoMercadoBean.bCamposRequeridos}"/>
+                                required="true"
+                                 requiredMessage="Debe ingresar una fecha"/>
 
 
 
@@ -157,9 +169,7 @@
                          paginator="true"
                          rows="20"
                          var="ingreso">      
-                <f:facet name="header">
-                    Cantidad de registros: #{listaIngresoMercadoBean.lstIngresoMercado.size()}
-                </f:facet>
+               
                 <p:column>
                     <p:commandButton id="cbEdit"
                                      title="Editar"
