@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./Template/CHTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="content">
+
+
+        <p:panel   header="Reporte de Empaque" style="text-align:center;" id="display">
+            <h:outputText value="Fecha de Inicio: "/>
+            <p:calendar value="#{reporteBean.fecha_inicio}" 
+                        disabled="false" >
+                <f:convertDateTime pattern="dd/MM/yyyy" />
+            </p:calendar>
+            <h:outputText value="Fecha Fin: "/>
+            <p:calendar value="#{reporteBean.fecha_fin}" 
+                        disabled="false" >
+                <f:convertDateTime pattern="dd/MM/yyyy" />
+            </p:calendar>
+
+            <div class="camposTexto"
+                 style="float: left; margin: 10px;
+                 width: 100%;
+                 text-align: center;">
+                <h:commandButton    action="#{reporteBean.setearReporte()}" value="Ver PDF"  />
+
+
+
+            </div>
+        </p:panel>
+    </ui:define>
+
+</ui:composition>

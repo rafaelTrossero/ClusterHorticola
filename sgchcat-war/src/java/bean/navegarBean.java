@@ -375,7 +375,11 @@ public class navegarBean {
 
         return "empaque.xhtml?faces-redirect=true";
     }
+ public String entrarFormReporteEmpaque() {
 
+        
+        return "reporteEmpaque.xhtml?faces-redirect=true";
+    }
     public String entrarFormCampo() {
 
         this.getListaPaisBean().cargarPais();
