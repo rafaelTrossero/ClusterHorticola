@@ -13,7 +13,8 @@
         <p:dialog id="dCultivosCampo" 
                   widgetVar="dlgCultivosCampo" 
                   modal="true"
-
+                  position="top"
+                  responsive="true"
                   closable="false" resizable="false">
             <f:facet name="header">
                 <h:outputText value="Cultivos a implantar"/>
@@ -161,15 +162,12 @@
                   text-align: center;">
                 <p:growl id="message" showDetail="true"  />
                 <div style="clear: both;"/>
-                <p:commandButton id="btnSalir"
-                                 value="Salir" 
-                                 oncomplete="PF('dlgCultivosCampo').hide()"
-
-                                 process="@this"/>
+                
                 <p:commandButton id="btnAction"
                                  value="Guardar " 
                                  actionListener="#{cultivosCampoBean.create()}" 
                                  update="message"
+                                 icon="ui-icon-disk"
                                  >
 
                     <p:confirm header="Confirmación" message="¿Seguro?" icon="ui-icon-alert" />
@@ -178,7 +176,11 @@
                     <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                 </p:confirmDialog>
-
+               <p:commandButton id="btnSalir"
+                                 value="Salir" 
+                                 oncomplete="PF('dlgCultivosCampo').hide()"
+                                 icon="ui-icon-close"
+                                 process="@this"/>
 
 
 
@@ -240,7 +242,7 @@
                     value="Continuar" 
                     icon="ui-icon-circle-plus" 
                     oncomplete="PF('dlgCultivosCampo').show()"
-                    update="CultivosCampo"
+                    update="dCultivosCampo"
 
                     />
 

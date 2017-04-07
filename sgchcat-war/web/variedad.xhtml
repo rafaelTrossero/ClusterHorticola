@@ -72,7 +72,8 @@
                 <p:growl id="message" showDetail="true"  />
                 <div style="clear: both;"/>
                 <p:commandButton id="btnAction"
-                                 value="Guardar " 
+                                 value="Guardar "
+                                 icon="ui-icon-disk"
                                  actionListener="#{variedadBean.actionBtn}" 
                                  update=":frmMain:dtVariedad, :frmMain:pVariedad,message, @this"
                                  binding="#{variedadBean.cbAction}">
@@ -86,6 +87,7 @@
 
                 <p:commandButton id="btnSalir"
                                  value="Salir" 
+                                 icon="ui-icon-close"
                                  actionListener="#{variedadBean.cerrarDialog()}" 
                                  update=":frmMain:pVariedad, :frmMain:dtVariedad"
                                  process="@this"

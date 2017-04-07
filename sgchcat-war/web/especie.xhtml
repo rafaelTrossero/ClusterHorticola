@@ -59,7 +59,8 @@
                 <p:growl id="message" showDetail="true"  />
                 <div style="clear: both;"/>
                 <p:commandButton id="btnAction"
-                                 value="Guardar " 
+                                 value="Guardar"
+                                 icon="ui-icon-disk"
                                  actionListener="#{especieBean.actionBtn}" 
                                  update=":frmMain:dtEspecie, :frmMain:pEspecie,message, @this"
                                  binding="#{especieBean.cbAction}"
@@ -73,6 +74,7 @@
                 </p:confirmDialog>
                 <p:commandButton id="btnSalir"
                                  value="Salir" 
+                                 icon="ui-icon-close"
                                  actionListener="#{especieBean.cerrarDialog()}" 
                                  update=":frmMain:pEspecie, :frmMain:dtEspecie"
                                  process="@this"

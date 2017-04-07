@@ -102,6 +102,7 @@
                 <div style="clear: both;"/>
                 <p:commandButton id="btnAction"
                                  value="Guardar " 
+                                 icon="ui-icon-disk"
                                  actionListener="#{preciosHortalizaBean.actionBtn}" 
                                  update=":frmMain:dtPreciosHortaliza, :frmMain:pPreciosHortaliza,message, @this"
                                  binding="#{preciosHortalizaBean.cbAction}" >
@@ -114,6 +115,7 @@
                 </p:confirmDialog>
                 <p:commandButton id="btnSalir"
                                  value="Salir" 
+                                 icon="ui-icon-close"
                                  actionListener="#{preciosHortalizaBean.cerrarDialog()}" 
                                  update=":frmMain:pPreciosHortaliza, :frmMain:dtPreciosHortaliza"
                                  process="@this"

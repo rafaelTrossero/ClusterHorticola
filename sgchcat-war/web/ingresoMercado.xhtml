@@ -26,7 +26,7 @@
 
                 <h:outputText  value="Todos los campos con * son requeridos."  styleClass="aclaraciones" />
 
-                <p:panelGrid columns="2" >
+                <h:panelGrid columns="2" cellpadding="3" >
 
                     <h:outputText  value="Especie / Producto:   " />
 
@@ -114,7 +114,7 @@
 
 
 
-                </p:panelGrid>
+                </h:panelGrid>
 
             </p:panel>
 
@@ -131,7 +131,8 @@
                   width: 100%;
                   text-align: center;">
                 <p:commandButton id="btnAction"
-                                 value="Guardar " 
+                                 value="Guardar "
+                                 icon="ui-icon-disk"
                                  actionListener="#{ingresoMercadoBean.actionBtn}" 
                                  update=":frmMain:dtIngresoMercado, :frmMain:pIngresoMercado, @this"
                                  binding="#{ingresoMercadoBean.cbAction}"/>
@@ -139,6 +140,7 @@
 
                 <p:commandButton id="btnSalir"
                                  value="Salir" 
+                                 icon="ui-icon-close"
                                  actionListener="#{ingresoMercadoBean.cerrarDialog()}" 
                                  update=":frmMain:pIngresoMercado, :frmMain:dtIngresoMercado, @this"
                          process="@this"/>
