@@ -6,8 +6,10 @@
 package bean;
 
 import RN.IngresoMercadoRNLocal;
+import RN.PreciosIngresoRNLocal;
 import entidad.IngresoMercado;
 import entidad.Pais;
+import entidad.PreciosIngreso;
 import entidad.Provincia;
 import entidad.Variedad;
 import javax.ejb.EJB;
@@ -39,14 +41,17 @@ private Provincia pro;
     private UsuarioLogerBean usuarioLogerBean;
     @EJB
     private IngresoMercadoRNLocal ingresoMercadoRNLocal;
+    @EJB
+    private PreciosIngresoRNLocal preciosIngresoRNLocal;
     private CommandButton cbAction;
     
     private Boolean bCamposRequeridos;
     private Boolean bCamposEditables;
     private String cadenaVariedad;
+    private PreciosIngreso preciosIngreso;
     public IngresoMercadoBean() {
         this.ingresoMercado = new IngresoMercado();
-        
+        this.preciosIngreso = new PreciosIngreso();
         
    
     }
@@ -132,6 +137,14 @@ private Provincia pro;
     public void setCadenaVariedad(String cadenaVariedad) {
         this.cadenaVariedad = cadenaVariedad;
     }
+
+    public PreciosIngreso getPreciosIngreso() {
+        return preciosIngreso;
+    }
+
+    public void setPreciosIngreso(PreciosIngreso preciosIngreso) {
+        this.preciosIngreso = preciosIngreso;
+    }
     
     public void actionBtn() {
 
@@ -216,6 +229,8 @@ private Provincia pro;
             
             
             ingresoMercadoRNLocal.create(ingresoMercado);
+            preciosIngreso.setIngresoMercado(ingresoMercado);
+            preciosIngresoRNLocal.create(preciosIngreso);
             sMensaje = "El dato fue guardado";
             severity = FacesMessage.SEVERITY_INFO;
 

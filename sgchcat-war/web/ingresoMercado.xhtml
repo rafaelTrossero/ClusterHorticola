@@ -20,7 +20,7 @@
             </f:facet>
             <p:panel id="pIngresoMercado" style="float:left;">
                 <h:inputHidden value="#{ingresoMercadoBean.ingresoMercado.id}"/>
-               
+                <h:inputHidden value="#{ingresoMercadoBean.preciosIngreso.id}"/>
 
                 <h:inputHidden value="#{listaIngresoMercadoBean.iActionBtnSelect}"/>
 
@@ -96,13 +96,31 @@
             
                     <h:outputText value="Cantidad de kg:   "/>
 
-                    <p:inputText value="#{ingresoMercadoBean.ingresoMercado.kg}"
+                    <p:inputNumber value="#{ingresoMercadoBean.ingresoMercado.kg}"
                                  label="Cantidad de Kg"
                                  disabled="#{ingresoMercadoBean.getbCamposEditables()}"
                                  required="true"
                                  requiredMessage="Debe ingresar la cantidad de Kg"
                                  />
 
+                    <h:outputText value="Precio en Finca:   "/>
+
+                   <p:inputNumber value="#{ingresoMercadoBean.preciosIngreso.precioFinca}"
+                                 label="Precio en Finca"
+                                 disabled="#{ingresoMercadoBean.getbCamposEditables()}"
+                                 required="true"
+                                 requiredMessage="Debe ingresar el precio en finca"
+                                 />
+                    
+                    <h:outputText value="Precio en Mercado:   "/>
+
+                   <p:inputNumber value="#{ingresoMercadoBean.preciosIngreso.precioMercado}"
+                                 label="Precio en Mercado"
+                                 disabled="#{ingresoMercadoBean.getbCamposEditables()}"
+                                 required="true" 
+                                 requiredMessage="Debe ingresar el precio en mercado"
+                                 />
+                    
                     <h:outputText value="Fecha*:   "/>
 
                     <p:calendar value="#{ingresoMercadoBean.ingresoMercado.fecha}"
