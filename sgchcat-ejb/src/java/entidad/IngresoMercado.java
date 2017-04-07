@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
 /**
@@ -38,6 +39,8 @@ public class IngresoMercado implements Serializable {
     private Provincia procedencia;
    private Boolean active;
  
+   @OneToOne(mappedBy="ingresoMercado")
+   private PreciosIngreso preciosIngreso;
    
    @Temporal(javax.persistence.TemporalType.DATE)
     private Date fecha;
@@ -122,6 +125,14 @@ public class IngresoMercado implements Serializable {
 
     public void setProcedencia(Provincia procedencia) {
         this.procedencia = procedencia;
+    }
+
+    public PreciosIngreso getPreciosIngreso() {
+        return preciosIngreso;
+    }
+
+    public void setPreciosIngreso(PreciosIngreso preciosIngreso) {
+        this.preciosIngreso = preciosIngreso;
     }
     
 
