@@ -276,7 +276,9 @@
                     <f:facet name="header">
                         <h:outputText value="Fecha de Ingreso"/>
                     </f:facet>               
-                    <h:outputText value="#{ingreso.fecha}"/>
+                    <h:outputText value="#{ingreso.fecha}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>
+                    </h:outputText>
 
                 </p:column>
 
