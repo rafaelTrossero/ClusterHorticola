@@ -92,7 +92,19 @@
                        
                     </p:selectOneMenu>        
                       
-          
+                    <h:outputText value="Medio de ingreso:   "/>
+                    <p:selectOneMenu id="somIngresaPor"
+
+                                     value="#{ingresoMercadoBean.ingresoMercado.ingresaPor}"  
+                                     converter="ConversorGenerico"
+                                     disabled="#{ingresoMercadoBean.getbCamposEditables()}"
+                                     required="true"
+                                 requiredMessage="Debe seleccionar el medio de ingreso">
+                        <f:selectItem itemLabel="Seleccionar..." />
+                        <f:selectItem itemLabel="Productor" itemValue="PRODUCTOR"/>
+                        <f:selectItem itemLabel="Intermediario" itemValue="INTERMEDIARIO"/>
+                    </p:selectOneMenu>
+                       
             
                     <h:outputText value="Cantidad de kg:   "/>
 

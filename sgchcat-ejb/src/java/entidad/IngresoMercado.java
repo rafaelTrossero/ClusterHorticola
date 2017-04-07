@@ -48,6 +48,8 @@ public class IngresoMercado implements Serializable {
     private Float kg;
     private Float precio;
     private String Ingreso;
+    
+    private String ingresaPor; //Campo que se utiliza para especificar si el ingreso se realiza por un intermediario o directamente por el productor
     //private String mes;
     
          
@@ -133,6 +135,14 @@ public class IngresoMercado implements Serializable {
 
     public void setPreciosIngreso(PreciosIngreso preciosIngreso) {
         this.preciosIngreso = preciosIngreso;
+    }
+
+    public String getIngresaPor() {
+        return ingresaPor;
+    }
+
+    public void setIngresaPor(String ingresaPor) {
+        this.ingresaPor = ingresaPor;
     }
     
 
