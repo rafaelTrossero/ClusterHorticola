@@ -53,4 +53,9 @@ public class EspecieRN implements EspecieRNLocal {
     public void activate(Especie especie, Boolean bEstado) throws Exception {
    especieFacadeLocal.activate(especie, bEstado);
     }
+
+    @Override
+    public List<Especie> findAllActivo() throws Exception {
+    return(this.especieFacadeLocal.findAllActivo());
+    }
 }

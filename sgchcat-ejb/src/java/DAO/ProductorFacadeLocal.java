@@ -31,5 +31,6 @@ public interface ProductorFacadeLocal {
      public Boolean bFindByCuil(Productor p, int op) throws Exception;
     int count();
     public void activate(Productor productor, Boolean bEstado);
+     List<Productor> findAllActivo();
     
 }

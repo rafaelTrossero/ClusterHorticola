@@ -25,9 +25,10 @@ import javax.persistence.OneToMany;
            
           
            @NamedQuery(name = "Especie.ActualizarEstado", query="UPDATE Especie u SET u.active =:active WHERE u.id =:id"),
-           
+           @NamedQuery(name = "Especie.SelectAlltrue", query = "SELECT u FROM Especie u WHERE u.active =:active ")
 
 })
+
 public class Especie implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

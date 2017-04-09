@@ -26,7 +26,7 @@ import javax.persistence.Temporal;
            
           
            @NamedQuery(name = "PreciosHortaliza.ActualizarEstado", query="UPDATE PreciosHortaliza u SET u.active =:active WHERE u.id =:id"),
-           
+           @NamedQuery(name = "PreciosHortaliza.SelectAlltrue", query = "SELECT u FROM PreciosHortaliza u WHERE u.active =:active ")
 
 })
 public class PreciosHortaliza implements Serializable {

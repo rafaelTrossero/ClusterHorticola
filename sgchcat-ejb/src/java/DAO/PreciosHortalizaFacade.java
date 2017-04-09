@@ -6,6 +6,7 @@
 package DAO;
 
 import entidad.PreciosHortaliza;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -38,6 +39,21 @@ public class PreciosHortalizaFacade extends AbstractFacade<PreciosHortaliza> imp
          /*q.setParameter("id", id);
          q.setParameter("estado", estado);  */
         q.executeUpdate();
+    }
+
+    @Override
+    public List<PreciosHortaliza> findAllActivo() {
+       try {
+            Query q = em.createNamedQuery("PreciosHortaliza.SelectAlltrue");
+
+            q.setParameter("active", true);
+
+            return (List<PreciosHortaliza>) q.getResultList();
+
+        } catch (Exception e) {
+            return null;
+        }
+    
     }
     
     }

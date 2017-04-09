@@ -6,6 +6,7 @@
 package DAO;
 
 import entidad.Productor;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -92,6 +93,21 @@ public class ProductorFacade extends AbstractFacade<Productor> implements Produc
         } catch (NoResultException ex) {
             return false;
         }
+    }
+
+    @Override
+    public List<Productor> findAllActivo() {
+      try {
+            Query q = em.createNamedQuery("Productor.SelectAlltrue");
+
+            q.setParameter("active", true);
+
+            return (List<Productor>) q.getResultList();
+
+        } catch (Exception e) {
+            return null;
+        }
+    
     }
 
 }

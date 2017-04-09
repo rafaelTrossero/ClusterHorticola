@@ -30,5 +30,6 @@ public interface PreciosHortalizaFacadeLocal {
 
     int count();
      public void activate(PreciosHortaliza preciosHortaliza, Boolean bEstado);
+     List<PreciosHortaliza> findAllActivo();
     
 }

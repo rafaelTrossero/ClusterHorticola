@@ -6,6 +6,7 @@
 package DAO;
 
 import entidad.Especie;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -38,6 +39,20 @@ public class EspecieFacade extends AbstractFacade<Especie> implements EspecieFac
          /*q.setParameter("id", id);
          q.setParameter("estado", estado);  */
         q.executeUpdate();
+    }
+
+    @Override
+    public List<Especie> findAllActivo() {
+    try {
+            Query q = em.createNamedQuery("Especie.SelectAlltrue");
+
+            q.setParameter("active", true);
+
+            return (List<Especie>) q.getResultList();
+
+        } catch (Exception e) {
+            return null;
+        }
     }
     
     }

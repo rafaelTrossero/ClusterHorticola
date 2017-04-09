@@ -60,7 +60,7 @@ public class ProductorRN implements ProductorRNLocal {
 
     @Override
     public List<Productor> findAllActivo() throws Exception {
-      throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     return(this.productorFacadeLocal.findAllActivo());
     }
 
   private void convertir_strings(Productor p) {

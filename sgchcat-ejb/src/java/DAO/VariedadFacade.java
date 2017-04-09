@@ -35,6 +35,7 @@ public class VariedadFacade extends AbstractFacade<Variedad> implements Variedad
     public List<Variedad> findByEspecie(Long idEspecie) throws Exception {
         Query q = em.createNamedQuery("Variedad.findByEspecie");
         q.setParameter("idEspecie", idEspecie);
+        q.setParameter("active", true);
         return q.getResultList();
     }
 
@@ -47,6 +48,21 @@ public class VariedadFacade extends AbstractFacade<Variedad> implements Variedad
          /*q.setParameter("id", id);
          q.setParameter("estado", estado);  */
         q.executeUpdate();
+    }
+
+    @Override
+    public List<Variedad> findAllActivo() {
+    try {
+            Query q = em.createNamedQuery("Variedad.SelectAlltrue");
+
+            q.setParameter("active", true);
+
+            return (List<Variedad>) q.getResultList();
+
+        } catch (Exception e) {
+            return null;
+        }
+    
     }
 
 }

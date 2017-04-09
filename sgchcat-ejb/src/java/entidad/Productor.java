@@ -34,6 +34,7 @@ import javax.persistence.OneToOne;
            @NamedQuery(name = "Productor.findByDniID", query = "SELECT p FROM Productor p WHERE p.dni = :dni  AND p.id <>:id ORDER BY p.nombre"),
            @NamedQuery(name = "Productor.findByCuil", query = "SELECT p FROM Productor p WHERE p.cuil = :cuil ORDER BY p.nombre"),
            @NamedQuery(name = "Productor.findByCuilID", query = "SELECT p FROM Productor p WHERE p.cuil = :cuil  AND p.id <>:id ORDER BY p.nombre"),
+            @NamedQuery(name = "Productor.SelectAlltrue", query = "SELECT u FROM Productor u WHERE u.active =:active ")
 
 })
 public class Productor implements Serializable {

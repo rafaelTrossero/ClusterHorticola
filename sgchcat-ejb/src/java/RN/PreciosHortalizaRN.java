@@ -49,7 +49,8 @@ public class PreciosHortalizaRN implements PreciosHortalizaRNLocal {
 
     @Override
     public List<PreciosHortaliza> findAllActivo() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     return(this.preciosHortalizaFacadeLocal.findAllActivo());
+    
     }
 
     // Add business logic below. (Right-click in editor and choose

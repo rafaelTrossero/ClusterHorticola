@@ -56,5 +56,10 @@ public class VariedadRN implements VariedadRNLocal {
       variedadFacadeLocal.activate(variedad, bEstado);
     }
 
+    @Override
+    public List<Variedad> findAllActivo() throws Exception {
+      return(this.variedadFacadeLocal.findAllActivo());
+    }
+
     
 }
