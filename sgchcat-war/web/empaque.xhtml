@@ -41,7 +41,7 @@
                                              converter="ConversorGenerico"
                                              disabled="#{empaqueBean.getbCamposEditables()}">
                                 <f:selectItem itemLabel="Seleccione una Productor..." itemValue=""/>
-                                <f:selectItems value="#{listaProductorBean.lstSIProductor}"/>
+                                <f:selectItems value="#{listaProductorBean.lstSIProductorActivo}"/>
                             </p:selectOneMenu>
 
                             <h:outputText value="RENSPA Nº*        "/>
@@ -68,7 +68,7 @@
                                              converter="ConversorGenerico"
                                              disabled="#{empaqueBean.getbCamposEditables()}">
                                 <f:selectItem itemLabel="Seleccione una Especie..." itemValue=""/>
-                                <f:selectItems value="#{listaEspecieBean.lstSIEspecie}"/>
+                                <f:selectItems value="#{listaEspecieBean.lstSIEspecieActive}"/>
                                 <p:ajax update="somVariedad"
                                         event="change"  />
                             </p:selectOneMenu>
@@ -82,7 +82,7 @@
                                              converter="ConversorGenerico"
                                              disabled="#{empaqueBean.getbCamposEditables()}">
                                 <f:selectItem itemLabel="Seleccione una Variedad..." itemValue=""/>
-                                <f:selectItems value="#{listaVariedadBean.lstSIVariedad}"/>
+                                <f:selectItems value="#{listaVariedadBean.lstSIVariedadActive}"/>
 
 
                             </p:selectOneMenu>

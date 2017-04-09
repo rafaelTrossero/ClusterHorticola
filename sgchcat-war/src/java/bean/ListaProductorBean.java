@@ -26,6 +26,11 @@ public class ListaProductorBean {
      private List<Productor> lstProductor;
     
     private List<SelectItem> lstSIProductor;
+     private List<Productor> lstProductorActivo;
+    
+    private List<SelectItem> lstSIProductorActivo;
+    
+    
      private int iActionBtnSelect;
 @EJB
     private ProductorRNLocal productorRNLocal;
@@ -65,13 +70,39 @@ public class ListaProductorBean {
     public void setiActionBtnSelect(int iActionBtnSelect) {
         this.iActionBtnSelect = iActionBtnSelect;
     }
+
+    public List<Productor> getLstProductorActivo() {
+        return lstProductorActivo;
+    }
+
+    public List<SelectItem> getLstSIProductorActivo() {
+        return lstSIProductorActivo;
+    }
+
+    public void setLstSIProductorActivo(List<SelectItem> lstSIProductorActivo) {
+        this.lstSIProductorActivo = lstSIProductorActivo;
+    }
+    
+
+    public void setLstProductorActivo(List<Productor> lstProductorActivo) {
+        this.lstProductorActivo = lstProductorActivo;
+    }
     
     public void cargar_productor() {
         try {
             this.setLstProductor(this.productorRNLocal.findAll());
         } catch (Exception ex) {
-            System.out.println("Error al cargar alumnos " + ex.toString());
+            System.out.println("Error al cargar Productores " + ex.toString());
         }
+        this.cargar_SI_productor();
+    }
+    public void cargar_productorActivo() {
+        try {
+            this.setLstProductorActivo(this.productorRNLocal.findAllActivo());
+        } catch (Exception ex) {
+            System.out.println("Error al cargar productores activos " + ex.toString());
+        }
+        this.cargar_SI_productorActivo();
     }
 
     public void cargar_SI_productor() {
@@ -80,6 +111,15 @@ public class ListaProductorBean {
         for (Productor a : this.getLstProductor()) {
             SelectItem si = new SelectItem(a, a.getNombre());
             this.getLstSIProductor().add(si);
+        }
+        
+    }
+    public void cargar_SI_productorActivo() {
+        this.setLstSIProductorActivo(new ArrayList<SelectItem>());
+
+        for (Productor a : this.getLstProductorActivo()) {
+            SelectItem si = new SelectItem(a, a.getNombre());
+            this.getLstSIProductorActivo().add(si);
         }
     }
         

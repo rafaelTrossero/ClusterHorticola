@@ -39,7 +39,7 @@
                                      required="true"
                                  requiredMessage="Debe seleccionar una especie">
                         <f:selectItem itemLabel="Seleccionar..." />
-                        <f:selectItems value="#{listaEspecieBean.lstSIEspecie}"/>
+                        <f:selectItems value="#{listaEspecieBean.lstSIEspecieActive}"/>
                         <p:ajax update="somVariedad"
                                 event="change"  />
                     </p:selectOneMenu>
@@ -56,7 +56,7 @@
                                      required="true"
                                  requiredMessage="Debe seleccionar una variedad">
                         <f:selectItem itemLabel="Seleccionar..." />
-                        <f:selectItems value="#{listaVariedadBean.lstSIVariedad}"/>
+                        <f:selectItems value="#{listaVariedadBean.lstSIVariedadActive}"/>
 
 
                     </p:selectOneMenu>

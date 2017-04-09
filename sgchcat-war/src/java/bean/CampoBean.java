@@ -13,6 +13,8 @@ import entidad.Campo;
 import entidad.CampoDomicilio;
 import entidad.CampoProductor;
 import entidad.Domicilio;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -33,6 +35,7 @@ public class CampoBean {
 
     private Campo campo;
     private CampoProductor campoProductor;
+    private CampoProductor camprod;
 
     private Domicilio domicilio;
     private CampoDomicilio campodomicilio;
@@ -86,6 +89,15 @@ public class CampoBean {
     public int getiActionBtnSelect() {
         return iActionBtnSelect;
     }
+
+    public CampoProductor getCamprod() {
+        return camprod;
+    }
+
+    public void setCamprod(CampoProductor camprod) {
+        this.camprod = camprod;
+    }
+    
 
     public ListaCampoProductoAuxrBean getListaCampoProductorAuxBean() {
         return listaCampoProductorAuxBean;
@@ -201,7 +213,7 @@ public class CampoBean {
 
     public void actionBtn() {
         System.out.println("..............." + this.getListaCampoBean().getiActionBtnSelect());
-
+        System.out.println(" campo productor " +  campoProductor.getId());
         switch (this.getListaCampoBean().getiActionBtnSelect()) {
             case 0:
                 create();
@@ -213,11 +225,11 @@ public class CampoBean {
                 break;
             case 2:
                 //deshabilita el campo
-                // this.activate(Boolean.FALSE);
+                 this.activate(Boolean.FALSE);
                 break;
             case 3:
                 //habilita el campo
-                //  this.activate(Boolean.TRUE);
+                this.activate(Boolean.TRUE);
                 break;
 
         }//fin switch
@@ -285,7 +297,7 @@ public class CampoBean {
             campodomicilio.setDomicilio(domicilio);
             campoDomicilioRNLocal.create(campodomicilio);
             campoProductorRNLocal.create(campoProductor);
-          
+
             System.out.println("Campo: " + campo);
 
             sMensaje = "El dato fue guardado";
@@ -306,8 +318,6 @@ public class CampoBean {
             FacesContext fc = FacesContext.getCurrentInstance();
             fc.addMessage(null, fm);
         }
-        
-         
 
     }//fin
     
@@ -317,8 +327,7 @@ public class CampoBean {
         FacesMessage fm;
         FacesMessage.Severity severity = null;
         try {
-            
-            
+            //System.out.println("................. campo productor............. " +  camprod.getId() + camprod.getCampo()+ camprod.getProductor());
             campo.setActive(Boolean.TRUE);
             domicilioRNLocal.edit(domicilio);
             
@@ -327,11 +336,11 @@ public class CampoBean {
             campoRNLocal.edit(campo);
            
             campodomicilio.setCampo(campo);
-            campoProductor.setProductor(campo.getProductor());
-            campoProductor.setCampo(campo);
             campodomicilio.setDomicilio(domicilio);
             campoDomicilioRNLocal.edit(campodomicilio);
-            campoProductorRNLocal.edit(campoProductor);
+            camprod.setCampo(campo);
+            camprod.setProductor(campo.getProductor());
+           campoProductorRNLocal.edit(camprod);
             
             
           
@@ -363,6 +372,69 @@ public class CampoBean {
             fc.addMessage(null, fm);
         }
     }
+     
+    public void buscar(Campo camp){
+     
+        try {
+            this.camprod= new CampoProductor();
+            this.camprod= this.campoProductorRNLocal.buscarCampoProductor(camp, camp.getProductor());
+        } catch (Exception ex) {
+            Logger.getLogger(CampoBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     System.out.println("ennnnnnnnnnnnntrooooo"+ camprod.getId());
+     }
+   public void activate(Boolean bEstado) {
+        String sMensaje = "";
+        FacesMessage fm;
+        FacesMessage.Severity severity = null;
+
+        try {
+             campoRNLocal.activate(this.getCampo(), bEstado);
+            
+
+            //elimino el organismo de la lista
+            //int iPos = this.getListaAlumnoBean().getLstAlumno()).indexOf(this.getAlumno());
+            int iPos = this.getListaCampoBean().getLstCampo().indexOf(this.getCampo());
+
+            this.setCampo(this.getListaCampoBean().getLstCampo().get(iPos));
+            this.getCampo().setActive(bEstado);
+            
+            this.getListaCampoBean().getLstCampo().remove(iPos);
+            this.getListaCampoBean().getLstCampo().add(iPos, this.getCampo());
+
+            if (!bEstado) {
+                sMensaje = "Campo desactivado correctamente";
+            } else {
+                sMensaje = "Campo reactivado correctaamente";
+            }
+            severity = FacesMessage.SEVERITY_INFO;
+
+            this.getCbAction().setDisabled(true);
+
+            //limíar campos
+            this.clear();
+            //this.setbCamposRequeridos(false);
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('dlgCampo').hide()");
+
+        } catch (Exception ex) {
+            severity = FacesMessage.SEVERITY_ERROR;
+            sMensaje = "An error ocurred during activation: " + ex.getMessage();
+
+        } finally {
+            fm = new FacesMessage(severity, sMensaje, null);
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage(null, fm);
+        }
+    }
+     
+     private void clear() {
+        this.setCampo(new Campo());
+        this.setDomicilio(new Domicilio());
+        this.setCampodomicilio(new CampoDomicilio());
+        this.setCampoProductor(new CampoProductor());
+        this.setCamprod(new CampoProductor());       
+    } 
 
     
 }

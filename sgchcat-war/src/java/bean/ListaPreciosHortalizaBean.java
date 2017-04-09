@@ -30,6 +30,9 @@ public class ListaPreciosHortalizaBean {
     private List<PreciosHortaliza> lstPreciosHortaliza;
     
     private List<SelectItem> lstSIPreciosHortaliza;
+        private List<PreciosHortaliza> lstPreciosHortalizaActive;
+    
+    private List<SelectItem> lstSIPreciosHortalizaActive;
     private int iActionBtnSelect;
     @EJB
     private PreciosHortalizaRNLocal preciosHortalizaRNLocal;
@@ -47,6 +50,22 @@ public class ListaPreciosHortalizaBean {
 
     public List<PreciosHortaliza> getLstPreciosHortaliza() {
         return lstPreciosHortaliza;
+    }
+
+    public List<PreciosHortaliza> getLstPreciosHortalizaActive() {
+        return lstPreciosHortalizaActive;
+    }
+
+    public void setLstPreciosHortalizaActive(List<PreciosHortaliza> lstPreciosHortalizaActive) {
+        this.lstPreciosHortalizaActive = lstPreciosHortalizaActive;
+    }
+
+    public List<SelectItem> getLstSIPreciosHortalizaActive() {
+        return lstSIPreciosHortalizaActive;
+    }
+
+    public void setLstSIPreciosHortalizaActive(List<SelectItem> lstSIPreciosHortalizaActive) {
+        this.lstSIPreciosHortalizaActive = lstSIPreciosHortalizaActive;
     }
 
     public void setLstPreciosHortaliza(List<PreciosHortaliza> lstPreciosHortaliza) {
@@ -90,6 +109,19 @@ public class ListaPreciosHortalizaBean {
             fc.addMessage(null, fm);
         }
     }//fin 
+     
+       public void cargarPreciosHortalizaActive() {
+        try {
+            this.setLstPreciosHortalizaActive(preciosHortalizaRNLocal.findAllActivo());
+        } catch (Exception ex) {
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error al cargar los PreciosHortaliza: " + ex,
+                    null);
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage(null, fm);
+        }
+        this.cargarSIPreciosHortalizaActive();
+    }//fin
     
      public void cargarSIPreciosHortaliza() {
 
@@ -102,5 +134,17 @@ public class ListaPreciosHortalizaBean {
            
         }//fin for
         System.out.println("Termino cargar PreciosHortaliza: " + this.getLstSIPreciosHortaliza());
+    }//fin 
+       public void cargarSIPreciosHortalizaActive() {
+
+        this.setLstSIPreciosHortalizaActive(new ArrayList<SelectItem>());
+
+        for (PreciosHortaliza p : this.getLstPreciosHortalizaActive()) {
+            
+                SelectItem si = new SelectItem(p, p.getEspecie().getDescripcion()+ p.getVariedad().getDescripcion() + p.getPrecioMin() + p.getPrecioMax());
+                this.getLstSIPreciosHortalizaActive().add(si);
+           
+        }//fin for
+        System.out.println("Termino cargar PreciosHortaliza: " + this.getLstSIPreciosHortalizaActive());
     }//fin 
 }

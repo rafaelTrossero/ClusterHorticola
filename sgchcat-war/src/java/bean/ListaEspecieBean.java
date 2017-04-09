@@ -30,6 +30,9 @@ public class ListaEspecieBean {
     private List<Especie> lstEspecie;
     
     private List<SelectItem> lstSIEspecie;
+     private List<Especie> lstEspecieActive;
+    
+    private List<SelectItem> lstSIEspecieActive;
     private int iActionBtnSelect;
     @EJB
     private EspecieRNLocal especieRNLocal;
@@ -40,6 +43,22 @@ public class ListaEspecieBean {
 
     public UsuarioLogerBean getUsuarioLogerBean() {
         return usuarioLogerBean;
+    }
+
+    public List<Especie> getLstEspecieActive() {
+        return lstEspecieActive;
+    }
+
+    public void setLstEspecieActive(List<Especie> lstEspecieActive) {
+        this.lstEspecieActive = lstEspecieActive;
+    }
+
+    public List<SelectItem> getLstSIEspecieActive() {
+        return lstSIEspecieActive;
+    }
+
+    public void setLstSIEspecieActive(List<SelectItem> lstSIEspecieActive) {
+        this.lstSIEspecieActive = lstSIEspecieActive;
     }
 
     public void setUsuarioLogerBean(UsuarioLogerBean usuarioLogerBean) {
@@ -89,6 +108,31 @@ public class ListaEspecieBean {
             fc.addMessage(null, fm);
         }
          System.out.println("Termino cargar Especie: " + this.getLstEspecie());
+    }//fin 
+       public void cargarEspecieActive() {
+        try {
+            this.setLstEspecieActive(especieRNLocal.findAllActivo());
+        } catch (Exception ex) {
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error al cargar las especies: " + ex,
+                    null);
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage(null, fm);
+        }
+         this.cargarSIEspecieActive();
+         System.out.println("Termino cargar Especie: " + this.getLstEspecie());
+    }//fin 
+       public void cargarSIEspecieActive() {
+
+        this.setLstSIEspecieActive(new ArrayList<SelectItem>());
+
+        for (Especie p : this.getLstEspecieActive()) {
+            
+                SelectItem si = new SelectItem(p, p.getDescripcion());
+                this.getLstSIEspecieActive().add(si);
+           
+        }//fin for
+        System.out.println("Termino cargar Especie: " + this.getLstSIEspecie());
     }//fin 
     
      public void cargarSIEspecie() {

@@ -296,6 +296,10 @@ public class navegarBean {
         this.getListaEspecieBean().setLstSIEspecie(null);
         this.getListaEspecieBean().cargarEspecie();
         this.getListaEspecieBean().cargarSIEspecie();
+        this.getListaEspecieBean().setLstEspecieActive(new ArrayList<Especie>());
+        this.getListaEspecieBean().setLstSIEspecieActive(null);
+        this.getListaEspecieBean().cargarEspecieActive();
+        this.getListaEspecieBean().cargarSIEspecieActive();
 
         return "especie.xhtml?faces-redirect=true";
     }
@@ -310,6 +314,15 @@ public class navegarBean {
         this.getListaEspecieBean().setLstSIEspecie(null);
         this.getListaEspecieBean().cargarEspecie();
         this.getListaEspecieBean().cargarSIEspecie();
+        
+        this.getListaVariedadBean().setLstVariedadActive(new ArrayList<Variedad>());
+        this.getListaVariedadBean().setLstSIVariedadActive(null);
+        this.getListaVariedadBean().cargarVariedadActive();
+        this.getListaVariedadBean().cargarSIVariedadActive();
+        this.getListaEspecieBean().setLstEspecieActive(new ArrayList<Especie>());
+        this.getListaEspecieBean().setLstSIEspecieActive(null);
+        this.getListaEspecieBean().cargarEspecieActive();
+        this.getListaEspecieBean().cargarSIEspecieActive();
 
         return "variedad.xhtml?faces-redirect=true";
     }
@@ -323,7 +336,15 @@ public class navegarBean {
         this.getListaVariedadBean().setLstSIVariedad(null);
         this.getListaVariedadBean().cargarVariedad();
         this.getListaVariedadBean().cargarSIVariedad();
-
+        
+         this.getListaEspecieBean().setLstEspecieActive(new ArrayList<Especie>());
+        this.getListaEspecieBean().setLstSIEspecieActive(null);
+        this.getListaEspecieBean().cargarEspecieActive();
+        this.getListaEspecieBean().cargarSIEspecieActive();
+        this.getListaVariedadBean().setLstVariedadActive(new ArrayList<Variedad>());
+        this.getListaVariedadBean().setLstSIVariedadActive(null);
+        this.getListaVariedadBean().cargarVariedadActive();
+        this.getListaVariedadBean().cargarSIVariedadActive();
         return "preciosHortaliza.xhtml?faces-redirect=true";
     }
     
@@ -344,8 +365,21 @@ public class navegarBean {
         this.getListaVariedadBean().cargarVariedad();
         this.getListaVariedadBean().cargarSIVariedad();
         
+        this.getListaEspecieBean().setLstEspecieActive(new ArrayList<Especie>());
+        this.getListaEspecieBean().setLstSIEspecieActive(null);
+        this.getListaEspecieBean().cargarEspecieActive();
+        this.getListaEspecieBean().cargarSIEspecieActive();
+        this.getListaProductorBean().setLstProductorActivo(new ArrayList<Productor>());
+        this.getListaProductorBean().setLstSIProductorActivo(null);
+        this.getListaVariedadBean().setLstVariedadActive(new ArrayList<Variedad>());
+        this.getListaVariedadBean().setLstSIVariedadActive(null);
+        this.getListaVariedadBean().cargarVariedadActive();
+        this.getListaVariedadBean().cargarSIVariedadActive();
+        
          this.getListaProductorBean().cargar_productor();
         this.getListaProductorBean().cargar_SI_productor();
+          this.getListaProductorBean().cargar_productorActivo();
+        this.getListaProductorBean().cargar_SI_productorActivo();
         this.getListaIngresoMercadoBean().setLstIngresoMercado(new ArrayList<IngresoMercado>());
         this.getListaIngresoMercadoBean().cargarIngresoMercado();
         
@@ -371,7 +405,25 @@ public class navegarBean {
         
          this.getListaProductorBean().cargar_productor();
         this.getListaProductorBean().cargar_SI_productor();
-    
+        
+        
+         this.getListaEspecieBean().setLstEspecieActive(new ArrayList<Especie>());
+        this.getListaEspecieBean().setLstSIEspecieActive(null);
+        this.getListaEspecieBean().cargarEspecieActive();
+        this.getListaEspecieBean().cargarSIEspecieActive();
+        this.getListaProductorBean().setLstProductorActivo(new ArrayList<Productor>());
+        this.getListaProductorBean().setLstSIProductorActivo(null);
+        this.getListaVariedadBean().setLstVariedadActive(new ArrayList<Variedad>());
+        this.getListaVariedadBean().setLstSIVariedadActive(null);
+        
+        this.getListaEmpaqueBean().setLstEmpaque(new ArrayList<Empaque>());
+        this.getListaEmpaqueBean().cargarIngresoEmpaque();
+        
+        this.getListaVariedadBean().cargarVariedadActive();
+        this.getListaVariedadBean().cargarSIVariedadActive();
+        
+         this.getListaProductorBean().cargar_productorActivo();
+        this.getListaProductorBean().cargar_SI_productorActivo();
 
         return "empaque.xhtml?faces-redirect=true";
     }
@@ -388,8 +440,16 @@ public class navegarBean {
         this.getListaCampoBean().cargar_SI_campo();
         this.getListaTenenciaBean().cargar_tenencia();
         this.getListaTenenciaBean().cargar_SI_tenencia();
+        this.getListaProductorBean().cargar_productorActivo();
+        this.getListaProductorBean().cargar_SI_productorActivo();
         this.getListaProductorBean().cargar_productor();
         this.getListaProductorBean().cargar_SI_productor();
+        
+        this.getListaProductorBean().cargar_productorActivo();
+        this.getListaProductorBean().cargar_SI_productorActivo();
+        this.getListaProductorBean().cargar_productor();
+        this.getListaProductorBean().cargar_SI_productor();
+     
      
         this.getListaProvinciaBean().cargarProvincias();
         this.getListaProvinciaBean().cargarSIProvincias();
@@ -404,6 +464,17 @@ public class navegarBean {
         this.getListaEspecieBean().setLstSIEspecie(null);
         this.getListaEspecieBean().cargarEspecie();
         this.getListaEspecieBean().cargarSIEspecie();
+        
+   
+        this.getListaCampoProductorBean().cargar_campo_productor();
+           this.getListaVariedadBean().setLstVariedadActive(new ArrayList<Variedad>());
+        this.getListaVariedadBean().setLstSIVariedadActive(null);
+        this.getListaVariedadBean().cargarVariedadActive();
+        this.getListaVariedadBean().cargarSIVariedadActive();
+        this.getListaEspecieBean().setLstEspecieActive(new ArrayList<Especie>());
+        this.getListaEspecieBean().setLstSIEspecieActive(null);
+        this.getListaEspecieBean().cargarEspecieActive();
+        this.getListaEspecieBean().cargarSIEspecieActive();
         return "campo.xhtml?faces-redirect=true";
     }
     
@@ -422,6 +493,18 @@ public class navegarBean {
         this.getListaEspecieBean().setLstSIEspecie(null);
        
         this.getListaEspecieBean().cargarSIEspecie();
+        
+          
+           this.getListaVariedadBean().setLstVariedadActive(new ArrayList<Variedad>());
+           this.getListaVariedadBean().cargarVariedadActive();
+        this.getListaVariedadBean().setLstSIVariedadActive(null);
+        
+        this.getListaVariedadBean().cargarSIVariedadActive();
+        this.getListaEspecieBean().setLstEspecieActive(new ArrayList<Especie>());
+        this.getListaEspecieBean().cargarEspecieActive();
+        this.getListaEspecieBean().setLstSIEspecieActive(null);
+       
+        this.getListaEspecieBean().cargarSIEspecieActive();
         return "cultivosCampo.xhtml?faces-redirect=true";
     }
 }

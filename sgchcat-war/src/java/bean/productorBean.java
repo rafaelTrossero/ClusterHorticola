@@ -263,9 +263,9 @@ public class productorBean {
             this.getListaProductorBean().getLstProductor().add(iPos, this.getProductor());
 
             if (!bEstado) {
-                sMensaje = "Empaque desactivado correctamente";
+                sMensaje = "Productor desactivado correctamente";
             } else {
-                sMensaje = "Empaque reactivado correctaamente";
+                sMensaje = "Productor reactivado correctaamente";
             }
             severity = FacesMessage.SEVERITY_INFO;
 

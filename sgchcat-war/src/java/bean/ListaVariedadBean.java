@@ -32,6 +32,9 @@ public class ListaVariedadBean {
     private List<Variedad> lstVariedad;
 
     private List<SelectItem> lstSIVariedad;
+    private List<Variedad> lstVariedadActive;
+
+    private List<SelectItem> lstSIVariedadActive;
     private int iActionBtnSelect;
     @EJB
     private VariedadRNLocal variedadRNLocal;
@@ -68,6 +71,22 @@ public class ListaVariedadBean {
         return iActionBtnSelect;
     }
 
+    public List<Variedad> getLstVariedadActive() {
+        return lstVariedadActive;
+    }
+
+    public void setLstVariedadActive(List<Variedad> lstVariedadActive) {
+        this.lstVariedadActive = lstVariedadActive;
+    }
+
+    public List<SelectItem> getLstSIVariedadActive() {
+        return lstSIVariedadActive;
+    }
+
+    public void setLstSIVariedadActive(List<SelectItem> lstSIVariedadActive) {
+        this.lstSIVariedadActive = lstSIVariedadActive;
+    }
+
     public void setiActionBtnSelect(int iActionBtnSelect) {
         this.iActionBtnSelect = iActionBtnSelect;
     }
@@ -92,6 +111,19 @@ public class ListaVariedadBean {
         }
     }//fin 
 
+    public void cargarVariedadActive() {
+        try {
+            this.setLstVariedadActive(variedadRNLocal.findAllActivo());
+        } catch (Exception ex) {
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error al cargar las especies: " + ex,
+                    null);
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage(null, fm);
+        }
+        this.cargarSIVariedadActive();
+    }//fin 
+
     public void cargarSIVariedad() {
 
         this.setLstSIVariedad(new ArrayList<SelectItem>());
@@ -105,25 +137,37 @@ public class ListaVariedadBean {
         System.out.println("Termino cargar Variedad: " + this.getLstSIVariedad());
     }//fin 
 
+    public void cargarSIVariedadActive() {
+
+        this.setLstSIVariedadActive(new ArrayList<SelectItem>());
+
+        for (Variedad p : this.getLstVariedadActive()) {
+
+            SelectItem si = new SelectItem(p, p.getDescripcion());
+            this.getLstSIVariedadActive().add(si);
+
+        }//fin for
+        System.out.println("Termino cargar Variedad: " + this.getLstSIVariedad());
+    }//fin 
+
     public void recuperarVariedad(ValueChangeEvent event) {
 
         try {
- 
+
             if (event.getNewValue() != null) {
                 if (!"0".equals(event.getNewValue().toString())) {
                     Especie especie = (Especie) event.getNewValue();
 
                     System.out.println("especie; " + especie);
                     this.setLstVariedad(this.variedadRNLocal.findByEspecie(especie.getId()));
-                    System.out.println("entroooooooooooooooooooooooooooooooooooo lst variedad tieneOO . " +lstVariedad);
+                    System.out.println("entroooooooooooooooooooooooooooooooooooo lst variedad tieneOO . " + lstVariedad);
                     //this.setLstProvinciaBorrado(this.provinciaRNLocal.findByPaisBorrado(pais.getId(), Boolean.FALSE));
-                   this.cargarSIVariedad();
-                   
+                    this.cargarSIVariedad();
+
                 } else {
                     this.setLstVariedad(new ArrayList<Variedad>());
                     this.setLstSIVariedad(new ArrayList<SelectItem>());
-                    
-                   
+
                 }
 
             }//fin if

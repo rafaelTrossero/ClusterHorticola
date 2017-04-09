@@ -141,7 +141,7 @@
                                              disabled="#{campoBean.getbCamposEditables()}">
                                 <f:selectItem itemLabel="Seleccione un Productor..." itemValue=""/>
                                 <f:selectItems 
-                                    value="#{listaProductorBean.lstSIProductor}"/>
+                                    value="#{listaProductorBean.lstSIProductorActivo}"/>
 
                             </p:selectOneMenu>
 
@@ -149,7 +149,7 @@
                     </p:tab> 
 
                     <div style="clear: both;"/>
-                 
+
                 </p:accordionPanel>
             </p:panel>
 
@@ -178,7 +178,7 @@
                                  >
                     <p:confirm header="Confirmación" message="¿Seguro?" icon="ui-icon-alert" />
                 </p:commandButton>
-                
+
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
                     <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
                                      ajax="false"  />
@@ -234,7 +234,9 @@
                                  update=":frmMain:dCampo,  @this"
                                  oncomplete="PF('dlgCampo').show();"
                                  actionListener="#{campoBean.setBtnSelect}"
-                                 process="@this">
+                                 disabled="#{not cam.active }"
+                                 process="@this"
+                                 >
                     <!--disabledSelection="#1{not prod.active }"> -->
 
 
@@ -242,35 +244,44 @@
                     <f:setPropertyActionListener value="#{cam.domicilio}" target="#{campoBean.domicilio}"/>
                     <f:setPropertyActionListener value="#{cam.lstCampoProductor}" target="#{listaCampoProductoAuxrBean.lstcampoProductor}"/>
                     <f:setPropertyActionListener value="#{cam.lstCampoProductor}" target="#{listaCampoProductorBean.lstCampoProductor}"/>
-
-
+                
                 </p:commandButton>
+
 
                 <p:commandButton id="cbHabilitado"
                                  title="Activar"
                                  icon="ui-icon-unlocked" 
                                  update=":frmMain:dCampo, @this"
                                  oncomplete="PF('dlgCampo').show();"
-                                 actionListener="#{productorBean.setBtnSelect}"
-                                 disabled="#/{prod.active }"
+                                 actionListener="#{campoBean.setBtnSelect}"
+                                 disabled="#{cam.active }"
                                  >
-                    <f:setPropertyActionListener value="#{prod}" target="#{productorBean.productor}"/>
+                    <f:setPropertyActionListener value="#{cam}" target="#{campoBean.campo}"/>
+                    <f:setPropertyActionListener value="#{cam.domicilio}" target="#{campoBean.domicilio}"/>
+                    <f:setPropertyActionListener value="#{cam.lstCampoProductor}" target="#{listaCampoProductoAuxrBean.lstcampoProductor}"/>
+                    <f:setPropertyActionListener value="#{cam.lstCampoProductor}" target="#{listaCampoProductorBean.lstCampoProductor}"/>
+                   
 
 
                 </p:commandButton>
-
-
                 <p:commandButton id="cbDeshabilitado"
                                  title="Desactivar"
                                  icon="ui-icon-circle-close"
                                  update=":frmMain:dCampo, @this"
                                  oncomplete="PF('dlgCampo').show();"
                                  actionListener="#{campoBean.setBtnSelect}"
-                                 disabled="#/{not prof.active }"
+                                 disabled="#{not cam.active }"
+                                 process="@this"
                                  >
 
                     <f:setPropertyActionListener value="#{cam}" target="#{campoBean.campo}"/>
+                    <f:setPropertyActionListener value="#{cam.domicilio}" target="#{campoBean.domicilio}"/>
+                    <f:setPropertyActionListener value="#{cam.lstCampoProductor}" target="#{listaCampoProductoAuxrBean.lstcampoProductor}"/>
+                    <f:setPropertyActionListener value="#{cam.lstCampoProductor}" target="#{listaCampoProductorBean.lstCampoProductor}"/>
+                               
                 </p:commandButton>
+
+
             </p:column>
 
 

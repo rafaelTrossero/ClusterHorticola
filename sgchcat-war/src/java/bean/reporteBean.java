@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package bean;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import javax.faces.bean.ManagedBean;
@@ -21,8 +22,9 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
-
-
+import static org.apache.poi.hssf.usermodel.HeaderFooter.date;
+import org.primefaces.model.chart.LineChartModel;
+import org.primefaces.model.chart.LineChartSeries;
 
 /**
  *
@@ -31,9 +33,12 @@ import net.sf.jasperreports.engine.export.JRPdfExporter;
 @ManagedBean
 @RequestScoped
 public class reporteBean {
- private Date fecha_inicio;
- private Date fecha_fin;
-private final String escudo1 = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/Imagenes/cluster.jpg");
+
+    private LineChartModel areaModel;
+    private Date fecha_inicio;
+    private Date fecha_fin;
+    private final String escudo1 = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/Imagenes/cluster.jpg");
+   
 
 //private final String escudo2 = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/Imagenes/escudo.jpg");
     /**
@@ -55,14 +60,23 @@ private final String escudo1 = FacesContext.getCurrentInstance().getExternalCont
         this.fecha_fin = fecha_fin;
     }
 
+    public LineChartModel getAreaModel() {
+        return areaModel;
+    }
+
+    public void setAreaModel(LineChartModel areaModel) {
+        this.areaModel = areaModel;
+    }
 
     public reporteBean() {
+
     }
+
     public void setearReporte() throws SQLException {
-       
+
         Connection conect;
         conect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ClusterHortDB", "postgres", "123456");
-         System.out.println("funcionando"+ conect);
+        System.out.println("funcionando" + conect);
         String path;
         //List<Object[]> l = turnoRNLocal.findHistorialTurnosServicios(1, this.getFechaInicio(), this.getFechaFin());
         System.out.println("funcionando");
@@ -75,16 +89,32 @@ private final String escudo1 = FacesContext.getCurrentInstance().getExternalCont
             System.out.println("entrooooooooooooooooooooooooooooooo2" + reportPath);
 
             HashMap parametro = new HashMap();
-            System.out.println("entrooooooooooooooooooooooooooooooo3" + reportPath);
-            parametro.put("parameter1",fecha_inicio);
-            parametro.put("parameter2",fecha_fin);
-            parametro.put("escudo1",escudo1 );
-            
-            
+            SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
+            String a = (sdf.format(fecha_inicio));
+            String fecha1 = "20" + a;
+            System.out.println("la fechas es " + fecha1);
+            SimpleDateFormat sdf1 = new SimpleDateFormat("yy/MM/dd");
+            String b = (sdf1.format(fecha_fin));
+            String fecha2 = "20" + b;
+            System.out.println("la fechas es " + fecha2);
+           SimpleDateFormat nuevafecha = new SimpleDateFormat("yyyy/MM/dd");
+           Date fechadateini= nuevafecha.parse(fecha1);
+           Date fechadatefin= nuevafecha.parse(fecha2);
+           System.out.println("la fechas es.............. " + fechadateini);
+           System.out.println("la fechas es.............. " + fechadatefin);
+           
+            System.out.println("fecha1" + fecha_inicio);
+            System.out.println("fecha2" + fecha_fin);
+            String inicio=new SimpleDateFormat("yyyy-MM-dd").format(fecha_inicio);
+            String fin=new SimpleDateFormat("yyyy-MM-dd").format(fecha_fin);
+            System.out.println("la fechas es.............. " + inicio);
+           System.out.println("la fechas es.............. " + fin);
+            parametro.put("parameter1", fecha_inicio);
+            parametro.put("parameter2", fecha_fin);
+            parametro.put("escudo1", escudo1);
 
             System.out.println("entroooooooooooo000oooooooooooooooo4" + parametro);
 
-            
             System.out.println("entroooooooooooooooooooooooooooo5" + parametro);
             JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, parametro, conect);
             JasperExportManager.exportReportToPdfFile(jasperPrint, context.getExternalContext().getRealPath("reportes\\empaque.pdf"));
@@ -96,18 +126,19 @@ private final String escudo1 = FacesContext.getCurrentInstance().getExternalCont
             exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, httpServletResponse.getOutputStream());
             exporter.exportReport();
             context.responseComplete();
-           //conect.close();
+            //conect.close();
 
         } catch (Exception ex) {
             System.out.println(ex + "CAUSAaaaaaaaaaaaaaaaaaaaaaa: " + ex.getCause().getMessage());
         }
 
     }
-     public void setearReportePrueba() throws SQLException {
-       
+
+    public void setearReportePrueba() throws SQLException {
+
         Connection conect;
         conect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ClusterHortDB", "postgres", "123456");
-         System.out.println("funcionando"+ conect);
+        System.out.println("funcionando" + conect);
         String path;
         //List<Object[]> l = turnoRNLocal.findHistorialTurnosServicios(1, this.getFechaInicio(), this.getFechaFin());
         System.out.println("funcionando");
@@ -121,14 +152,10 @@ private final String escudo1 = FacesContext.getCurrentInstance().getExternalCont
 
             HashMap parametro = new HashMap();
             System.out.println("entrooooooooooooooooooooooooooooooo3" + reportPath);
-            parametro.put("parameter1","hola");
-           
-            
-            
+            parametro.put("parameter1", "hola");
 
             System.out.println("entroooooooooooo000oooooooooooooooo4" + parametro);
 
-            
             System.out.println("entroooooooooooooooooooooooooooo5" + parametro);
             JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, parametro, conect);
             JasperExportManager.exportReportToPdfFile(jasperPrint, context.getExternalContext().getRealPath("reportes\\nuevoReporte.pdf"));
@@ -140,28 +167,27 @@ private final String escudo1 = FacesContext.getCurrentInstance().getExternalCont
             exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, httpServletResponse.getOutputStream());
             exporter.exportReport();
             context.responseComplete();
-           //conect.close();
+            //conect.close();
 
         } catch (Exception ex) {
             System.out.println(ex + "CAUSAaaaaaaaaaaaaaaaaaaaaaa: " + ex.getCause().getMessage());
         }
 
     }
-     
-         public void generar() throws SQLException {
+
+    public void generar() throws SQLException {
 
         Connection conect;
         conect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ClusterHortDB", "postgres", "123456");
-      String path;
+        String path;
         System.out.println("funcionando");
 
         try {
-           
+
             HashMap parametros = new HashMap();
             path = "reportes\\nuevoReporte.jasper";
 //funcionando
-            
-           
+
             FacesContext context = FacesContext.getCurrentInstance();
             String reportPath = context.getExternalContext().getRealPath(path);
             JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, parametros, conect); //new JREmptyDataSource() si le pongo eso en vez de conect me devuelve null
@@ -177,7 +203,7 @@ private final String escudo1 = FacesContext.getCurrentInstance().getExternalCont
             System.out.println(ex + "CAUSA: " + ex.getCause());
 
         }
-       
+
     }//fin generar
-    
+
 }
