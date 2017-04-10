@@ -34,9 +34,8 @@
                     <p:selectOneMenu id="somEspecie"
                                      value="#{variedadBean.variedad.especie}"  
                                      converter="ConversorGenerico"
-                                     disabled="#{variedadBean.getbCamposEditables()}"
-                                     required="true"
-                                     requiredMessage="Debe seleccionar una especie">
+                                     disabled="#{variedadBean.getbCamposEditables()}">
+                                     
                         <f:selectItem itemLabel="Seleccionar..."/>
                         <f:selectItems value="#{listaEspecieBean.lstSIEspecieActive}"/>
                     </p:selectOneMenu>
@@ -46,9 +45,8 @@
 
                     <p:inputText value="#{variedadBean.variedad.descripcion}"
                                  label="Especie"
-                                 disabled="#{variedadBean.getbCamposEditables()}"
-                                 required="true"
-                                 requiredMessage="Debe ingresar una variedad"/>
+                                 disabled="#{variedadBean.getbCamposEditables()}"/>
+                                 
                 </div>
                 <div style="clear: both;"/>
 
