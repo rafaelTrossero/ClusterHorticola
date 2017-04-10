@@ -9,6 +9,7 @@ import entidad.Variedad;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -63,6 +64,36 @@ public class VariedadFacade extends AbstractFacade<Variedad> implements Variedad
             return null;
         }
     
+    }
+
+    @Override
+    public Boolean bFindByNombreVariedad(Variedad p, int op) throws Exception {
+       Query q = null;
+
+
+        if (op == 0) {
+            //guardar
+            q = em.createNamedQuery("Variedad.findByNombreVariedad");
+
+        } else {
+            //modificar
+            q = em.createNamedQuery("Variedad.findByNombreVariedadID");
+            q.setParameter("id", p.getId());
+
+
+        }//fin if
+
+        
+        q.setParameter("nombre", p.getDescripcion());
+        q.setParameter("especie", p.getEspecie());
+
+
+        try {
+            q.getSingleResult();
+            return true;
+        } catch (NoResultException ex) {
+            return false;
+        }
     }
 
 }

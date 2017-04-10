@@ -10,6 +10,7 @@ import entidad.Especie;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import recursos.cadenas;
 
 /**
  *
@@ -23,11 +24,15 @@ public class EspecieRN implements EspecieRNLocal {
 
     @Override
     public void create(Especie e) throws Exception {
+        this.convertir_strings(e);
+        this.validar(e, 0);
         this.especieFacadeLocal.create(e);
     }
 
     @Override
     public void edit(Especie e) throws Exception {
+        this.convertir_strings(e);
+        this.validar(e, 1);
         this.especieFacadeLocal.edit(e);
     }
 
@@ -48,14 +53,25 @@ public class EspecieRN implements EspecieRNLocal {
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
-
     @Override
     public void activate(Especie especie, Boolean bEstado) throws Exception {
-   especieFacadeLocal.activate(especie, bEstado);
+        especieFacadeLocal.activate(especie, bEstado);
     }
 
     @Override
     public List<Especie> findAllActivo() throws Exception {
-    return(this.especieFacadeLocal.findAllActivo());
+        return (this.especieFacadeLocal.findAllActivo());
+    }
+
+    private void validar(Especie i, int op) throws Exception {
+
+        if (especieFacadeLocal.bFindByNombreEspecie(i, op)) {
+            throw new Exception("La especie "+i.getDescripcion() +" ya existe");
+        }//fin if
+
+    }
+
+    private void convertir_strings(Especie p) {
+        p.setDescripcion(cadenas.convertir(p.getDescripcion()));
     }
 }

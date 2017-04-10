@@ -6,10 +6,12 @@
 package RN;
 
 import DAO.VariedadFacadeLocal;
+import entidad.IngresoMercado;
 import entidad.Variedad;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import recursos.cadenas;
 
 /**
  *
@@ -23,11 +25,15 @@ public class VariedadRN implements VariedadRNLocal {
     
     @Override
     public void create(Variedad v) throws Exception {
+        this.convertir_strings(v);
+        this.validar(v, 0);
     this.variedadFacadeLocal.create(v);
     }
 
     @Override
     public void edit(Variedad v) throws Exception {
+        this.convertir_strings(v);
+        this.validar(v, 1);
     this.variedadFacadeLocal.edit(v);
     }
 
@@ -61,5 +67,29 @@ public class VariedadRN implements VariedadRNLocal {
       return(this.variedadFacadeLocal.findAllActivo());
     }
 
+     private void validar(Variedad i, int op) throws Exception {
+     
+        
+        //verifica si es una línea en blanco
+      if (i.getEspecie()== null) {
+            throw new Exception("Debe seleccionar especie");
+        }
+        if (i.getDescripcion().isEmpty()) {
+            throw new Exception("Debe ingresar una variedad");
+        }
+        
+              if (variedadFacadeLocal.bFindByNombreVariedad(i, op)) {
+            throw new Exception("La variedad "+i.getDescripcion() +" para la especie "+i.getEspecie().getDescripcion() +" ya existe");
+        }//fin if
+      /*
+        if (!cadenas.es_numero(i.getKg().toString())){ 
+            throw new Exception("Cantidad de Kg debe contener solo caracteres numéricos");
+        }*/
+
+
+    }//fin validar
     
+      private void convertir_strings(Variedad p) {
+        p.setDescripcion(cadenas.convertir(p.getDescripcion()));
+    }
 }

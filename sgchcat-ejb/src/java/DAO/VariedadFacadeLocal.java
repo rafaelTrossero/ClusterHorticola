@@ -33,5 +33,5 @@ public interface VariedadFacadeLocal {
      public List <Variedad> findByEspecie (Long idEspecie) throws Exception;
       public void activate(Variedad variedad, Boolean bEstado);
       List<Variedad> findAllActivo();
-    
+     public Boolean bFindByNombreVariedad(Variedad p, int op) throws Exception;
 }

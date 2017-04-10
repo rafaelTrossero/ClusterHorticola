@@ -25,30 +25,33 @@ import javax.persistence.OneToMany;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Variedad.findByEspecie", query = "SELECT p FROM Variedad p WHERE p.especie.id =:idEspecie and p.active =:active  ORDER BY p.descripcion"),
-     @NamedQuery(name = "Variedad.ActualizarEstado", query="UPDATE Variedad u SET u.active =:active WHERE u.id =:id"),
-     @NamedQuery(name = "Variedad.SelectAlltrue", query = "SELECT u FROM Variedad u WHERE u.active =:active ")
+    @NamedQuery(name = "Variedad.ActualizarEstado", query = "UPDATE Variedad u SET u.active =:active WHERE u.id =:id"),
+    @NamedQuery(name = "Variedad.SelectAlltrue", query = "SELECT u FROM Variedad u WHERE u.active =:active "),
+    @NamedQuery(name = "Variedad.findByNombreVariedad", query = "SELECT u FROM Variedad u WHERE u.descripcion = :nombre AND u.especie=:especie ORDER BY u.descripcion"),
+    @NamedQuery(name = "Variedad.findByNombreVariedadID", query = "SELECT p FROM Variedad p WHERE p.descripcion = :nombre  AND p.id <>:id ORDER BY p.descripcion")
 
 })
 public class Variedad implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="descripcion")
+    @Column(name = "descripcion")
     private String descripcion;
-    
+
     @ManyToOne
     @JoinColumn(name = "especie_id", referencedColumnName = "id")
     private Especie especie;
-    
+
     @OneToMany(mappedBy = "variedad")
     private List<PreciosHortaliza> lstPreciosHortaliza;
-    
+
     @OneToMany(mappedBy = "variedad")
     private List<IngresoMercado> lstIngresoMercado;
     private Boolean active;
-    
+
     public Long getId() {
         return id;
     }
@@ -56,12 +59,15 @@ public class Variedad implements Serializable {
     public Boolean isActive() {
         return active;
     }
-  public void setActive(Boolean active) {
+
+    public void setActive(Boolean active) {
         this.active = active;
     }
+
     public Boolean getActive() {
         return active;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -98,9 +104,6 @@ public class Variedad implements Serializable {
         this.lstIngresoMercado = lstIngresoMercado;
     }
 
-
-
-    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -125,5 +128,5 @@ public class Variedad implements Serializable {
     public String toString() {
         return "entidad.Variedad[ id=" + id + " ]";
     }
-    
+
 }

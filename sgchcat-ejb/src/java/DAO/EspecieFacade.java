@@ -9,6 +9,7 @@ import entidad.Especie;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -52,6 +53,37 @@ public class EspecieFacade extends AbstractFacade<Especie> implements EspecieFac
 
         } catch (Exception e) {
             return null;
+        }
+    }
+
+
+    @Override
+    public Boolean bFindByNombreEspecie(Especie p, int op) throws Exception {
+       Query q = null;
+
+
+        if (op == 0) {
+            //guardar
+            q = em.createNamedQuery("Especie.findByNombreEspecie");
+
+        } else {
+            //modificar
+            q = em.createNamedQuery("Especie.findByNombreEspecieID");
+            q.setParameter("id", p.getId());
+
+
+        }//fin if
+
+
+        q.setParameter("nombre", p.getDescripcion());
+
+
+
+        try {
+            q.getSingleResult();
+            return true;
+        } catch (NoResultException ex) {
+            return false;
         }
     }
     

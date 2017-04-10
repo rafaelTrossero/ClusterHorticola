@@ -25,7 +25,9 @@ import javax.persistence.OneToMany;
            
           
            @NamedQuery(name = "Especie.ActualizarEstado", query="UPDATE Especie u SET u.active =:active WHERE u.id =:id"),
-           @NamedQuery(name = "Especie.SelectAlltrue", query = "SELECT u FROM Especie u WHERE u.active =:active ")
+           @NamedQuery(name = "Especie.SelectAlltrue", query = "SELECT u FROM Especie u WHERE u.active =:active "),
+           @NamedQuery(name = "Especie.findByNombreEspecie", query = "SELECT u FROM Especie u WHERE u.descripcion = :nombre ORDER BY u.descripcion"),
+           @NamedQuery(name = "Especie.findByNombreEspecieID", query = "SELECT p FROM Especie p WHERE p.descripcion = :nombre  AND p.id <>:id ORDER BY p.descripcion")
 
 })
 

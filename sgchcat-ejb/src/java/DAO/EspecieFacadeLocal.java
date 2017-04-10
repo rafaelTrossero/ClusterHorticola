@@ -31,5 +31,6 @@ public interface EspecieFacadeLocal {
      List<Especie> findAllActivo();
 
     int count();
+    public Boolean bFindByNombreEspecie(Especie p, int op) throws Exception;
     
 }
