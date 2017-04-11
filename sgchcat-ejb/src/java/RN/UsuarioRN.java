@@ -33,7 +33,7 @@ public class UsuarioRN implements UsuarioRNLocal {
     
       @Override
     public void edit(Usuario p) throws Exception {
-        
+        this.validar(p, 1);
         this.usuarioFacadeLocal.edit(p);
     }
 
@@ -42,6 +42,7 @@ public class UsuarioRN implements UsuarioRNLocal {
 
     @Override
     public void create(Usuario usu) throws Exception {
+        this.validar(usu, 0);
    this.usuarioFacadeLocal.create(usu);
     }
 
@@ -54,6 +55,17 @@ public class UsuarioRN implements UsuarioRNLocal {
     public List<Usuario> findAll() throws Exception {
     return (this.usuarioFacadeLocal.findAll());
     
+    }
+
+    @Override
+    public void activate(Usuario usu, Boolean bEstado) throws Exception {
+       this.usuarioFacadeLocal.activate(usu, bEstado);
+    }
+
+    private void validar(Usuario usu, int i)throws Exception {
+     if (usuarioFacadeLocal.bFindByUserName(usu, i)) {
+         throw new Exception("Ya existe un usuario con ese nombre");
+         }
     }
     
 }

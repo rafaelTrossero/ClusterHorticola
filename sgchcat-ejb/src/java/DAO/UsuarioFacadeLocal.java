@@ -34,5 +34,11 @@ public interface UsuarioFacadeLocal {
      public Usuario findByUsuarioContrasena (String username, String password) throws Exception;
      
      public Usuario findByUsuarioEmail (String email) throws Exception;
+     public void activate(Usuario usu, Boolean bEstado);
+     
+      public Usuario findByAlumno(Integer matricula) throws Exception;
+    
+     public Boolean bFindByDni(Usuario p, int op) throws Exception;
+      public Boolean bFindByUserName(Usuario p, int op) throws Exception;
     
 }

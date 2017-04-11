@@ -25,7 +25,7 @@ public interface UsuarioRNLocal {
 
     void remove(Usuario usu) throws Exception;
 
-    
+      public void activate(Usuario usu, Boolean bEstado) throws Exception;
 
     List<Usuario> findAll() throws Exception;
 }

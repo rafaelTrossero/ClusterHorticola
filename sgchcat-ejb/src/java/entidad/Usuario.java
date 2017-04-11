@@ -33,45 +33,48 @@ import javax.persistence.TemporalType;
 //@DiscriminatorValue("3")
 //@PrimaryKeyJoinColumn(name = "persona_id", referencedColumnName = "id")
 @NamedQueries({
-   // @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u ORDER BY u.apellido, u.nombre"),
-   // @NamedQuery(name = "Usuario.findByNombreUsuario", query = "SELECT u FROM Usuario u WHERE u.username = :username OR u.numeroDocumento = :numero"),
-   // @NamedQuery(name = "Usuario.findByNombreUsuarioID", query = "SELECT u FROM Usuario u WHERE (u.username = :username OR u.numeroDocumento = :numero) AND u.id <>:id"),
-   // @NamedQuery(name = "Usuario.UpdateBorrado", query = "UPDATE Usuario u SET u.borrado = :borrado WHERE u.id = :id"),
-  //  @NamedQuery(name = "Usuario.UpdateHabilitado", query = "UPDATE Usuario u SET u.habilitado = :habilitado WHERE u.id = :id"),
+    // @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u ORDER BY u.apellido, u.nombre"),
+    // @NamedQuery(name = "Usuario.findByNombreUsuario", query = "SELECT u FROM Usuario u WHERE u.username = :username OR u.numeroDocumento = :numero"),
+    // @NamedQuery(name = "Usuario.findByNombreUsuarioID", query = "SELECT u FROM Usuario u WHERE (u.username = :username OR u.numeroDocumento = :numero) AND u.id <>:id"),
+    // @NamedQuery(name = "Usuario.UpdateBorrado", query = "UPDATE Usuario u SET u.borrado = :borrado WHERE u.id = :id"),
+    //  @NamedQuery(name = "Usuario.UpdateHabilitado", query = "UPDATE Usuario u SET u.habilitado = :habilitado WHERE u.id = :id"),
     @NamedQuery(name = "Usuario.findByUsuarioContrasena", query = "SELECT u FROM Usuario u WHERE u.username =:username AND u.password =:password "),
     @NamedQuery(name = "Usuario.findByUsuarioEmail", query = "SELECT u FROM Usuario u WHERE u.email =:email"),
+
+    @NamedQuery(name = "Usuario.ActualizarEstado", query = "UPDATE Usuario u SET u.active =:active WHERE u.id =:id"),
+    @NamedQuery(name = "Usuario.findByNameUserID", query = "SELECT p FROM Usuario p WHERE p.username = :userName "),
+    @NamedQuery(name = "Usuario.findByNameUser", query = "SELECT p FROM Usuario p WHERE p.username = :userName  AND p.id <>:id ")
+
    // @NamedQuery(name = "Usuario.bFindByDocumentoOrUsuario", query = "SELECT u FROM Usuario u WHERE u.username =:username "
-   // + "OR u.numeroDocumento = :numero "),
-   // @NamedQuery(name = "Usuario.UpdateClave", query = "UPDATE Usuario u SET u.password = :clave, u.vencimiento_clave = :fecha WHERE u.id = :id"
-    })
+// + "OR u.numeroDocumento = :numero "),
+// @NamedQuery(name = "Usuario.UpdateClave", query = "UPDATE Usuario u SET u.password = :clave, u.vencimiento_clave = :fecha WHERE u.id = :id"
+})
 public class Usuario implements Serializable {
 
-    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(name = "username", length = 100, nullable = false)
     private String username;
     @Column(name = "password", length = 64, nullable = false)
     private String password;
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "vencimiento_clave",nullable = true)
+    @Column(name = "vencimiento_clave", nullable = true)
     private Date vencimiento_clave;
     @Enumerated(EnumType.STRING)
     //@Column(nullable = false)
     private tipoUsuario tipousuario;
     //@Column(nullable = false)
-    @Column(name = "email", length = 100,nullable = true)
+    @Column(name = "email", length = 100, nullable = true)
     private String email;
     @OneToMany(mappedBy = "usuario")
     private List<Empaque> lstEmpaque;
-     
+
     @OneToMany(mappedBy = "usuario")
     private List<Auditoria> lstAuditoria;
     private Boolean active;
-    
 
     public Long getId() {
         return id;
@@ -83,6 +86,9 @@ public class Usuario implements Serializable {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+    public Boolean getActive() {
+        return active;
     }
 
     public tipoUsuario getTipousuario() {
@@ -100,20 +106,15 @@ public class Usuario implements Serializable {
     public void setLstEmpaque(List<Empaque> lstEmpaque) {
         this.lstEmpaque = lstEmpaque;
     }
-    
 
     public void setId(Long id) {
         this.id = id;
     }
 
-  
-
     /**
      *
      * @return
      */
-    
-    
     public String getUsername() {
         return username;
     }
@@ -141,8 +142,6 @@ public class Usuario implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-
-   
 
     public List<Auditoria> getLstAuditoria() {
         return lstAuditoria;
@@ -191,5 +190,5 @@ public class Usuario implements Serializable {
     public String toString() {
         return "entidad.Usuario[ id=" + id + " ]";
     }
-   
+
 }

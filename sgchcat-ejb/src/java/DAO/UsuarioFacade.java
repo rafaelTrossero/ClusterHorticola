@@ -10,6 +10,7 @@ import entidad.Usuario;
 import entidad.tipoUsuario;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import recursos.Encriptacion;
@@ -70,6 +71,54 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
             return null;
         }
         
+    }
+
+    @Override
+    public void activate(Usuario usu, Boolean bEstado) {
+   Query q = em.createNamedQuery("Usuario.ActualizarEstado");
+        q.setParameter("active", bEstado);
+        q.setParameter("id", usu.getId());
+        // Query q = em.createQuery("UPDATE Agenda p SET p.habilitado = " + estado + " WHERE p.id = " +  id);    
+         /*q.setParameter("id", id);
+         q.setParameter("estado", estado);  */
+        q.executeUpdate();
+    
+    }
+
+    @Override
+    public Usuario findByAlumno(Integer matricula) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean bFindByDni(Usuario p, int op) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Boolean bFindByUserName(Usuario p, int op) throws Exception {
+     Query q = null;
+
+        if (op == 0) {
+            //guardar
+            q = em.createNamedQuery("Usuario.findByNameUserID");
+
+        } else {
+            //modificar
+            q = em.createNamedQuery("Usuario.findByNameUser");
+            q.setParameter("id", p.getId());
+
+        }//fin if
+
+        q.setParameter("userName", p.getUsername());
+
+        try {
+            q.getSingleResult();
+            return true;
+        } catch (NoResultException ex) {
+            return false;
+        }
+    
     }
     
 }
