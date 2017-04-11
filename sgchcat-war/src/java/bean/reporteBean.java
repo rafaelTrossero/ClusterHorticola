@@ -22,9 +22,8 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
-import static org.apache.poi.hssf.usermodel.HeaderFooter.date;
-import org.primefaces.model.chart.LineChartModel;
-import org.primefaces.model.chart.LineChartSeries;
+
+
 
 /**
  *
@@ -34,11 +33,11 @@ import org.primefaces.model.chart.LineChartSeries;
 @RequestScoped
 public class reporteBean {
 
-    private LineChartModel areaModel;
+  
     private Date fecha_inicio;
     private Date fecha_fin;
     private final String escudo1 = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/Imagenes/cluster.jpg");
-   
+     private final String sub_report1= FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reportes");
 
 //private final String escudo2 = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/Imagenes/escudo.jpg");
     /**
@@ -60,13 +59,7 @@ public class reporteBean {
         this.fecha_fin = fecha_fin;
     }
 
-    public LineChartModel getAreaModel() {
-        return areaModel;
-    }
-
-    public void setAreaModel(LineChartModel areaModel) {
-        this.areaModel = areaModel;
-    }
+   
 
     public reporteBean() {
 
@@ -89,26 +82,11 @@ public class reporteBean {
             System.out.println("entrooooooooooooooooooooooooooooooo2" + reportPath);
 
             HashMap parametro = new HashMap();
-            SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
-            String a = (sdf.format(fecha_inicio));
-            String fecha1 = "20" + a;
-            System.out.println("la fechas es " + fecha1);
-            SimpleDateFormat sdf1 = new SimpleDateFormat("yy/MM/dd");
-            String b = (sdf1.format(fecha_fin));
-            String fecha2 = "20" + b;
-            System.out.println("la fechas es " + fecha2);
-           SimpleDateFormat nuevafecha = new SimpleDateFormat("yyyy/MM/dd");
-           Date fechadateini= nuevafecha.parse(fecha1);
-           Date fechadatefin= nuevafecha.parse(fecha2);
-           System.out.println("la fechas es.............. " + fechadateini);
-           System.out.println("la fechas es.............. " + fechadatefin);
+           
            
             System.out.println("fecha1" + fecha_inicio);
             System.out.println("fecha2" + fecha_fin);
-            String inicio=new SimpleDateFormat("yyyy-MM-dd").format(fecha_inicio);
-            String fin=new SimpleDateFormat("yyyy-MM-dd").format(fecha_fin);
-            System.out.println("la fechas es.............. " + inicio);
-           System.out.println("la fechas es.............. " + fin);
+           
             parametro.put("parameter1", fecha_inicio);
             parametro.put("parameter2", fecha_fin);
             parametro.put("escudo1", escudo1);
@@ -144,7 +122,7 @@ public class reporteBean {
         System.out.println("funcionando");
 
         try {
-            path = "reportes\\nuevoReporte.jasper";
+            path = "reportes\\empaque.jasper";
             FacesContext context = FacesContext.getCurrentInstance();
             System.out.println("entrooooooooooooooooooooooooooooooo1" + path);
             String reportPath = context.getExternalContext().getRealPath(path);
@@ -152,7 +130,9 @@ public class reporteBean {
 
             HashMap parametro = new HashMap();
             System.out.println("entrooooooooooooooooooooooooooooooo3" + reportPath);
-            parametro.put("parameter1", "hola");
+           
+            parametro.put("parameter1", fecha_inicio);
+            parametro.put("parameter2", fecha_fin);
 
             System.out.println("entroooooooooooo000oooooooooooooooo4" + parametro);
 
@@ -185,7 +165,11 @@ public class reporteBean {
         try {
 
             HashMap parametros = new HashMap();
-            path = "reportes\\nuevoReporte.jasper";
+            
+           
+            parametros.put("parameter1", fecha_inicio);
+            parametros.put("parameter2", fecha_fin);
+            path = "reportes\\empaque.jasper";
 //funcionando
 
             FacesContext context = FacesContext.getCurrentInstance();
@@ -206,4 +190,39 @@ public class reporteBean {
 
     }//fin generar
 
+    public void generarIngresoMercado() throws SQLException {
+
+        Connection conect;
+        conect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ClusterHortDB", "postgres", "123456");
+        String path;
+        System.out.println("funcionando");
+
+        try {
+
+            HashMap parametros = new HashMap();
+            
+           
+            parametros.put("parameter1", fecha_inicio);
+            parametros.put("parameter2", fecha_fin);
+            parametros.put("SUBREPORT_DIR",sub_report1+"/" );
+            path = "reportes\\ingresoMercadoAbasto.jasper";
+//funcionando
+
+            FacesContext context = FacesContext.getCurrentInstance();
+            String reportPath = context.getExternalContext().getRealPath(path);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, parametros, conect); //new JREmptyDataSource() si le pongo eso en vez de conect me devuelve null
+            HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            httpServletResponse.addHeader("Content-disposition", "filename=reporte.pdf");
+            ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+            JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+            servletOutputStream.flush();
+            servletOutputStream.close();
+            FacesContext.getCurrentInstance().responseComplete();
+
+        } catch (Exception ex) {
+            System.out.println(ex + "CAUSA: " + ex.getCause());
+
+        }
+
+    }//fin generar
 }

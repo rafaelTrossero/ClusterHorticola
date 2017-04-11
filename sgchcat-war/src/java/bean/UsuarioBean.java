@@ -17,6 +17,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.primefaces.component.commandbutton.CommandButton;
+import org.primefaces.context.RequestContext;
 import recursos.Encriptacion;
 
 /**
@@ -77,6 +78,7 @@ public class UsuarioBean {
     public void setUsuarioRNLocal(UsuarioRNLocal usuarioRNLocal) {
         this.usuarioRNLocal = usuarioRNLocal;
     }
+    
 
     public Usuario getUsu() {
         return usu;
@@ -119,15 +121,15 @@ public class UsuarioBean {
                 //this.limpiar();
                 break;
             case 1:
-                // this.edit();
+                this.edit();
                 break;
             case 2:
                 //deshabilita el campo
-                // this.activate(Boolean.FALSE);
+                 this.activate(Boolean.FALSE);
                 break;
             case 3:
                 //habilita el campo
-                //  this.activate(Boolean.TRUE);
+                this.activate(Boolean.TRUE);
                 break;
 
         }//fin switch
@@ -180,19 +182,23 @@ public class UsuarioBean {
         try {
         String encriptMD5Alu= encript.hash(usu.getPassword());
             usu.setPassword(encriptMD5Alu);
+            usu.setActive(Boolean.TRUE);
+            
              usuarioRNLocal.create(usu);
              
-            System.out.println("Usuario: " + usu);
+            System.out.println("Usuario: " + usu.getActive());
             
            
 
-            sMensaje = "El dato fue guardado";
+            sMensaje = "El usuario " + usu.getUsername()+ " fue guardado";
             severity = FacesMessage.SEVERITY_INFO;
 
             //agregar a la lista
-            this.getListaUsuarioBean().getLstUsuario().add(usu);
+            this.getListaUsuarioBean().getLstUsuario().add(this.getUsu());
 
       //limpiar campos
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('dlgUsuario').hide()");
              this.limpiar();
         } catch (Exception ex) {
 
@@ -207,7 +213,100 @@ public class UsuarioBean {
 
     }//fin crear
       
+       public void edit() {
+        System.out.println("Entro al edit");
+        String sMensaje = "";
+        FacesMessage fm;
+        FacesMessage.Severity severity = null;
+        try {
+            
+            
+            usu.setActive(Boolean.TRUE);
+          String encriptMD5Alu= encript.hash(usu.getPassword());
+            usu.setPassword(encriptMD5Alu);
+            
+            
+          
+            usuarioRNLocal.edit(usu);
+            
+            
+          
+            //usersRNLocal.edit(this.getUsers());
+
+            sMensaje = "Información actualizada con éxito";
+            severity = FacesMessage.SEVERITY_INFO;
+
+            //elimino y agrego el organismo modificado a la lista
+            //int iPos = this.getListaAlumnoBean().getLstUsers().indexOf(this.getUsers());
+            int iPos = this.getListaUsuarioBean().getLstUsuario().indexOf(this.getUsu());
+         
+            this.getListaUsuarioBean().getLstUsuario().remove(iPos);
+            this.getListaUsuarioBean().getLstUsuario().add(iPos, this.getUsu());
+
+            //this.getCbAction().setValue("Update");
+            this.getCbAction().setDisabled(true);
+
+            //this.setbCamposRequeridos(false);
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('dlgUsuario').hide()");
+        } catch (Exception ex) {
+            severity = FacesMessage.SEVERITY_ERROR;
+            sMensaje = "Error al actualizar: " + ex.getMessage();
+
+        } finally {
+            fm = new FacesMessage(severity, sMensaje, "");
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage(null, fm);
+        }
+    }
+       
+       public void activate(Boolean bEstado) {
+        String sMensaje = "";
+        FacesMessage fm;
+        FacesMessage.Severity severity = null;
+
+        try {
+             usuarioRNLocal.activate(this.getUsu(), bEstado);
+            
+
+            //elimino el organismo de la lista
+            //int iPos = this.getListaAlumnoBean().getLstAlumno()).indexOf(this.getAlumno());
+            int iPos = this.getListaUsuarioBean().getLstUsuario().indexOf(this.getUsu());
+
+            this.setUsu(this.getListaUsuarioBean().getLstUsuario().get(iPos));
+            this.getUsu().setActive(bEstado);
+            
+            this.getListaUsuarioBean().getLstUsuario().remove(iPos);
+            this.getListaUsuarioBean().getLstUsuario().add(iPos, this.getUsu());
+
+            if (!bEstado) {
+                sMensaje = "Usuario desactivado correctamente";
+            } else {
+                sMensaje = "Usuario reactivado correctaamente";
+            }
+            severity = FacesMessage.SEVERITY_INFO;
+
+            this.getCbAction().setDisabled(true);
+
+            //limíar campos
+            this.limpiar();
+            //this.setbCamposRequeridos(false);
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('dlgUsuario').hide()");
+
+        } catch (Exception ex) {
+            severity = FacesMessage.SEVERITY_ERROR;
+            sMensaje = "An error ocurred during activation: " + ex.getMessage();
+
+        } finally {
+            fm = new FacesMessage(severity, sMensaje, null);
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage(null, fm);
+        }
+    }
+      
       public void limpiar(){
+          this.usuario= new Usuario();
       this.usu = new Usuario();
       }
     

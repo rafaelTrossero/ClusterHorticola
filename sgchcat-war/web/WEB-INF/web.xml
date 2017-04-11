@@ -26,5 +26,60 @@
     <welcome-file-list>
         <welcome-file>login.xhtml</welcome-file>
     </welcome-file-list>
+    <mime-mapping>
+        <extension>eot</extension>
+        <mime-type>application/vnd.ms-fontobject</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>otf</extension>
+        <mime-type>font/opentype</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>ttf</extension>
+        <mime-type>application/x-font-ttf</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>woff</extension>
+        <mime-type>application/x-font-woff</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>svg</extension>
+        <mime-type>image/svg+xml</mime-type>
+    </mime-mapping>
+   
+    <!-- JasperReports Servlet -->
+    <servlet>
+        <servlet-name>PdfServlet</servlet-name>
+        <servlet-class>net.sf.jasperreports.j2ee.servlets.PdfServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>JExcelApiServlet</servlet-name>
+        <servlet-class>net.sf.jasperreports.j2ee.servlets.JExcelApiServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RtfServlet</servlet-name>
+        <servlet-class>net.sf.jasperreports.j2ee.servlets.RtfServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ImageServlet</servlet-name>
+        <servlet-class>net.sf.jasperreports.j2ee.servlets.ImageServlet</servlet-class>
+    </servlet>
+    <!-- JasperReports Servlet Mapping -->   
+    <servlet-mapping>
+        <servlet-name>PdfServlet</servlet-name>
+        <url-pattern>/servlets/report/PDF</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>JExcelApiServlet</servlet-name>
+        <url-pattern>/servlets/report/EXCEL</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RtfServlet</servlet-name>
+        <url-pattern>/servlets/report/RTF</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ImageServlet</servlet-name>
+        <url-pattern>/servlets/image</url-pattern>
+    </servlet-mapping>
     
 </web-app>

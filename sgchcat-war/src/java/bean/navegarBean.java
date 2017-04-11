@@ -432,6 +432,11 @@ public class navegarBean {
         
         return "reporteEmpaque.xhtml?faces-redirect=true";
     }
+ public String entrarFormReporteMercadoAbasto() {
+
+        
+        return "reporteIngresoMercado.xhtml?faces-redirect=true";
+    }
     public String entrarFormCampo() {
 
         this.getListaPaisBean().cargarPais();

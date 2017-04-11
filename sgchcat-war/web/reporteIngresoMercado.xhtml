@@ -10,7 +10,7 @@
     <ui:define name="content">
 
 
-        <p:panel   header="Reporte de Empaque" style="text-align:center;" id="display">
+        <p:panel   header="Reporte de Ingreso Mercado" style="text-align:center;" id="display">
             <h:outputText value="Fecha de Inicio: "/>
             <p:calendar value="#{reporteBean.fecha_inicio}"
                         disabled="false" showHour="false" >
@@ -27,7 +27,7 @@
                  style="float: left; margin: 10px;
                  width: 100%;
                  text-align: center;">
-                <h:commandButton    action="#{reporteBean.generar()}" value="Ver PDF"  />
+                <h:commandButton    action="#{reporteBean.generarIngresoMercado()}" value="Ver PDF"  />
 
 
 

@@ -3,8 +3,13 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<parameter name="parameter1" class="java.util.Date"/>
+	<parameter name="parameter2" class="java.util.Date"/>
 	<queryString>
-		<![CDATA[SELECT to_char(fecha, 'TMMonth') as mes,extract(month from fecha) as mes1,sum(kg),concat(to_char(fecha, 'TMMonth'), '--', sum( kg) ) as mes_kg from ingresomercado group by mes1,fecha order by mes1 asc]]>
+		<![CDATA[SELECT to_char(fecha, 'TMMonth') as mes,extract(month from fecha) as mes1,sum(kg),concat(to_char(fecha, 'TMMonth'), '--', sum( kg) ) as mes_kg from ingresomercado 
+where ingresomercado.fecha between $P{parameter1} and $P{parameter2}
+
+group by mes1,fecha order by mes1 asc]]>
 	</queryString>
 	<field name="mes" class="java.lang.String"/>
 	<field name="mes1" class="java.lang.Double"/>
@@ -16,7 +21,7 @@
 	<summary>
 		<band height="210" splitType="Stretch">
 			<pieChart>
-				<chart theme="eye.candy.sixties">
+				<chart theme="default">
 					<reportElement x="0" y="0" width="539" height="192"/>
 					<chartTitle/>
 					<chartSubtitle/>

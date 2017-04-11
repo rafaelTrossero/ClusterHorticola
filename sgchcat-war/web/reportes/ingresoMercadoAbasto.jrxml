@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="1008" pageHeight="612" orientation="Landscape" columnWidth="984" leftMargin="12" rightMargin="12" topMargin="12" bottomMargin="12">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="307"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Users\\cris\\Documents\\NetBeansProjects\\ClusterHorticola\\sgchcat-war\\web\\reportes\\"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="parameter1" class="java.util.Date"/>
+	<parameter name="parameter2" class="java.util.Date"/>
+	<parameter name="escudo1" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[SELECT to_char(fecha, 'TMMonth') as mes,extract(month from fecha) as mes1,sum(kg),ingreso from ingresomercado group by ingreso,mes1,mes order by mes1 asc]]>
+		<![CDATA[SELECT to_char(fecha, 'TMMonth') as mes,extract(month from fecha) as mes1,sum(kg),ingreso from ingresomercado 
+where ingresomercado.fecha between $P{parameter1} and $P{parameter2}
+group by ingreso,mes1,mes order by mes1 asc]]>
 	</queryString>
 	<field name="mes" class="java.lang.String"/>
 	<field name="mes1" class="java.lang.Double"/>
@@ -17,13 +22,63 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch"/>
+		<band height="66" splitType="Stretch">
+			<image>
+				<reportElement x="6" y="3" width="110" height="58"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{escudo1}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="333" y="41" width="115" height="20"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Periodo de evaluacion:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="448" y="41" width="74" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$P{parameter1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="475" y="0" width="109" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="536" y="41" width="74" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$P{parameter2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="524" y="41" width="12" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[-]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="375" y="0" width="100" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de Impresion:]]></text>
+			</staticText>
+		</band>
 	</title>
 	<summary>
-		<band height="529" splitType="Stretch">
+		<band height="503" splitType="Stretch">
+			<subreport>
+				<reportElement x="272" y="230" width="712" height="212"/>
+				<subreportParameter name="parameter2">
+					<subreportParameterExpression><![CDATA[$P{parameter2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="parameter1">
+					<subreportParameterExpression><![CDATA[$P{parameter1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "ingresomercadosubreport.jasper"]]></subreportExpression>
+			</subreport>
 			<bar3DChart>
-				<chart theme="eye.candy.sixties">
-					<reportElement mode="Opaque" x="0" y="0" width="555" height="305" backcolor="#FFFFFF"/>
+				<chart theme="default">
+					<reportElement mode="Opaque" x="10" y="2" width="953" height="247" backcolor="#FFFFFF"/>
 					<chartTitle position="Top">
 						<titleExpression><![CDATA["Grafico Ingreso Mercado de abasto"]]></titleExpression>
 					</chartTitle>
@@ -54,11 +109,6 @@
 					</valueAxisFormat>
 				</bar3DPlot>
 			</bar3DChart>
-			<subreport>
-				<reportElement x="0" y="321" width="526" height="207"/>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "ingresomercadosubreport.jasper"]]></subreportExpression>
-			</subreport>
 		</band>
 	</summary>
 </jasperReport>

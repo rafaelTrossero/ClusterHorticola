@@ -33,8 +33,9 @@
             <p:panel id="pUsuario" style="float:left;" >
                 <p:focus context="pUsuario"/> 
 
-                <h:inputHidden value="#{usuarioBean.usuario.id}"/>
+               
                 <h:inputHidden value="#{usuarioBean.usu.id}"/>
+                <h:inputHidden value="#{listaUsuarioBean.iActionBtnSelect}"/>
                 <div style="clear: both;"/>
 
 
@@ -149,14 +150,13 @@
                 <p:commandButton id="cbEditar"
                                  title="Editar"
                                  icon="ui-icon-pencil" 
-                                 update=":frmMain:dUsuario"
+                                 update=":frmMain:dUsuario, @this"
                                  oncomplete="PF('dlgUsuario').show();"
-                                 actionListener="#{usuarioBean.setBtnSelect}">
-                    <!--disabledSelection="#1{not prod.active }"> -->
-
+                                 actionListener="#{usuarioBean.setBtnSelect}"
+                                 disabled="#{not usu.active }"
+                                 process="@this">
 
                     <f:setPropertyActionListener value="#{usu}" target="#{usuarioBean.usu}"/>
-
 
                 </p:commandButton>
 
@@ -166,13 +166,13 @@
                                  update=":frmMain:dUsuario, @this"
                                  oncomplete="PF('dlgUsuario').show();"
                                  actionListener="#{usuarioBean.setBtnSelect}"
-                                 disabled="#/{prod.active }"
+                                disabled="#{usu.active }"
+                                     process="@this"
                                  >
                     <f:setPropertyActionListener value="#{usu}" target="#{usuarioBean.usu}"/>
 
 
                 </p:commandButton>
-
 
                 <p:commandButton id="cbDeshabilitado"
                                  title="Desactivar"
@@ -180,7 +180,8 @@
                                  update=":frmMain:dUsuario, @this"
                                  oncomplete="PF('dlgUsuario').show();"
                                  actionListener="#{usuarioBean.setBtnSelect}"
-                                 disabled="#/{not prof.active }"
+                                 disabled="#{not usu.active }"
+                                    process="@this"
                                  >
 
                     <f:setPropertyActionListener value="#{usu}" target="#{usuarioBean.usu}"/>
