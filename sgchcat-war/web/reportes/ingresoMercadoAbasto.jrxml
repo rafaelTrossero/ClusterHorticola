@@ -11,7 +11,7 @@
 	<parameter name="escudo1" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT to_char(fecha, 'TMMonth') as mes,extract(month from fecha) as mes1,sum(kg),ingreso from ingresomercado 
-where ingresomercado.fecha between $P{parameter1} and $P{parameter2}
+where ingresomercado.fecha between $P{parameter1} and $P{parameter2} and active='t'
 group by ingreso,mes1,mes order by mes1 asc]]>
 	</queryString>
 	<field name="mes" class="java.lang.String"/>
