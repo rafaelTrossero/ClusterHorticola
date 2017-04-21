@@ -29,5 +29,5 @@ public interface IngresoMercadoFacadeLocal {
     List<IngresoMercado> findRange(int[] range);
 
     int count();
-    
+     public void activate(IngresoMercado emp, Boolean bEstado);
 }
