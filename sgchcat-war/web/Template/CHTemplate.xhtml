@@ -11,6 +11,7 @@
 
         <link href="./../resources/css/style.css" rel="stylesheet" type="text/css" />
 
+        <script src="https://maps.google.com/maps/api/js?key=AIzaSyDxKhAmyJfIxZTTCIxojqLXZEynbz9VaRQ" type="text/javascript"></script>
 
         <title>Cluster Horticola</title>
 
@@ -29,7 +30,7 @@
                    
                 </div>
             </div>-->
-          
+
             <div style="height: 900px; width: 100%;"> 
                 <div style="float: left; width: 100%">
                     <!--<div id="content" style="position: relative; margin-left: 150px; height: 100%">!-->
@@ -51,13 +52,13 @@
                             </p:submenu>
                             <p:menuitem value="Productores" action="#{navegarBean.entrarFormProductor()}"
                                         immediate="true" icon="fa fa-arrow-circle-o-right"/>
-                            
+
                             <p:submenu label="Campo" >
-                            
-                            <p:menuitem value="Nuevo Campo" action="#{navegarBean.entrarFormCampo()}"
-                                        immediate="true" icon="fa fa-arrow-circle-o-right"/>
+
+                                <p:menuitem value="Nuevo Campo" action="#{navegarBean.entrarFormCampo()}"
+                                            immediate="true" icon="fa fa-arrow-circle-o-right"/>
                                 <p:menuitem value="Cultivos a implantar" action="#{navegarBean.entrarFormCultivosCampo()}"
-                                        immediate="true" icon="fa fa-arrow-circle-o-right"/>
+                                            immediate="true" icon="fa fa-arrow-circle-o-right"/>
                             </p:submenu>
                             <p:submenu label="Hortalizas" >
                                 <p:menuitem value="Especies" action="#{navegarBean.entrarFormEspecie()}"
@@ -83,11 +84,11 @@
                         </p:menuitem>
                         <p:submenu label="Reporte" >
                             <p:menuitem value="Reporte Empaque" action="#{navegarBean.entrarFormReporteEmpaque()}"
-                                            immediate="true" icon="fa fa-arrow-circle-o-right"/>
-                               
+                                        immediate="true" icon="fa fa-arrow-circle-o-right"/>
+
                             <p:menuitem value="Reporte Mercado de Abasto" action="#{navegarBean.entrarFormReporteMercadoAbasto()}"
-                                            immediate="true" icon="fa fa-arrow-circle-o-right"/> 
-                            </p:submenu>
+                                        immediate="true" icon="fa fa-arrow-circle-o-right"/> 
+                        </p:submenu>
 
 
 
@@ -103,8 +104,7 @@
 
 
                     <ui:insert name="content">
-                       
-                        
+
                     </ui:insert>
                     <!--</div>!-->
 
