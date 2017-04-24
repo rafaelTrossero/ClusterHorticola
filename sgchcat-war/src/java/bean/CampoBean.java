@@ -42,6 +42,10 @@ public class CampoBean {
     private Boolean bCamposEditables;
     private CommandButton cbAction;
     private int iActionBtnSelect;
+    
+    private String Latitud;
+    private String Longitud;
+    private String centerCoord;
   
     
     @ManagedProperty("#{listaCampoBean}")
@@ -207,6 +211,30 @@ public class CampoBean {
 
     public void setListaCultivosCampoBean(ListaCultivosCampoBean listaCultivosCampoBean) {
         this.listaCultivosCampoBean = listaCultivosCampoBean;
+    }
+
+    public String getLatitud() {
+        return Latitud;
+    }
+
+    public void setLatitud(String Latitud) {
+        this.Latitud = Latitud;
+    }
+
+    public String getLongitud() {
+        return Longitud;
+    }
+
+    public void setLongitud(String Longitud) {
+        this.Longitud = Longitud;
+    }
+
+    public String getCenterCoord() {
+        return centerCoord;
+    }
+
+    public void setCenterCoord(String centerCoord) {
+        this.centerCoord = centerCoord;
     }
 
    
@@ -436,5 +464,12 @@ public class CampoBean {
         this.setCamprod(new CampoProductor());       
     } 
 
-    
+    public void setearCordenadas(){
+        System.out.println("Entro a Seteaar Coordenadassssss--->>");
+        this.setLatitud("-28.42703507");
+        this.setLongitud("-65.70196354");
+        System.out.println("lat" +Latitud + "long" + Longitud);
+        this.setCenterCoord(campo.getDomicilio().getReferencia());
+        System.out.println("center es --->   " +centerCoord);
+    }
 }
