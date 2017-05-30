@@ -155,24 +155,17 @@ private Provincia pro;
                 //this.limpiar();
                 break;
             case 1:
-             //   this.edit();
+               this.edit();
                 break;
             case 2:
                 System.out.println("Entro al delete");
-            //    this.delete(Boolean.TRUE);
+            this.activate(Boolean.TRUE);
                 break;
             case 3:
                 //recupera el campo borrado
-             //   this.delete(Boolean.FALSE);
+             this.activate(Boolean.FALSE);
                 break;
-            case 4:
-                //deshabilita el campo
-             //   this.habilitar(Boolean.FALSE);
-                break;
-            case 5:
-                //habilita el campo
-             //   this.habilitar(Boolean.TRUE);
-                break;
+            
         }//fin switch
     }//fin actionBtn
 
@@ -207,15 +200,6 @@ private Provincia pro;
             this.setbCamposEditables(true);
             this.getCbAction().setValue("Recuperar");
 
-        } else if (btnSelect.getId().equals("cbDeshabilitado")) {
-            this.getListaIngresoMercadoBean().setiActionBtnSelect(4);
-            this.setbCamposEditables(true);
-            this.getCbAction().setValue("Deshabilitar");
-
-        } else if (btnSelect.getId().equals("cbHabilitado")) {
-            this.getListaIngresoMercadoBean().setiActionBtnSelect(5);
-            this.setbCamposEditables(true);
-            this.getCbAction().setValue("Habilitar");
         }
 
         //fin else
@@ -227,7 +211,7 @@ private Provincia pro;
         FacesMessage.Severity severity = null;
         try {
             
-            
+            ingresoMercado.setActive(Boolean.TRUE);
             ingresoMercadoRNLocal.create(ingresoMercado);
             preciosIngreso.setIngresoMercado(ingresoMercado);
             preciosIngresoRNLocal.create(preciosIngreso);
@@ -250,7 +234,90 @@ private Provincia pro;
             fc.addMessage(null, fm);
         }
     }// fin crear
-    
+     
+     public void edit() {
+        System.out.println("Entro al edit");
+        String sMensaje = "";
+        FacesMessage fm;
+        FacesMessage.Severity severity = null;
+        try {
+            ingresoMercado.setActive(Boolean.TRUE);
+            ingresoMercadoRNLocal.edit(ingresoMercado);
+           
+            preciosIngreso.setIngresoMercado(ingresoMercado);
+            preciosIngresoRNLocal.edit(preciosIngreso);
+            //usersRNLocal.edit(this.getUsers());
+
+            sMensaje = "Información actualizada con éxito";
+            severity = FacesMessage.SEVERITY_INFO;
+
+            //elimino y agrego el organismo modificado a la lista
+            //int iPos = this.getListaAlumnoBean().getLstUsers().indexOf(this.getUsers());
+            int iPos = this.getListaIngresoMercadoBean().getLstIngresoMercado().indexOf(this.getIngresoMercado());
+         
+            this.getListaIngresoMercadoBean().getLstIngresoMercado().remove(iPos);
+            this.getListaIngresoMercadoBean().getLstIngresoMercado().add(iPos, this.getIngresoMercado());
+
+            //this.getCbAction().setValue("Update");
+            this.getCbAction().setDisabled(true);
+
+            //this.setbCamposRequeridos(false);
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('dlgIngresoMercado').hide()");
+        } catch (Exception ex) {
+            severity = FacesMessage.SEVERITY_ERROR;
+            sMensaje = "Error al actualizar: " + ex.getMessage();
+
+        } finally {
+            fm = new FacesMessage(severity, sMensaje, "");
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage(null, fm);
+        }
+    }
+    public void activate(Boolean bEstado) {
+        String sMensaje = "";
+        FacesMessage fm;
+        FacesMessage.Severity severity = null;
+
+        try {
+             ingresoMercadoRNLocal.activate(this.getIngresoMercado(), bEstado);
+            
+
+            //elimino el organismo de la lista
+            //int iPos = this.getListaAlumnoBean().getLstAlumno()).indexOf(this.getAlumno());
+            int iPos = this.getListaIngresoMercadoBean().getLstIngresoMercado().indexOf(this.getIngresoMercado());
+
+            this.setIngresoMercado(this.getListaIngresoMercadoBean().getLstIngresoMercado().get(iPos));
+            this.getIngresoMercado().setActive(bEstado);
+            
+            this.getListaIngresoMercadoBean().getLstIngresoMercado().remove(iPos);
+            this.getListaIngresoMercadoBean().getLstIngresoMercado().add(iPos, this.getIngresoMercado());
+
+            if (!bEstado) {
+                sMensaje = "Ingreso desactivado correctamente";
+            } else {
+                sMensaje = "Ingreso reactivado correctaamente";
+            }
+            severity = FacesMessage.SEVERITY_INFO;
+
+            this.getCbAction().setDisabled(true);
+
+            //limíar campos
+            this.limpiar();
+            //this.setbCamposRequeridos(false);
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('dlgIngresoMercado').hide()");
+
+        } catch (Exception ex) {
+            severity = FacesMessage.SEVERITY_ERROR;
+            sMensaje = "An error ocurred during activation: " + ex.getMessage();
+
+        } finally {
+            fm = new FacesMessage(severity, sMensaje, null);
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage(null, fm);
+        }
+    }
       public void cerrarDialog() {
 
         this.limpiar();

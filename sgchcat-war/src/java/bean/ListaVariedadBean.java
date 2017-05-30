@@ -159,14 +159,14 @@ public class ListaVariedadBean {
                     Especie especie = (Especie) event.getNewValue();
 
                     System.out.println("especie; " + especie);
-                    this.setLstVariedad(this.variedadRNLocal.findByEspecie(especie.getId()));
+                    this.setLstVariedadActive(this.variedadRNLocal.findByEspecie(especie.getId()));
                     System.out.println("entroooooooooooooooooooooooooooooooooooo lst variedad tieneOO . " + lstVariedad);
                     //this.setLstProvinciaBorrado(this.provinciaRNLocal.findByPaisBorrado(pais.getId(), Boolean.FALSE));
-                    this.cargarSIVariedad();
+                    this.cargarSIVariedadActive();
 
                 } else {
-                    this.setLstVariedad(new ArrayList<Variedad>());
-                    this.setLstSIVariedad(new ArrayList<SelectItem>());
+                    this.setLstVariedadActive(new ArrayList<Variedad>());
+                    this.setLstSIVariedadActive(new ArrayList<SelectItem>());
 
                 }
 

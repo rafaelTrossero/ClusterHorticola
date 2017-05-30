@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
@@ -21,6 +23,13 @@ import javax.persistence.Temporal;
  * @author RafaTrossero
  */
 @Entity
+@NamedQueries({
+           
+          
+           @NamedQuery(name = "Ingreso.ActualizarEstado", query="UPDATE IngresoMercado u SET u.active =:active WHERE u.id =:id"),
+           
+
+})
 public class IngresoMercado implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -66,7 +75,10 @@ public class IngresoMercado implements Serializable {
         this.active = active;
     }
 
-  
+   public Boolean getActive() {
+        return active;
+    }
+
 
     public void setId(Long id) {
         this.id = id;

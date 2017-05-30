@@ -306,7 +306,7 @@ public class UsuarioBean {
     }
       
       public void limpiar(){
-          this.usuario= new Usuario();
+         
       this.usu = new Usuario();
       }
     

@@ -7,7 +7,7 @@
 	<parameter name="parameter2" class="java.util.Date"/>
 	<queryString>
 		<![CDATA[SELECT to_char(fecha, 'TMMonth') as mes,extract(month from fecha) as mes1,sum(kg),concat(to_char(fecha, 'TMMonth'), '--', sum( kg) ) as mes_kg from ingresomercado 
-where ingresomercado.fecha between $P{parameter1} and $P{parameter2}
+where ingresomercado.fecha between $P{parameter1} and $P{parameter2} and active='t'
 
 group by mes1,fecha order by mes1 asc]]>
 	</queryString>

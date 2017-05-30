@@ -20,7 +20,7 @@
             </f:facet>
             <p:panel id="pIngresoMercado" style="float:left;">
                 <h:inputHidden value="#{ingresoMercadoBean.ingresoMercado.id}"/>
-                <h:inputHidden value="#{ingresoMercadoBean.preciosIngreso.id}"/>
+               
 
                 <h:inputHidden value="#{listaIngresoMercadoBean.iActionBtnSelect}"/>
 
@@ -160,13 +160,22 @@
             <div  style="float: left; margin: 10px;
                   width: 100%;
                   text-align: center;">
+                <p:growl id="message" showDetail="true"  />
+                <div style="clear: both;"/>
                 <p:commandButton id="btnAction"
                                  value="Guardar "
                                  icon="ui-icon-disk"
                                  actionListener="#{ingresoMercadoBean.actionBtn}" 
-                                 update=":frmMain:dtIngresoMercado, :frmMain:pIngresoMercado, @this"
-                                 binding="#{ingresoMercadoBean.cbAction}"/>
-                
+                                 update=":frmMain:dtIngresoMercado, :frmMain:pIngresoMercado,message, @this"
+                                 binding="#{ingresoMercadoBean.cbAction}" >
+                 <p:confirm header="Confirmación" message="¿Seguro?" icon="ui-icon-alert" />
+                </p:commandButton>
+                 <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" 
+                                     ajax="false"  />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+                   
 
                 <p:commandButton id="btnSalir"
                                  value="Salir" 
@@ -209,10 +218,12 @@
                                      update=":frmMain:dIngresoMercado,  @this"
                                      oncomplete="PF('dlgIngresoMercado').show();"
                                      actionListener="#{ingresoMercadoBean.setBtnSelect}"
+                                       disabled="#{not ingreso.active }"
                                      process="@this"
                                      >
                         <f:setPropertyActionListener value="#{ingreso}" target="#{ingresoMercadoBean.ingresoMercado}"/> 
-                        <f:setPropertyActionListener value="#{ingreso.procedencia}" target="#{ingresoMercadoBean.ingresoMercado.procedencia}"/> 
+                        <f:setPropertyActionListener value="#{ingreso.preciosIngreso}" target="#{ingresoMercadoBean.preciosIngreso}"/>
+                        
                     </p:commandButton>
 
                     <p:commandButton id="cbDelete"
@@ -221,6 +232,8 @@
                                      update=":frmMain:dIngresoMercado"
                                      oncomplete="PF('dlgIngresoMercado').show();"
                                      actionListener="#{ingresoMercadoBean.setBtnSelect}"
+                                     disabled="#{not ingreso.active }"
+                                 process="@this"
                                      >
                         <f:setPropertyActionListener value="#{ingreso}" target="#{ingresoMercadoBean.ingresoMercado}"/>     
 
@@ -231,6 +244,8 @@
                                      update=":frmMain:dIngresoMercado, @this, :frmMain:dtIngresoMercado"
                                      oncomplete="PF('dlgIngresoMercado').show();"
                                      actionListener="#{ingresoMercadoBean.setBtnSelect}"
+                                     disabled="#{ingreso.active }"
+                                      process="@this"
                                      >
                         <f:setPropertyActionListener value="#{ingreso}" target="#{ingresoMercadoBean.ingresoMercado}"/>  
 

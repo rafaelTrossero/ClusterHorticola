@@ -42,18 +42,20 @@ public class CampoBean {
     private Boolean bCamposEditables;
     private CommandButton cbAction;
     private int iActionBtnSelect;
+
     
     private String Latitud;
     private String Longitud;
     private String centerCoord;
   
     
+
     @ManagedProperty("#{listaCampoBean}")
     private ListaCampoBean listaCampoBean;
-    
+
     @ManagedProperty("#{listaCultivosCampoBean}")
     private ListaCultivosCampoBean listaCultivosCampoBean;
-    
+
     @ManagedProperty("#{listaCampoProductorBean}")
     private ListaCampoProductorBean listaCampoProductorBean;
     @ManagedProperty("#{listaCampoProductoAuxrBean}")
@@ -66,7 +68,7 @@ public class CampoBean {
     private DomicilioRNLocal domicilioRNLocal;
     @EJB
     private CampoProductorRNLocal campoProductorRNLocal;
-  
+
     /**
      * Creates a new instance of CampoBean
      */
@@ -75,7 +77,7 @@ public class CampoBean {
         this.domicilio = new Domicilio();
         this.campodomicilio = new CampoDomicilio();
         this.campoProductor = new CampoProductor();
-     
+
     }
 
     public Campo getCampo() {
@@ -101,7 +103,6 @@ public class CampoBean {
     public void setCamprod(CampoProductor camprod) {
         this.camprod = camprod;
     }
-    
 
     public ListaCampoProductoAuxrBean getListaCampoProductorAuxBean() {
         return listaCampoProductorAuxBean;
@@ -203,8 +204,6 @@ public class CampoBean {
         this.domicilioRNLocal = domicilioRNLocal;
     }
 
-   
-
     public ListaCultivosCampoBean getListaCultivosCampoBean() {
         return listaCultivosCampoBean;
     }
@@ -237,11 +236,9 @@ public class CampoBean {
         this.centerCoord = centerCoord;
     }
 
-   
-
     public void actionBtn() {
         System.out.println("..............." + this.getListaCampoBean().getiActionBtnSelect());
-        System.out.println(" campo productor " +  campoProductor.getId());
+        System.out.println(" campo productor " + campoProductor.getId());
         switch (this.getListaCampoBean().getiActionBtnSelect()) {
             case 0:
                 create();
@@ -253,7 +250,7 @@ public class CampoBean {
                 break;
             case 2:
                 //deshabilita el campo
-                 this.activate(Boolean.FALSE);
+                this.activate(Boolean.FALSE);
                 break;
             case 3:
                 //habilita el campo
@@ -284,7 +281,7 @@ public class CampoBean {
             this.getCbAction().setValue("Modificar");
             this.getListaCampoBean().setiActionBtnSelect(1);
             System.out.println("numero........: " + this.getListaCampoBean().getiActionBtnSelect());
-           
+
             //campos requeridos
             //this.setbCamposRequeridos(true);
         } else if (btnSelect.getId().equals("cbDeshabilitado")) {
@@ -323,7 +320,7 @@ public class CampoBean {
             campoProductor.setProductor(campo.getProductor());
             campoProductor.setCampo(campo);
             campodomicilio.setDomicilio(domicilio);
-            campoDomicilioRNLocal.create(campodomicilio);
+            //campoDomicilioRNLocal.create(campodomicilio);
             campoProductorRNLocal.create(campoProductor);
 
             System.out.println("Campo: " + campo);
@@ -333,9 +330,12 @@ public class CampoBean {
 
             //agregar a la lista
             this.getListaCampoBean().getLstCampo().add(campo);
+            this.clear();
+            this.getCbAction().setDisabled(true);
 
-            //limpiar campos
-            //  this.limpiar();
+            //this.setbCamposRequeridos(false);
+            RequestContext context = RequestContext.getCurrentInstance();
+            context.execute("PF('dlgCampo').hide()");
         } catch (Exception ex) {
 
             severity = FacesMessage.SEVERITY_ERROR;
@@ -348,8 +348,8 @@ public class CampoBean {
         }
 
     }//fin
-    
-     public void edit() {
+
+    public void edit() {
         System.out.println("Entro al edit");
         String sMensaje = "";
         FacesMessage fm;
@@ -357,30 +357,28 @@ public class CampoBean {
         try {
             //System.out.println("................. campo productor............. " +  camprod.getId() + camprod.getCampo()+ camprod.getProductor());
             campo.setActive(Boolean.TRUE);
+            System.out.println("el domicilio es" + domicilio.getNumero());
             domicilioRNLocal.edit(domicilio);
-            
+
             campo.setDomicilio(domicilio);
             System.out.println("Domicilio: " + domicilio);
             campoRNLocal.edit(campo);
-           
-            campodomicilio.setCampo(campo);
-            campodomicilio.setDomicilio(domicilio);
-            campoDomicilioRNLocal.edit(campodomicilio);
-            camprod.setCampo(campo);
-            camprod.setProductor(campo.getProductor());
-           campoProductorRNLocal.edit(camprod);
-            
-            
-          
-            //usersRNLocal.edit(this.getUsers());
 
+           // campodomicilio.setCampo(campo);
+            //campodomicilio.setDomicilio(domicilio);
+            //campoDomicilioRNLocal.edit(campodomicilio);
+            //camprod.setCampo(campo);
+            //camprod.setProductor(campo.getProductor());
+            //campoProductorRNLocal.edit(camprod);
+
+            //usersRNLocal.edit(this.getUsers());
             sMensaje = "Información actualizada con éxito";
             severity = FacesMessage.SEVERITY_INFO;
 
             //elimino y agrego el organismo modificado a la lista
             //int iPos = this.getListaAlumnoBean().getLstUsers().indexOf(this.getUsers());
             int iPos = this.getListaCampoBean().getLstCampo().indexOf(this.getCampo());
-         
+
             this.getListaCampoBean().getLstCampo().remove(iPos);
             this.getListaCampoBean().getLstCampo().add(iPos, this.getCampo());
 
@@ -400,25 +398,25 @@ public class CampoBean {
             fc.addMessage(null, fm);
         }
     }
-     
-    public void buscar(Campo camp){
-     
+
+    public void buscar(Campo camp) {
+
         try {
-            this.camprod= new CampoProductor();
-            this.camprod= this.campoProductorRNLocal.buscarCampoProductor(camp, camp.getProductor());
+            this.camprod = new CampoProductor();
+            this.camprod = this.campoProductorRNLocal.buscarCampoProductor(camp, camp.getProductor());
         } catch (Exception ex) {
             Logger.getLogger(CampoBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-     System.out.println("ennnnnnnnnnnnntrooooo"+ camprod.getId());
-     }
-   public void activate(Boolean bEstado) {
+        System.out.println("ennnnnnnnnnnnntrooooo" + camprod.getId());
+    }
+
+    public void activate(Boolean bEstado) {
         String sMensaje = "";
         FacesMessage fm;
         FacesMessage.Severity severity = null;
 
         try {
-             campoRNLocal.activate(this.getCampo(), bEstado);
-            
+            campoRNLocal.activate(this.getCampo(), bEstado);
 
             //elimino el organismo de la lista
             //int iPos = this.getListaAlumnoBean().getLstAlumno()).indexOf(this.getAlumno());
@@ -426,7 +424,7 @@ public class CampoBean {
 
             this.setCampo(this.getListaCampoBean().getLstCampo().get(iPos));
             this.getCampo().setActive(bEstado);
-            
+
             this.getListaCampoBean().getLstCampo().remove(iPos);
             this.getListaCampoBean().getLstCampo().add(iPos, this.getCampo());
 
@@ -455,14 +453,15 @@ public class CampoBean {
             fc.addMessage(null, fm);
         }
     }
-     
-     private void clear() {
+
+    private void clear() {
         this.setCampo(new Campo());
         this.setDomicilio(new Domicilio());
         this.setCampodomicilio(new CampoDomicilio());
         this.setCampoProductor(new CampoProductor());
-        this.setCamprod(new CampoProductor());       
-    } 
+        this.setCamprod(new CampoProductor());
+    }
+
 
     public void setearCordenadas(){
         System.out.println("Entro a Seteaar Coordenadassssss--->>");
@@ -472,4 +471,5 @@ public class CampoBean {
         this.setCenterCoord(campo.getDomicilio().getReferencia());
         System.out.println("center es --->   " +centerCoord);
     }
+
 }

@@ -47,7 +47,8 @@ public class IngresoMercadoRN implements IngresoMercadoRNLocal {
 
     @Override
     public void activate(IngresoMercado i, Boolean bEstado) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     this.ingresoMercadoFacadeLocal.activate(i, bEstado);
+    
     }
 
     @Override

@@ -46,6 +46,7 @@
 
                 <h:inputHidden value="#{campoBean.campo.id}"/>
                 <h:inputHidden value="#{campoBean.campoProductor.id}"/>
+                <h:inputHidden value="#{campoBean.domicilio.id}"/>
 
                 <h:inputHidden value="#{listaCampoBean.iActionBtnSelect}"/>
                 <h:inputHidden value="#{listaCampoProductorBean.iActionBtnSelect}"/>
@@ -252,9 +253,8 @@
 
                     <f:setPropertyActionListener value="#{cam}" target="#{campoBean.campo}"/>
                     <f:setPropertyActionListener value="#{cam.domicilio}" target="#{campoBean.domicilio}"/>
-                    <f:setPropertyActionListener value="#{cam.lstCampoProductor}" target="#{listaCampoProductoAuxrBean.lstcampoProductor}"/>
-                    <f:setPropertyActionListener value="#{cam.lstCampoProductor}" target="#{listaCampoProductorBean.lstCampoProductor}"/>
-
+                    
+                
                 </p:commandButton>
 
 
@@ -268,9 +268,8 @@
                                  >
                     <f:setPropertyActionListener value="#{cam}" target="#{campoBean.campo}"/>
                     <f:setPropertyActionListener value="#{cam.domicilio}" target="#{campoBean.domicilio}"/>
-                    <f:setPropertyActionListener value="#{cam.lstCampoProductor}" target="#{listaCampoProductoAuxrBean.lstcampoProductor}"/>
-                    <f:setPropertyActionListener value="#{cam.lstCampoProductor}" target="#{listaCampoProductorBean.lstCampoProductor}"/>
-
+                    
+                   
 
 
                 </p:commandButton>
@@ -286,8 +285,9 @@
 
                     <f:setPropertyActionListener value="#{cam}" target="#{campoBean.campo}"/>
                     <f:setPropertyActionListener value="#{cam.domicilio}" target="#{campoBean.domicilio}"/>
-                    <f:setPropertyActionListener value="#{cam.lstCampoProductor}" target="#{listaCampoProductoAuxrBean.lstcampoProductor}"/>
-                    <f:setPropertyActionListener value="#{cam.lstCampoProductor}" target="#{listaCampoProductorBean.lstCampoProductor}"/>
+              
+                               
+                </p:commandButton>
 
                 </p:commandButton>
                 
