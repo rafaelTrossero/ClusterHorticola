@@ -236,7 +236,7 @@
 
 
 
-            <p:column width="160"  headerText="Operaciones"  >
+            <p:column width="165"  headerText="Operaciones"  >
 
                 <p:commandButton id="cbEditar"
                                  title="Editar"
@@ -291,7 +291,7 @@
 
                 </p:commandButton>
                 
-                <p:commandButton id="btn"  icon="ui-icon-pin-s" onclick="PF('dlg').show();" action="#{campoBean.setearCordenadas()}" update=":frmMain:gmap">
+                <p:commandButton id="btn" title="Ver Mapa"  icon="ui-icon-pin-s" onclick="PF('dlg').show();" action="#{campoBean.setearCordenadas()}" update=":frmMain:gmap">
                 <f:setPropertyActionListener value="#{cam}" target="#{campoBean.campo}"/>
                 </p:commandButton>
 
